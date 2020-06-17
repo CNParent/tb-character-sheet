@@ -39,7 +39,7 @@ class Nature extends Component {
                         <div class="flex-grow-1">
                             <small>Fail</small>
                             <div class="progress m-1">
-                                <div class="progress-bar" style="width: ${this.failPercentage()}%;">${this.failText()}</div>
+                                <div class="progress-bar ${this.failBg()}" style="width: ${this.failPercentage()}%;">${this.failText()}</div>
                             </div>
                         </div>
                         <div class="btn-group">
@@ -55,6 +55,7 @@ class Nature extends Component {
     maxFails = () => this.state.maximum > 1 ? this.state.maximum - 1 : 0;
     failPercentage = () => this.maxFails() == 0 ? 100 : 100 * this.state.fail / this.maxFails();
     failText = () => this.maxFails() == 0 ? '' : `${this.state.fail} / ${this.maxFails()}`;
+    failBg = () => this.maxFails() == 0 ? 'bg-dark' : '';
 
     maxPass = () => this.state.maximum < 1 ? 1 : this.state.maximum;
     passPercentage = () => 100 * this.state.pass / this.maxPass();
