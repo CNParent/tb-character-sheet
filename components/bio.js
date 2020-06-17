@@ -1,7 +1,7 @@
 class Bio extends Component {
 
     stockOptions = ['', 'Dwarf', 'Elf', 'Halfling', 'Human']
-    classOptions = ['', 'Adventurer', 'Ranger', 'Burglar', 'Cleric', 'Magician', 'Warrior']
+    classOptions = ['', 'Outcast', 'Ranger', 'Burglar', 'Theurge', 'Magician', 'Warrior']
     alignOptions = ['', 'Law', 'Unaligned', 'Chaos']
 
     draw() {
