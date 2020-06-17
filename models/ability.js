@@ -1,6 +1,7 @@
-let ability = ({ name }) => {
+let ability = ({ name, cap }) => {
     return {
-        name: name,
+        name,
+        cap,
         rating: 0,
         pass: 0,
         fail: 0
