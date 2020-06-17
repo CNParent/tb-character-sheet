@@ -7,32 +7,34 @@ class Ability extends Component {
                         <h2 class="card-subtitle mr-2"><span class="badge badge-dark">${this.state.rating}</span></h2>
                         <h5 class="card-title mr-auto">${this.state.name}</h5>
                         <div class="btn-group">
-                            <button id="${this.id}_minus" class="btn btn-danger">&darr;</button>
-                            <button id="${this.id}_plus" class="btn btn-success">&uarr;</button>
+                            <button data-minus="rating" class="btn btn-danger">&darr;</button>
+                            <button data-plus="rating" class="btn btn-success">&uarr;</button>
                         </div>
                     </div>
                     <div class="d-flex m-1">
                         <div class="flex-grow-1">
                             <small>Pass</small>
-                            <div class="progress height-100">
-                                <div class="progress-bar ${this.passBg()}" style="width: ${this.passPercentage()}%;">${this.state.pass} / ${this.state.rating}</div>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: ${this.passPercentage()}%;">${this.passText()}</div>
                             </div>
                         </div>
                         <div class="btn-group">
-                            <button id="${this.id}_pass_minus" class="btn btn-secondary">&darr;</button>
-                            <button id="${this.id}_pass_plus" class="btn btn-primary">&uarr;</button>
+                            <span data-minus="pass" class="align-self-end btn badge badge-dark">&larr;</span>
+                            <span data-plus="pass" class="align-self-end btn badge badge-dark">&rarr;</span>
+                            <span data-clear="pass" class="align-self-end btn badge badge-primary">clear</span>
                         </div>
                     </div>
                     <div class="d-flex m-1">
                         <div class="flex-grow-1">
                             <small>Fail</small>
-                            <div class="progress flex-grow-1">
-                                <div class="progress-bar ${this.failBg()}" style="width: ${this.failPercentage()}%;">${this.state.fail} / ${this.state.rating - 1}</div>
+                            <div class="progress">
+                                <div class="progress-bar bg-danger" style="width: ${this.failPercentage()}%;">${this.failText()}</div>
                             </div>
                         </div>
                         <div class="btn-group">
-                            <button id="${this.id}_fail_minus" class="btn btn-secondary">&darr;</button>
-                            <button id="${this.id}_fail_plus" class="btn btn-primary">&uarr;</button>
+                            <span data-minus="fail" class="align-self-end btn badge badge-dark">&larr;</span>
+                            <span data-plus="fail" class="align-self-end btn badge badge-dark">&rarr;</span>
+                            <span data-clear="fail" class="align-self-end btn badge badge-primary">clear</span>
                         </div>
                     </div>
                 </div>
@@ -40,23 +42,34 @@ class Ability extends Component {
         `;
     }
 
-    failBg = () => this.state.fail >= this.state.rating - 1 ? 'bg-success' : '';
-    failPercentage = () => 100*this.state.fail/(this.state.rating - 1);
-    passBg = () => this.state.pass >= this.state.rating ? 'bg-success' : '';
-    passPercentage = () => 100*this.state.pass/this.state.rating;
+    maxFails = () => this.state.rating > 1 ? this.state.rating - 1 : 0;
+    failPercentage = () => this.maxFails() == 0 ? 100 : 100 * this.state.fail / this.maxFails();
+    failText = () => this.maxFails() == 0 ? '' : `${this.state.fail} / ${this.maxFails()}`;
+
+    maxPass = () => this.state.rating < 1 ? 1 : this.state.rating;
+    passPercentage = () => 100 * this.state.pass / this.maxPass();
+    passText = () => `${this.state.pass} / ${this.maxPass()}`;
 
     initialize() {
-        $(`${this.id}_minus`).click(() => { 
-            if(this.state.rating < 1) return;
+        this.find('[data-plus]').on('click touch', (e) => {
+            let prop = $(e.target).attr('data-plus');
+            if(this.state[prop] > 9) return;
 
-            this.state.rating--;
+            this.state[prop] += 1;
             this.update();
         });
 
-        $(`${this.id}_plus`).click(() => {
-            if(this.state.rating > 9) return;
+        this.find('[data-minus]').on('click touch', (e) => {
+            let prop = $(e.target).attr('data-minus');
+            if(this.state[prop] < 1) return;
 
-            this.state.rating++;
+            this.state[prop] -= 1;
+            this.update();
+        });
+
+        this.find('[data-clear]').on('click touch', (e) => {
+            let prop = $(e.target).attr('data-clear');
+            this.state[prop] = 0;
             this.update();
         });
     }

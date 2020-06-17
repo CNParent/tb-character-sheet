@@ -1,7 +1,7 @@
 let nature = () => {
     return {
-        current: 0,
-        maximum: 0,
+        current: 4,
+        maximum: 4,
         pass: 0,
         fail: 0,
         descriptors: []
