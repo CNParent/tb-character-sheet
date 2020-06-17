@@ -9,32 +9,31 @@ class Ability extends Component {
                         <div class="btn-group">
                             <button data-minus="rating" class="btn btn-danger">&darr;</button>
                             <button data-plus="rating" class="btn btn-success">&uarr;</button>
+                            <button data-clear="" class="btn btn-primary">clear progress</button>
                         </div>
                     </div>
                     <div class="d-flex m-1">
                         <div class="flex-grow-1">
                             <small>Pass</small>
-                            <div class="progress">
+                            <div class="progress m-1">
                                 <div class="progress-bar" style="width: ${this.passPercentage()}%;">${this.passText()}</div>
                             </div>
                         </div>
                         <div class="btn-group">
-                            <span data-minus="pass" class="align-self-end btn badge badge-dark">&larr;</span>
-                            <span data-plus="pass" class="align-self-end btn badge badge-dark">&rarr;</span>
-                            <span data-clear="pass" class="align-self-end btn badge badge-primary">clear</span>
+                            <span data-minus="pass" class="align-self-end btn btn-dark">&larr;</span>
+                            <span data-plus="pass" class="align-self-end btn btn-dark">&rarr;</span>
                         </div>
                     </div>
                     <div class="d-flex m-1">
                         <div class="flex-grow-1">
                             <small>Fail</small>
-                            <div class="progress">
-                                <div class="progress-bar bg-danger" style="width: ${this.failPercentage()}%;">${this.failText()}</div>
+                            <div class="progress m-1">
+                                <div class="progress-bar" style="width: ${this.failPercentage()}%;">${this.failText()}</div>
                             </div>
                         </div>
                         <div class="btn-group">
-                            <span data-minus="fail" class="align-self-end btn badge badge-dark">&larr;</span>
-                            <span data-plus="fail" class="align-self-end btn badge badge-dark">&rarr;</span>
-                            <span data-clear="fail" class="align-self-end btn badge badge-primary">clear</span>
+                            <span data-minus="fail" class="align-self-end btn btn-dark">&larr;</span>
+                            <span data-plus="fail" class="align-self-end btn btn-dark">&rarr;</span>
                         </div>
                     </div>
                 </div>
@@ -68,8 +67,8 @@ class Ability extends Component {
         });
 
         this.find('[data-clear]').on('click touch', (e) => {
-            let prop = $(e.target).attr('data-clear');
-            this.state[prop] = 0;
+            this.state.pass = 0;
+            this.state.fail = 0;
             this.update();
         });
     }
