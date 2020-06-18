@@ -20,8 +20,8 @@ class Ability extends Component {
                             </div>
                         </div>
                         <div class="btn-group">
-                            <span data-minus="pass" class="align-self-end btn btn-dark">&larr;</span>
-                            <span data-plus="pass" data-max="${this.maxPass()}" class="align-self-end btn btn-dark">&rarr;</span>
+                            <span data-minus="pass" class="align-self-end btn btn-secondary">&larr;</span>
+                            <span data-plus="pass" data-max="${this.maxPass()}" class="align-self-end btn btn-secondary">&rarr;</span>
                         </div>
                     </div>
                     <div class="d-flex m-1">
@@ -32,8 +32,8 @@ class Ability extends Component {
                             </div>
                         </div>
                         <div class="btn-group">
-                            <span data-minus="fail" class="align-self-end btn btn-dark">&larr;</span>
-                            <span data-plus="fail" data-max="${this.maxFails()}" class="align-self-end btn btn-dark">&rarr;</span>
+                            <span data-minus="fail" class="align-self-end btn btn-secondary">&larr;</span>
+                            <span data-plus="fail" data-max="${this.maxFails()}" class="align-self-end btn btn-secondary">&rarr;</span>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@ class Ability extends Component {
     maxFails = () => this.state.rating > 1 ? this.state.rating - 1 : 0;
     failPercentage = () => this.maxFails() == 0 ? 100 : 100 * this.state.fail / this.maxFails();
     failText = () => this.maxFails() == 0 ? '' : `${this.state.fail} / ${this.maxFails()}`;
-    failBg = () => this.maxFails() == 0 ? 'bg-dark' : '';
+    failBg = () => this.maxFails() == 0 ? 'bg-secondary' : '';
 
     maxPass = () => this.state.rating < 1 ? 1 : this.state.rating;
     passPercentage = () => 100 * this.state.pass / this.maxPass();

@@ -31,8 +31,8 @@ class Nature extends Component {
                             </div>
                         </div>
                         <div class="btn-group">
-                            <span data-minus="pass" class="align-self-end btn btn-dark">&larr;</span>
-                            <span data-plus="pass" class="align-self-end btn btn-dark">&rarr;</span>
+                            <span data-minus="pass" class="align-self-end btn btn-secondary">&larr;</span>
+                            <span data-plus="pass" data-max="${this.maxPass()}" class="align-self-end btn btn-secondary">&rarr;</span>
                         </div>
                     </div>
                     <div class="d-flex m-1">
@@ -43,10 +43,11 @@ class Nature extends Component {
                             </div>
                         </div>
                         <div class="btn-group">
-                            <span data-minus="fail" class="align-self-end btn btn-dark">&larr;</span>
-                            <span data-plus="fail" class="align-self-end btn btn-dark">&rarr;</span>
+                            <span data-minus="fail" class="align-self-end btn btn-secondary">&larr;</span>
+                            <span data-plus="fail" data-max="${this.maxFails()}" class="align-self-end btn btn-secondary">&rarr;</span>
                         </div>
                     </div>
+                    ${this.input('Descriptors', 'descriptors')}
                 </div>
             </div>
         `;
@@ -55,7 +56,7 @@ class Nature extends Component {
     maxFails = () => this.state.maximum > 1 ? this.state.maximum - 1 : 0;
     failPercentage = () => this.maxFails() == 0 ? 100 : 100 * this.state.fail / this.maxFails();
     failText = () => this.maxFails() == 0 ? '' : `${this.state.fail} / ${this.maxFails()}`;
-    failBg = () => this.maxFails() == 0 ? 'bg-dark' : '';
+    failBg = () => this.maxFails() == 0 ? 'bg-secondary' : '';
 
     maxPass = () => this.state.maximum < 1 ? 1 : this.state.maximum;
     passPercentage = () => 100 * this.state.pass / this.maxPass();
@@ -95,7 +96,8 @@ class Nature extends Component {
 
         this.find('[data-plus]').on('click touch', (e) => {
             let prop = $(e.target).attr('data-plus');
-            if(this.state[prop] > 9) return;
+            let max = $(e.target).attr('data-max');
+            if(this.state[prop] >= max) return;
 
             this.state[prop] += 1;
             this.update();
