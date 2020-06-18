@@ -47,7 +47,7 @@ class Nature extends Component {
                             <span data-plus="fail" data-max="${this.maxFails()}" class="align-self-end btn btn-secondary">&rarr;</span>
                         </div>
                     </div>
-                    ${this.input('Descriptors', 'descriptors')}
+                    ${this.add(new ItemList('descriptors', { items: this.state.descriptors }))}
                 </div>
             </div>
         `;
@@ -63,6 +63,7 @@ class Nature extends Component {
     passText = () => `${this.state.pass} / ${this.maxPass()}`;
 
     initialize() {
+        this.children.map(x => x.initialize());
         
         this.find('[data-current-minus]').on('click touch', (e) => {
             if(this.state.current < 1) return;

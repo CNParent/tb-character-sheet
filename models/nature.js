@@ -4,6 +4,6 @@ let nature = () => {
         maximum: 4,
         pass: 0,
         fail: 0,
-        descriptors: 'Boasting, Demanding, Running'
+        descriptors: ['Boasting', 'Demanding', 'Running']
     }
 }
