@@ -39,7 +39,7 @@ class Abilities extends Component {
     }
 
     initialize() {
-        this.children.map((x) => x.initialize());
+        super.initialize();
 
         this.find('[data-plus]').on('click touch', (e) => {
             let prop = $(e.target).attr('data-plus');

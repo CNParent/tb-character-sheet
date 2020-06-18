@@ -63,7 +63,7 @@ class Nature extends Component {
     passText = () => `${this.state.pass} / ${this.maxPass()}`;
 
     initialize() {
-        this.children.map(x => x.initialize());
+        super.initialize();
         
         this.find('[data-current-minus]').on('click touch', (e) => {
             if(this.state.current < 1) return;

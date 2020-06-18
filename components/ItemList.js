@@ -2,7 +2,7 @@ class ItemList extends Component {
     draw(){
         return String.raw`
             <div id="${this.id}" class="container-fluid">
-                <div class="d-flex">
+                <div class="d-flex flex-wrap">
                     ${this.state.items.map((x,i) => this.drawItem(x, i)).reduce((a,b) => `${a}${b}`, '')}
                     ${this.drawAdd()}
                 </div>
