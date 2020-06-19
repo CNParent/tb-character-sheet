@@ -5,7 +5,7 @@ class Ability extends Component {
                 <div class="card-body">
                     <div class="d-flex m-1">
                         <h2 class="card-subtitle mr-2"><span class="badge badge-dark">${this.state.rating}</span></h2>
-                        <h4 class="card-title mr-auto">${this.state.name}</h4>
+                        <h5 class="card-title mr-auto">${this.state.name}</h5>
                         <div class="btn-group">
                             <button data-minus="rating" class="btn btn-danger">&darr;</button>
                             <button data-plus="rating" data-max="${this.state.cap}" class="btn btn-success">&uarr;</button>
