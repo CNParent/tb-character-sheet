@@ -1,7 +1,6 @@
 class Navbar extends Component{
 
     tabs = [
-        { id: 'condition', label: 'Condition' },
         { id: 'abilities', label: 'Abilities' },
         { id: 'skills', label: 'Skills' },
         { id: 'traits', label: 'Traits' },

@@ -1,5 +1,6 @@
 let conditions = () => {
     return {
+        shown: true,
         fresh: false,
         hungry: false,
         angry: false,
