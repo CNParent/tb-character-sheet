@@ -1,7 +1,7 @@
 class Ability extends Component {
     draw() {
         return String.raw`
-            <div id="${this.id}" class="card">
+            <div id="${this.id}" class="card text-nowrap">
                 <div class="card-body">
                     <div class="d-flex m-1">
                         <h2 class="card-subtitle mr-2"><span class="badge badge-dark">${this.state.rating}</span></h2>
