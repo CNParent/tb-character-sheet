@@ -5,39 +5,53 @@ class Ability extends Component {
                 <div class="card-body">
                     <div class="d-flex m-1">
                         <h2 class="card-subtitle mr-2"><span class="badge badge-dark">${this.state.rating}</span></h2>
-                        <h5 class="card-title mr-auto">${this.state.name}</h5>
+                        <h4 class="card-title mr-auto">${this.state.name}</h4>
                         <div class="btn-group">
                             <button data-minus="rating" class="btn btn-danger">&darr;</button>
                             <button data-plus="rating" data-max="${this.state.cap}" class="btn btn-success">&uarr;</button>
-                            <button data-clear="" class="btn btn-primary">clear progress</button>
                         </div>
                     </div>
-                    <div class="d-flex m-1">
-                        <div class="flex-grow-1">
-                            <small>Pass</small>
-                            <div class="progress m-1">
-                                <div class="progress-bar" style="width: ${this.passPercentage()}%;">${this.passText()}</div>
-                            </div>
-                        </div>
-                        <div class="btn-group">
-                            <span data-minus="pass" class="align-self-end btn btn-secondary">&larr;</span>
-                            <span data-plus="pass" data-max="${this.maxPass()}" class="align-self-end btn btn-secondary">&rarr;</span>
-                        </div>
-                    </div>
-                    <div class="d-flex m-1">
-                        <div class="flex-grow-1">
-                            <small>Fail</small>
-                            <div class="progress m-1">
-                                <div class="progress-bar ${this.failBg()}" style="width: ${this.failPercentage()}%;">${this.failText()}</div>
-                            </div>
-                        </div>
-                        <div class="btn-group">
-                            <span data-minus="fail" class="align-self-end btn btn-secondary">&larr;</span>
-                            <span data-plus="fail" data-max="${this.maxFails()}" class="align-self-end btn btn-secondary">&rarr;</span>
-                        </div>
-                    </div>
+                    ${this.drawPass()}
+                    ${this.drawFail()}
                 </div>
             </div>
+        `;
+    }
+
+    drawPass() {
+        if(this.state.rating == this.state.cap) return '';
+
+        let arr = new Array(this.maxPass());
+        return String.raw`
+            <div class="d-flex justify-items-center flex-wrap">
+                <span class="mr-2" style="width: 25px;"><small>Pass</small></span>
+                <div class="progress flex-grow-1 m-1">
+                    ${[...arr].map((x, i) => this.drawSegment('pass', i + 1, 100 / this.maxPass())).reduce((a,b) => `${a}${b}`, '')}
+                </div>
+                <span class="badge badge-dark align-self-center">${this.state.pass} / ${this.maxPass()}</span>
+            </div>
+        `;
+    }
+
+    drawFail() {
+        if(this.maxFails() == 0 || this.state.rating == this.state.cap) return '';
+
+        let arr = new Array(this.maxFails());
+        return String.raw`
+            <div class="d-flex justify-items-center flex-wrap">
+                <span class="mr-2" style="width: 25px;"><small>Fail</small></span>
+                <div class="progress flex-grow-1 m-1">
+                    ${[...arr].map((x, i) => this.drawSegment('fail', i + 1, 100 / this.maxFails())).reduce((a,b) => `${a}${b}`, '')}
+                </div>
+                <span class="badge badge-dark align-self-center">${this.state.fail} / ${this.maxFails()}</span>
+            </div>
+        `;
+    }
+
+    drawSegment(prop, value, width) {
+        let bg = this.state[prop] >= value ? 'bg-primary' : 'bg-light';
+        return String.raw`
+            <div data-value="${value}" data-prop="${prop}" class="progress-bar ${bg} btn btn-light border border-dark mr-1" style="width: ${width}%;"></div>
         `;
     }
 
@@ -68,9 +82,13 @@ class Ability extends Component {
             this.update();
         });
 
-        this.find('[data-clear]').on('click touch', (e) => {
-            this.state.pass = 0;
-            this.state.fail = 0;
+        this.find('[data-value]').on('touch click', e => {
+            let prop = $(e.target).attr('data-prop');
+            let value = Number($(e.target).attr('data-value'));
+            if(value == this.state[prop]) this.state[prop] = value - 1;
+            else this.state[prop] = value;
+
+            console.info(`Setting ${prop} to ${this.state[prop]}`)
             this.update();
         });
     }

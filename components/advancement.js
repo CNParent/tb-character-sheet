@@ -30,7 +30,7 @@ class Advancement extends Component {
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#levelRequirements">Show Level Requirements</button>
+                        <button class="btn btn-info" data-toggle="modal" data-target="#levelRequirements">Show Level Requirements</button>
                     </div>
                 </div>
                 <div class="modal fade" id="levelRequirements" tabindex="-1" role="dialog" aria-labelledby="levelRequirements" aria-hidden="true">
