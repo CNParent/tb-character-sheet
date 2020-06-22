@@ -3,13 +3,9 @@ class Ability extends Component {
         return String.raw`
             <div id="${this.id}" class="card text-nowrap">
                 <div class="card-body">
-                    <div class="d-flex m-1">
-                        <h2 class="card-subtitle mr-2"><span class="badge badge-dark">${this.state.rating}</span></h2>
-                        <h5 class="card-title mr-auto">${this.state.name}</h5>
-                        <div class="btn-group">
-                            <button data-minus="rating" class="btn btn-danger">&darr;</button>
-                            <button data-plus="rating" data-max="${this.state.cap}" class="btn btn-success">&uarr;</button>
-                        </div>
+                    <div class="d-flex">
+                        <h2 class="mr-auto">${this.state.name}</h2>
+                        <h2><span data-increment="" class="badge btn btn-dark">${this.state.rating}</span></h2>
                     </div>
                     ${this.drawPass()}
                     ${this.drawFail()}
@@ -49,7 +45,7 @@ class Ability extends Component {
     }
 
     drawSegment(prop, value, width) {
-        let bg = this.state[prop] >= value ? 'bg-primary' : 'bg-light';
+        let bg = this.state[prop] >= value ? 'bg-secondary' : 'bg-light';
         return String.raw`
             <div data-value="${value}" data-prop="${prop}" class="progress-bar ${bg} btn btn-light border border-dark mr-1" style="width: ${width}%;"></div>
         `;
@@ -65,20 +61,11 @@ class Ability extends Component {
     passText = () => `${this.state.pass} / ${this.maxPass()}`;
 
     initialize() {
-        this.find('[data-plus]').on('click touch', (e) => {
-            let prop = $(e.target).attr('data-plus');
-            let max = $(e.target).attr('data-max');
-            if(this.state[prop] >= max) return;
+        this.find('[data-increment]').on('click touch', e => {
+            this.state.rating += e.originalEvent.shiftKey ? -1 : 1;
+            if (this.state.rating < 0) this.state.rating = this.state.cap;
+            if (this.state.rating > this.state.cap) this.state.rating = 0;
 
-            this.state[prop] += 1;
-            this.update();
-        });
-
-        this.find('[data-minus]').on('click touch', (e) => {
-            let prop = $(e.target).attr('data-minus');
-            if(this.state[prop] < 1) return;
-
-            this.state[prop] -= 1;
             this.update();
         });
 

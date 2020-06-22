@@ -14,18 +14,14 @@ class Abilities extends Component {
                         ${this.add(new Ability('circles'))}
                         <div class="card">
                             <div class="card-body d-flex">
-                                <h2 class="card-subtitle mr-1">
-                                    <span data-increment="might" class="btn badge badge-dark">${this.state.might}</span>
-                                </h2>
-                                <h5 class="card-title mr-auto">Might</h5>
+                                <h2 class="mr-auto">Might</h2>
+                                <h2><span data-increment="might" class="btn badge badge-dark">${this.state.might}</span></h2>
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body d-flex">
-                                <h2 class="card-subtitle mr-1">
-                                    <span data-increment="precedence" class="btn badge badge-dark">${this.state.precedence}</span>
-                                </h2>
-                                <h5 class="card-title mr-auto">Precedence</h5>
+                                <h2 class="mr-auto">Precedence</h2>
+                                <h2><span data-increment="precedence" class="btn badge badge-dark">${this.state.precedence}</span></h2>
                             </div>
                         </div>
                     </div>
@@ -39,13 +35,10 @@ class Abilities extends Component {
 
         this.find('[data-increment]').on('click touch', e => {
             let prop = $(e.target).attr('data-increment');
-            switch(e.originalEvent.shiftKey) {
-                case true: this.state[prop]--; break;
-                case false: this.state[prop]++; break;
-            }
-
+            this.state[prop] += e.originalEvent.shiftKey ? -1 : 1;
             if(this.state[prop] == 9) this.state[prop] = 0;
-            if(this.state[prop] == -1) this.state[prop] = 9;
+            if(this.state[prop] == -1) this.state[prop] = 8;
+
             this.update();
         });
     }

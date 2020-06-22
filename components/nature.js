@@ -3,22 +3,11 @@ class Nature extends Component {
         return String.raw`
             <div id="${this.id}" class="card text-nowrap">
                 <div class="card-body">
-                    <h4 class="mr-auto">Nature</h4>
-                    <div class="d-flex m-1">
-                        <h2 class="card-subtitle mr-2"><span class="badge badge-dark">${this.state.current}</span></h2>
-                        <h5 class="card-title mr-auto">Current</h5>
-                        <div class="btn-group">
-                            <button data-current-minus="current" class="btn btn-danger">&darr;</button>
-                            <button data-current-plus="current" class="btn btn-success">&uarr;</button>
-                        </div>
-                    </div>
-                    <div class="d-flex m-1">
-                        <h2 class="card-subtitle mr-2"><span class="badge badge-dark">${this.state.maximum}</span></h2>
-                        <h5 class="card-title mr-auto">Maximum</h5>
-                        <div class="btn-group">
-                            <button data-max-minus="maximum" class="btn btn-danger">&darr;</button>
-                            <button data-max-plus="" class="btn btn-success">&uarr;</button>
-                        </div>
+                    <div class="d-flex">
+                        <h2 class="mr-auto">Nature</h2>
+                        <h2><span data-current="" class="btn badge btn-dark">${this.state.current}</span></h2>
+                        <h2><span class="m-1">/</span></h2>
+                        <h2><span data-maximum="" class="btn badge btn-dark">${this.state.maximum}</span></h2>
                     </div>
                     ${this.drawPass()}
                     ${this.drawFail()}
@@ -77,33 +66,21 @@ class Nature extends Component {
     initialize() {
         super.initialize();
         
-        this.find('[data-current-minus]').on('click touch', (e) => {
-            if(this.state.current < 1) return;
+        this.find('[data-current]').on('click touch', e => {
+            this.state.current -= e.originalEvent.shiftKey ? -1 : 1;
+            if(this.state.current < 0) this.state.current = this.state.maximum;
+            if(this.state.current > this.state.maximum) this.state.current = 0;
 
-            this.state.current--;
             this.update();
         });
 
-        this.find('[data-current-plus]').on('click touch', (e) => {
-            if(this.state.current >= this.state.maximum) return;
+        this.find('[data-maximum]').on('click touch', e => {
+            this.state.current += e.originalEvent.shiftKey ? -1 : 1;
+            this.state.maximum += e.originalEvent.shiftKey ? -1 : 1;
+            if (this.state.maximum < 0) this.state.maximum = this.state.current = 7;
+            if (this.state.maximum > 7) this.state.maximum = this.state.current = 0;
+            if (this.state.current < 0) this.state.current = 0;
 
-            this.state.current++;
-            this.update();
-        });
-
-        this.find('[data-max-minus]').on('click touch', (e) => {
-            if(this.state.maximum < 1) return;
-            
-            this.state.maximum--;
-            this.state.current = this.state.maximum;
-            this.update();
-        });
-
-        this.find('[data-max-plus]').on('click touch', (e) => {
-            if(this.state.maximum >= 7) return;
-
-            this.state.current++;
-            this.state.maximum++;
             this.update();
         });
 

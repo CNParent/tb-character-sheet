@@ -1,7 +1,7 @@
 class ItemList extends Component {
     draw(){
         return String.raw`
-            <div id="${this.id}" class="container-fluid">
+            <div id="${this.id}">
                 <div class="d-flex flex-wrap">
                     ${this.state.items.map((x,i) => this.drawItem(x, i)).reduce((a,b) => `${a}${b}`, '')}
                     ${this.drawAdd()}
@@ -31,22 +31,24 @@ class ItemList extends Component {
         return String.raw`
             <div class="form-row form-group input-group">
                 <input id="${this.id}_input" class="form-control" value="${text}" />
-                <button class="btn btn-success" data-done="">&check;</button>
-                <button class="btn btn-danger" data-cancel="">&cross;</button>
+                <div class="input-group-append">
+                    <button class="btn btn-success" data-done="">&check;</button>
+                    <button class="btn btn-danger" data-cancel="">&cross;</button>
+                </div>
             </div>
         `;
     }
 
     drawItem(item, index){
         if(this.state.edit == index) return String.raw`
-            <div class="btn-group m-1">
+            <div class="btn-group my-1 mr-1">
                 <span class="btn badge badge-light border border-dark">${item}</span>
                 <span class="btn badge badge-dark" data-cancel="">&cross;</span>
             </div>
         `;;
 
         return String.raw`
-            <div class="btn-group m-1">
+            <div class="btn-group my-1 mr-1">
                 <span class="btn badge badge-dark" data-item="${index}">${item}</span>
                 <span class="btn badge badge-danger" data-index="${index}">&cross;</span>
             </div>
