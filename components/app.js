@@ -12,5 +12,6 @@ class App extends Component {
         if (this.state.navbar.tab == 'abilities') return this.add(new Abilities('abilities'));
         if (this.state.navbar.tab == 'advancement') return this.add(new Advancement('advancement'));
         if (this.state.navbar.tab == 'bio') return this.add(new Bio('bio'));
+        if (this.state.navbar.tab == 'traits') return this.add(new Traits('traits'));
     }
 }

@@ -40,7 +40,7 @@ class ItemList extends Component {
     drawItem(item, index){
         if(this.state.edit == index) return String.raw`
             <div class="btn-group m-1">
-                <span class="btn badge badge-primary">${item}</span>
+                <span class="btn badge badge-light border border-dark">${item}</span>
                 <span class="btn badge badge-dark" data-cancel="">&cross;</span>
             </div>
         `;;

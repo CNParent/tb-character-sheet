@@ -14,22 +14,18 @@ class Abilities extends Component {
                         ${this.add(new Ability('circles'))}
                         <div class="card">
                             <div class="card-body d-flex">
-                                <h2 class="card-subtitle mr-2"><span class="badge badge-dark">${this.state.might}</span></h2>
+                                <h2 class="card-subtitle mr-1">
+                                    <span data-increment="might" class="btn badge badge-dark">${this.state.might}</span>
+                                </h2>
                                 <h5 class="card-title mr-auto">Might</h5>
-                                <div class="btn-group">
-                                    <button data-minus="might" class="btn btn-danger">&darr;</button>
-                                    <button data-plus="might" class="btn btn-success">&uarr;</button>
-                                </div>
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body d-flex">
-                                <h2 class="card-subtitle mr-2"><span class="badge badge-dark">${this.state.precedence}</span></h2>
+                                <h2 class="card-subtitle mr-1">
+                                    <span data-increment="precedence" class="btn badge badge-dark">${this.state.precedence}</span>
+                                </h2>
                                 <h5 class="card-title mr-auto">Precedence</h5>
-                                <div class="btn-group">
-                                    <button data-minus="precedence" class="btn btn-danger">&darr;</button>
-                                    <button data-plus="precedence" class="btn btn-success">&uarr;</button>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -41,19 +37,15 @@ class Abilities extends Component {
     initialize() {
         super.initialize();
 
-        this.find('[data-plus]').on('click touch', (e) => {
-            let prop = $(e.target).attr('data-plus');
-            if(this.state[prop] >= 4) return;
+        this.find('[data-increment]').on('click touch', e => {
+            let prop = $(e.target).attr('data-increment');
+            switch(e.originalEvent.shiftKey) {
+                case true: this.state[prop]--; break;
+                case false: this.state[prop]++; break;
+            }
 
-            this.state[prop]++;
-            this.update();
-        });
-        
-        this.find('[data-minus]').on('click touch', (e) => {
-            let prop = $(e.target).attr('data-minus');
-            if(this.state[prop] < 1) return;
-
-            this.state[prop]--;
+            if(this.state[prop] == 9) this.state[prop] = 0;
+            if(this.state[prop] == -1) this.state[prop] = 9;
             this.update();
         });
     }
