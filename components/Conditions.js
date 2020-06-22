@@ -24,10 +24,10 @@ class Conditions extends Component{
                         ${this.drawCondition('Injured', 'injured')}
                         ${this.drawCondition('Sick', 'sick')}
                         ${this.drawCondition('Dead', 'dead')}
-                        <div class="btn-group ml-auto my-1">
-                            <button class="btn btn-info" data-toggle="modal" data-target="#${this.id}_help">?</button>
-                            <button class="btn btn-danger" data-close="">&cross;</button>
-                        </div>
+                    </div>
+                    <div class="btn-group position-topright">
+                        <span class="btn badge btn-info" data-toggle="modal" data-target="#${this.id}_help">?</span>
+                        <span class="btn badge btn-danger" data-close="">&cross;</span>
                     </div>
                 </div>
                 <div class="modal fade" id="${this.id}_help" tabindex="-1">
