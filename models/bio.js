@@ -9,7 +9,6 @@ let bio = () => {
         raiment: '',
         stock: '',
         classValue: '',
-        alignment: '',
         belief: '',
         creed: '',
         goal: '',

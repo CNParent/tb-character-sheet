@@ -2,7 +2,6 @@ class Bio extends Component {
 
     stockOptions = ['', 'Dwarf', 'Elf', 'Halfling', 'Human']
     classOptions = ['', 'Outcast', 'Ranger', 'Burglar', 'Theurge', 'Magician', 'Warrior']
-    alignOptions = ['', 'Law', 'Unaligned', 'Chaos']
 
     draw() {
         return String.raw`
@@ -22,7 +21,6 @@ class Bio extends Component {
                                 ${this.input('Mentor', 'mentor')}
                                 ${this.input("Age", 'age')}
                                 ${this.input('Level', 'level')}
-                                ${this.select('Alignment', 'alignment', this.alignOptions)}
                             </div>
                         </div>
                     </div>
