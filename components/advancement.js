@@ -69,12 +69,12 @@ class Advancement extends Component {
                         <h2 class="card-subtitle mb-1">${artha}</h2>
                         <div class="d-flex">
                             <div class="btn-group align-self-center mr-1">
-                                <button class="btn btn-light border border-dark" data-minus="current${artha}">&darr;</button>
                                 <span data-plus="current${artha}" class="btn btn-dark">${current}</span>
+                                <button class="btn btn-light border border-dark" data-minus="current${artha}">&darr;</button>
                             </div>
                             <div class="btn-group align-self-center">
-                                <button class="btn btn-light border border-dark" data-unspend="${artha}">&larr;</button>
                                 <span data-spend="${artha}" class="btn btn-dark">${spent} spent</span>
+                                <button class="btn btn-light border border-dark" data-unspend="${artha}">&larr;</button>
                             </div>
                         </div>
                     </div>
@@ -84,7 +84,6 @@ class Advancement extends Component {
     }
 
     row = (level, index) => {
-        let value = this.levels.length > index ? this.state.levelBenefits[index] : '';
         return String.raw`
             <tr>
                 <td>${level.level}</td>
