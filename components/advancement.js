@@ -16,21 +16,17 @@ class Advancement extends Component {
     draw() {
         return String.raw`
             <div id="${this.id}" class="container-fluid text-nowrap">
-                <div class="card">
-                    <div class="card-body row">
-                        ${this.drawArtha('Fate')}
-                        ${this.drawArtha('Persona')}
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="mr-auto">Level Benefits</h2>
-                        ${this.add(new ItemList('levelBenefits', { items: this.state.levelBenefits }))}
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <button class="btn btn-info" data-toggle="modal" data-target="#levelRequirements">Show Level Requirements</button>
+                <div class="row">
+                    ${this.drawArtha('Fate')}
+                    ${this.drawArtha('Persona')}
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2 class="mr-auto">Level Benefits</h2>
+                                ${this.add(new ItemList('levelBenefits', { items: this.state.levelBenefits }))}
+                                <span class="position-topright btn badge btn-info" data-toggle="modal" data-target="#levelRequirements">?</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal fade" id="levelRequirements" tabindex="-1" role="dialog" aria-labelledby="levelRequirements" aria-hidden="true">
@@ -68,17 +64,19 @@ class Advancement extends Component {
         let spent = this.state[`spent${artha}`]
         return String.raw`
             <div class="col-md-6">
-                <h2 class="card-subtitle">${artha}</h2>
-                <div class="d-flex">
-                    <div class="btn-group mx-1">
-                        <span class="btn btn-dark">${current}</span>
-                        <button class="btn btn-danger" data-minus="current${artha}">&darr;</button>
-                        <button class="btn btn-success" data-plus="current${artha}">&uarr;</button>
-                        <button class="btn btn-primary" data-spend="${artha}">&rarr;</button>
-                    </div>
-                    <div class="btn-group mx-1">
-                        <button class="btn btn-primary" data-unspend="${artha}">&larr;</button>
-                        <span class="btn btn-dark">${spent} spent</span>
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-subtitle mb-1">${artha}</h2>
+                        <div class="d-flex">
+                            <div class="btn-group align-self-center mr-1">
+                                <button class="btn btn-light border border-dark" data-minus="current${artha}">&darr;</button>
+                                <span data-plus="current${artha}" class="btn btn-dark">${current}</span>
+                            </div>
+                            <div class="btn-group align-self-center">
+                                <button class="btn btn-light border border-dark" data-unspend="${artha}">&larr;</button>
+                                <span data-spend="${artha}" class="btn btn-dark">${spent} spent</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
