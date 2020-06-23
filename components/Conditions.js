@@ -12,6 +12,14 @@ class Conditions extends Component{
     ]
 
     draw() {
+        if(!this.state.show) return String.raw`
+            <div id="${this.id}" class="container-fluid">
+                <div data-open="" class="btn btn-light border border-dark col">
+                    Conditions
+                </div>
+            </div>
+        `;
+
         return String.raw`
             <div id="${this.id}" class="container-fluid">
                 <div class="card">
@@ -50,7 +58,7 @@ class Conditions extends Component{
     }
 
     drawCondition(condition, prop) {
-        let bg = this.state[prop] ? 'btn-dark' : 'btn-light'
+        let bg = this.state.conditions[prop] ? 'btn-dark' : 'btn-light'
         let modal = `${this.id}_modal_${prop}`;
         return String.raw`
             <button class="border border-dark btn ${bg} m-1" data-condition="${prop}">${condition}</button>
@@ -69,7 +77,17 @@ class Conditions extends Component{
 
         this.find('[data-condition]').on('click touch', (e) => {
             let prop = $(e.target).attr('data-condition');
-            this.state[prop] = !this.state[prop];
+            this.state.conditions[prop] = !this.state.conditions[prop];
+            this.update();
+        });
+
+        this.find('[data-close]').on('click touch', e => {
+            this.state.show = false;
+            this.update();
+        });
+
+        this.find('[data-open]').on('click touch', e => {
+            this.state.show = true;
             this.update();
         });
     }

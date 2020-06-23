@@ -2,8 +2,7 @@ class App extends Component {
     draw = () => String.raw`
         <div id="${this.id}">
             ${this.add(new Navbar('navbar'))}
-            <!--${this.state.conditions.show ? this.add(new Conditions('conditions')) : ''}-->
-            ${this.add(new Conditions('conditions'))}
+            ${this.add(new Conditions('conditions', { conditions: this.state.conditions, show: true }))}
             ${this.drawContent()}
         </div>
     `;
