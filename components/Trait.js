@@ -5,7 +5,7 @@ class Trait extends Component {
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex">
-                            <h2><span class="badge btn btn-light border border-dark">${this.state.trait.name}<span></h2>
+                            ${this.drawName()}
                             <h2 class="ml-auto"><span data-level="" class="badge btn btn-dark mr-1">${this.state.trait.level}</span></h2>
                         </div>
                         <div class="d-flex">
@@ -19,6 +19,22 @@ class Trait extends Component {
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        `;
+    }
+
+    drawName() {
+        if(!this.state.edit) return String.raw`
+            <h2><span data-rename="" class="badge btn btn-light border border-dark">${this.state.trait.name}<span></h2>
+        `;
+
+        return String.raw`
+            <div class="input-group align-self-center mr-1">
+                <input class="form-control" value="${this.state.trait.name}">
+                <div class="input-group-append">
+                    <button data-confirm="" class="btn btn-success">&check;</button>
+                    <button data-cancel="" class="btn btn-danger">&cross;</button>
                 </div>
             </div>
         `;
@@ -43,11 +59,41 @@ class Trait extends Component {
     initialize() {
         super.initialize();
 
+        this.find('[data-rename]').on('click touch', e => {
+            this.state.edit = true;
+            this.update();
+        });
+
+        this.find('[data-cancel]').on('click touch', e => {
+            this.state.edit = false;
+            this.update();
+        });
+
+        this.find('[data-confirm]').on('click touch', e => {
+            this.state.trait.name = this.find('input').val();
+            this.state.edit = false;
+            this.update();
+        });
+
         this.find('[data-level]').on('click touch', e => {
             this.state.trait.level += e.originalEvent.shiftKey ? -1 : 1;
             if (this.state.trait.level == 4) this.state.trait.level = 1;
             if (this.state.trait.level == 0) this.state.trait.level = 3;
 
+            this.update();
+        });
+
+        this.find('[data-check]').on('click touch', e => {
+            let checks = Number($(e.target).attr('data-check'));
+            if(this.state.trait.checks == checks) checks--;
+            this.state.trait.checks = checks;
+            this.update();
+        });
+
+        this.find('[data-used]').on('click touch', e => {
+            let used = Number($(e.target).attr('data-used'));
+            if(this.state.trait.used == used) used--;
+            this.state.trait.used = used;
             this.update();
         });
     }
