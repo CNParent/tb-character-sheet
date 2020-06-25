@@ -17,6 +17,7 @@ class Trait extends Component {
                                 ${this.drawLevelBenefit(1)}
                                 ${this.drawLevelBenefit(2)}
                             </div>
+                            <button id="${this.id}_delete" class="btn btn-light border border-dark ml-auto">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -95,6 +96,12 @@ class Trait extends Component {
             if(this.state.trait.used == used) used--;
             this.state.trait.used = used;
             this.update();
+        });
+
+        $(`#${this.id}_delete`).on('click touch', e => {
+            let i = this.id.split('_')[1];
+            this.parent.state.traits.splice(i, 1);
+            this.parent.update();
         });
     }
 }

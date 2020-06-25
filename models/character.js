@@ -7,7 +7,7 @@ let character = () => {
         abilities: abilities(),
         advancement: advancement(),
         skills: skills(),
-        traits: traits(),
+        traits: [],
         wises: wises()
     };
 }
