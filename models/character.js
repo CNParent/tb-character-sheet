@@ -8,6 +8,6 @@ let character = () => {
         advancement: advancement(),
         skills: skills(),
         traits: [],
-        wises: wises()
+        wises: []
     };
 }
