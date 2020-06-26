@@ -24,7 +24,7 @@ class Advancement extends Component {
                             <div class="card-body">
                                 <h2 class="mr-auto">Level Benefits</h2>
                                 ${this.add(new ItemList('levelBenefits', { items: this.state.levelBenefits }))}
-                                <span class="position-topright btn badge btn-info" data-toggle="modal" data-target="#levelRequirements">?</button>
+                                <span class="position-topright btn badge btn-light border border-dark" data-toggle="modal" data-target="#levelRequirements">?</button>
                             </div>
                         </div>
                     </div>

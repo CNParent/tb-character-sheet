@@ -21,8 +21,8 @@ class Wises extends Component {
                         <div class="input-group align-self-center mr-1">
                             <input id="${this.id}_newWiseName" class="form-control">
                             <div class="input-group-append">
-                                <button id="${this.id}_confirm" class="btn btn-success">&check;</button>
-                                <button id="${this.id}_cancel" class="btn btn-danger">&cross;</button>
+                                <button id="${this.id}_confirm" class="btn btn-light border border-dark">&check;</button>
+                                <button id="${this.id}_cancel" class="btn btn-light border border-dark">&cross;</button>
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@ class Wises extends Component {
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <button id="${this.id}_add" class="btn btn-success">Add wise</button>
+                        <button id="${this.id}_add" class="btn btn-light border border-dark">Add wise</button>
                     </div>
                 </div>
             </div>

@@ -48,7 +48,7 @@ class Nature extends Component {
     }
 
     drawSegment(prop, value, width) {
-        let bg = this.state[prop] >= value ? 'bg-primary' : 'bg-light';
+        let bg = this.state[prop] >= value ? 'bg-dark' : 'bg-light';
         return String.raw`
             <div data-value="${value}" data-prop="${prop}" class="progress-bar ${bg} btn btn-light border border-dark mr-1" style="width: ${width}%;"></div>
         `;

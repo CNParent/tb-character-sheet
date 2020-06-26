@@ -16,7 +16,7 @@ class ItemList extends Component {
 
         return String.raw`
             <div class="btn-group m-1">
-                <span class="btn badge badge-success" data-add="">add</span>
+                <span class="btn badge badge-light border border-dark" data-add="">add</span>
             </div>
         `;
     }
@@ -32,8 +32,8 @@ class ItemList extends Component {
             <div class="form-row form-group input-group">
                 <input id="${this.id}_input" class="form-control" value="${text}" />
                 <div class="input-group-append">
-                    <button class="btn btn-success" data-done="">&check;</button>
-                    <button class="btn btn-danger" data-cancel="">&cross;</button>
+                    <button class="btn btn-light border border-dark" data-done="">&check;</button>
+                    <button class="btn btn-light border border-dark" data-cancel="">&cross;</button>
                 </div>
             </div>
         `;
@@ -50,7 +50,7 @@ class ItemList extends Component {
         return String.raw`
             <div class="btn-group my-1 mr-1">
                 <span class="btn badge badge-dark" data-item="${index}">${item}</span>
-                <span class="btn badge badge-danger" data-index="${index}">&cross;</span>
+                <span class="btn badge badge-light border border-dark" data-index="${index}">&cross;</span>
             </div>
         `;
     }

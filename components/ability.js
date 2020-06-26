@@ -45,7 +45,7 @@ class Ability extends Component {
     }
 
     drawSegment(prop, value, width) {
-        let bg = this.state[prop] >= value ? 'bg-secondary' : 'bg-light';
+        let bg = this.state[prop] >= value ? 'bg-dark' : 'bg-light';
         return String.raw`
             <div data-value="${value}" data-prop="${prop}" class="progress-bar ${bg} btn btn-light border border-dark mr-1" style="width: ${width}%;"></div>
         `;
@@ -54,7 +54,6 @@ class Ability extends Component {
     maxFails = () => this.state.rating > 1 ? this.state.rating - 1 : 0;
     failPercentage = () => this.maxFails() == 0 ? 100 : 100 * this.state.fail / this.maxFails();
     failText = () => this.maxFails() == 0 ? '' : `${this.state.fail} / ${this.maxFails()}`;
-    failBg = () => this.maxFails() == 0 ? 'bg-secondary' : '';
 
     maxPass = () => this.state.rating < 1 ? 1 : this.state.rating;
     passPercentage = () => 100 * this.state.pass / this.maxPass();

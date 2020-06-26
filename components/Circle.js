@@ -36,8 +36,8 @@ class Circle extends Component {
             <div class="input-group my-1">
                 <input data-name="" class="form-control" value="${text}">
                 <div class="input-group-append">
-                    <button data-confirm="${index}" class="btn btn-success">&check;</button>
-                    <button data-cancel="${index}" class="btn btn-danger">&cross;</button>
+                    <button data-confirm="${index}" class="btn btn-light border border-dark">&check;</button>
+                    <button data-cancel="${index}" class="btn btn-light border border-dark">&cross;</button>
                 </div>
             </div>
         `;

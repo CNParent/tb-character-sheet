@@ -34,8 +34,8 @@ class Conditions extends Component{
                         ${this.drawCondition('Dead', 'dead')}
                     </div>
                     <div class="btn-group position-topright">
-                        <span class="btn badge btn-info" data-toggle="modal" data-target="#${this.id}_help">?</span>
-                        <span class="btn badge btn-danger" data-close="">&cross;</span>
+                        <span class="btn badge btn-light border border-dark" data-toggle="modal" data-target="#${this.id}_help">?</span>
+                        <span class="btn badge btn-light border border-dark" data-close="">&cross;</span>
                     </div>
                 </div>
                 <div class="modal fade" id="${this.id}_help" tabindex="-1">

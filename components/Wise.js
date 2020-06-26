@@ -31,15 +31,15 @@ class Wise extends Component {
 
     drawName() {
         if(!this.state.edit) return String.raw`
-            <h2><span data-rename="" class="badge btn btn-light border border-dark">${this.state.wise.name}<span></h2>
+            <h2 class="flex-grow-1"><span data-rename="" class="badge btn btn-light w-100 text-left">${this.state.wise.name}<span></h2>
         `;
 
         return String.raw`
-            <div class="input-group align-self-center mr-1">
+            <div class="input-group align-self-center mb-1">
                 <input class="form-control" value="${this.state.wise.name}">
                 <div class="input-group-append">
-                    <button data-confirm="" class="btn btn-success">&check;</button>
-                    <button data-cancel="" class="btn btn-danger">&cross;</button>
+                    <button data-confirm="" class="btn btn-light border border-dark">&check;</button>
+                    <button data-cancel="" class="btn btn-light border border-dark">&cross;</button>
                 </div>
             </div>
         `;
@@ -72,6 +72,8 @@ class Wise extends Component {
 
         $(`#${this.id}_delete`).on('click touch', e => {
             let i = this.id.split('_')[1];
+            if(!confirm(`Remove ${this.parent.state.wises[i].name}?`)) return;
+
             this.parent.state.wises.splice(i, 1);
             this.parent.update();
         });
