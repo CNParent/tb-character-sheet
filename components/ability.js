@@ -17,64 +17,44 @@ class Ability extends Component {
     drawPass() {
         if(this.state.rating == this.state.cap) return '';
 
-        let arr = new Array(this.maxPass());
         return String.raw`
-            <div class="d-flex justify-items-center flex-wrap">
-                <span class="mr-2" style="width: 25px;"><small>Pass</small></span>
-                <div class="progress flex-grow-1 m-1">
-                    ${[...arr].map((x, i) => this.drawSegment('pass', i + 1, 100 / this.maxPass())).reduce((a,b) => `${a}${b}`, '')}
-                </div>
-                <span class="badge badge-dark align-self-center">${this.state.pass} / ${this.maxPass()}</span>
+            <div class="d-flex">
+                ${this.add(new Bubbles(`${this.id}_pass`, {
+                    count: this.maxPass(),
+                    value: this.state.pass,
+                    label: 'pass',
+                    set: (val) => { this.state.pass = val }
+                }))}
             </div>
         `;
     }
 
     drawFail() {
-        if(this.maxFails() == 0 || this.state.rating == this.state.cap) return '';
+        if(this.maxFail() == 0 || this.state.rating == this.state.cap) return '';
 
-        let arr = new Array(this.maxFails());
         return String.raw`
-            <div class="d-flex justify-items-center flex-wrap">
-                <span class="mr-2" style="width: 25px;"><small>Fail</small></span>
-                <div class="progress flex-grow-1 m-1">
-                    ${[...arr].map((x, i) => this.drawSegment('fail', i + 1, 100 / this.maxFails())).reduce((a,b) => `${a}${b}`, '')}
-                </div>
-                <span class="badge badge-dark align-self-center">${this.state.fail} / ${this.maxFails()}</span>
+            <div class="d-flex">
+                ${this.add(new Bubbles(`${this.id}_fail`, {
+                    count: this.maxFail(),
+                    value: this.state.fail,
+                    label: 'fail',
+                    set: (val) => { this.state.fail = val }
+                }))}
             </div>
         `;
     }
 
-    drawSegment(prop, value, width) {
-        let bg = this.state[prop] >= value ? 'bg-dark' : 'bg-light';
-        return String.raw`
-            <div data-value="${value}" data-prop="${prop}" class="progress-bar ${bg} btn btn-light border border-dark mr-1" style="width: ${width}%;"></div>
-        `;
-    }
-
-    maxFails = () => this.state.rating > 1 ? this.state.rating - 1 : 0;
-    failPercentage = () => this.maxFails() == 0 ? 100 : 100 * this.state.fail / this.maxFails();
-    failText = () => this.maxFails() == 0 ? '' : `${this.state.fail} / ${this.maxFails()}`;
-
+    maxFail = () => this.state.rating < 2 ? 0 : this.state.rating - 1;
     maxPass = () => this.state.rating < 1 ? 1 : this.state.rating;
-    passPercentage = () => 100 * this.state.pass / this.maxPass();
-    passText = () => `${this.state.pass} / ${this.maxPass()}`;
 
     initialize() {
+        super.initialize();        
+
         this.find('[data-increment]').on('click touch', e => {
             this.state.rating += e.originalEvent.shiftKey ? -1 : 1;
             if (this.state.rating < 0) this.state.rating = this.state.cap;
             if (this.state.rating > this.state.cap) this.state.rating = 0;
 
-            this.update();
-        });
-
-        this.find('[data-value]').on('touch click', e => {
-            let prop = $(e.target).attr('data-prop');
-            let value = Number($(e.target).attr('data-value'));
-            if(value == this.state[prop]) this.state[prop] = value - 1;
-            else this.state[prop] = value;
-
-            console.info(`Setting ${prop} to ${this.state[prop]}`)
             this.update();
         });
     }
