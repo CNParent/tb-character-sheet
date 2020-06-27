@@ -4,7 +4,7 @@ class Skills extends Component {
             <div id="${this.id}" class="container-fluid">
                 <div class="row">
                     ${this.drawSkills()}
-                    <div class="col-md-6">
+                    <div class="col-lg-4 col-md-6">
                         <div class="card">
                             <div class="card-body">
                                 ${this.drawControls()}

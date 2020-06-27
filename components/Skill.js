@@ -1,7 +1,7 @@
 class Skill extends Component {
     draw() {
         return String.raw`
-            <div id="${this.id}" class="col-md-6">
+            <div id="${this.id}" class="col-lg-4 col-md-6">
                 <div class="card">
                     <div class="card-body pt-1">
                         ${this.drawLuckToggle()}
