@@ -3,11 +3,11 @@ class Skill extends Component {
         return String.raw`
             <div id="${this.id}" class="col-md-6">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body pt-1">
                         ${this.drawLuckToggle()}
                         <div class="d-flex">
                             ${this.drawName()}
-                            <h2><span id="${this.id}_rating" class="badge btn btn-dark">${this.state.skill.rating}</span></h2>
+                            <h4><span id="${this.id}_rating" class="badge btn btn-dark">${this.state.skill.rating}</span></h4>
                         </div>
                         ${this.drawPass()}
                         ${this.drawFail()}
@@ -41,14 +41,14 @@ class Skill extends Component {
 
         let classes = !this.state.skill.readonly ? 'badge btn btn-light' : '';
         return String.raw`
-            <h2 class="flex-grow-1">
+            <h4 class="flex-grow-1">
                 <span data-name="" class="${classes} w-100 text-left">${this.state.skill.name}</span>
-            </h2>
+            </h4>
         `;
     }
 
     drawPass() {
-        if(this.state.skill.rating < 1) return '';
+        if(this.state.skill.rating < 1 || this.state.skill.rating == this.state.skill.cap) return '';
         return String.raw`
             <div class="d-flex">
                 ${this.add(new Bubbles(`${this.id}_pass`, {
@@ -62,7 +62,7 @@ class Skill extends Component {
     }
 
     drawFail() {
-        if(this.state.skill.rating < 2) return '';
+        if(this.state.skill.rating < 2 || this.state.skill.rating == this.state.skill.cap) return '';
         return String.raw`
             <div class="d-flex">
                 ${this.add(new Bubbles(`${this.id}_fail`, {

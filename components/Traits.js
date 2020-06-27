@@ -4,13 +4,7 @@ class Traits extends Component {
             <div id="${this.id}" class="container-fluid">
                 <div class="row">
                     ${this.state.traits.map((x,i) => this.add(new Trait(`traits_${i}`, { trait: x, edit: false }))).reduce((a,b) => `${a}${b}`, '')}
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                ${this.drawEditor()}
-                            </div>
-                        </div>
-                    </div>
+                    ${this.drawEditor()}
                 </div>
             </div>
         `;
@@ -20,17 +14,29 @@ class Traits extends Component {
         if(this.state.traits.length == 4) return '';
 
         if(this.state.edit) return String.raw`
-            <div class="input-group align-self-center mr-1">
-                <input id="${this.id}_newTraitName" class="form-control">
-                <div class="input-group-append">
-                    <button id="${this.id}_confirm" class="btn btn-light border border-dark">&check;</button>
-                    <button id="${this.id}_cancel" class="btn btn-light border border-dark">&cross;</button>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="input-group align-self-center mr-1">
+                            <input id="${this.id}_newTraitName" class="form-control">
+                            <div class="input-group-append">
+                                <button id="${this.id}_confirm" class="btn btn-light border border-dark">&check;</button>
+                                <button id="${this.id}_cancel" class="btn btn-light border border-dark">&cross;</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
 
         return String.raw`
-            <button id="${this.id}_add" class="btn btn-light border border-dark">Add trait</button>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <button id="${this.id}_add" class="btn btn-light border border-dark">Add trait</button>
+                    </div>
+                </div>
+            </div>
         `;
     }
 
