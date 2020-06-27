@@ -1,11 +1,12 @@
 let character = () => {
     return {
         navbar: { tab: 'bio' },
+        abilities: abilities(),
+        advancement: advancement(),
         bio: bio(),
         circles: circles(),
         conditions: conditions(),
-        abilities: abilities(),
-        advancement: advancement(),
+        inventory: inventory(),
         skills: skills(),
         traits: [],
         wises: []
