@@ -39,10 +39,13 @@ class Skill extends Component {
             </div>
         `;
 
-        let classes = !this.state.skill.readonly ? 'badge btn btn-light' : '';
         return String.raw`
             <h4 class="flex-grow-1">
-                <span data-name="" class="${classes} w-100 text-left">${this.state.skill.name}</span>
+                <span data-name="" class="badge btn btn-light w-100 text-left">
+                    ${this.state.skill.specialty ? '<u>' : ''}
+                    ${this.state.skill.name}
+                    ${this.state.skill.specialty ? '</u>' : ''}
+                </span>
             </h4>
         `;
     }
@@ -117,10 +120,13 @@ class Skill extends Component {
         });
 
         this.find('[data-name]').on('click touch', e => {
-            if(this.state.skill.readonly) return;
-
-            this.state.edit = true;
-            this.update();
+            if(this.state.skill.readonly) {
+                this.state.setSpecial();
+            }
+            else {
+                this.state.edit = true;
+                this.update();
+            }
         });
 
         this.find('[data-bluck]').on('click touch', e => {

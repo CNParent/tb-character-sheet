@@ -25,7 +25,11 @@ class Skills extends Component {
                 .map((x,i) => this.add(new Skill(`${this.id}_${i}`, { 
                     skill: x, 
                     edit: false,
-                    remove: () => this.state.skills.skills.splice(i, 1)
+                    remove: () => this.state.skills.skills.splice(i, 1),
+                    setSpecial: () => {
+                        this.state.skills.skills.forEach(y => y.specialty = x == y);
+                        this.update();
+                    }
                 })))
                 .reduce((a,b) => `${a}${b}`, '')}
         `;
