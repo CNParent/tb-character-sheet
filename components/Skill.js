@@ -1,5 +1,7 @@
 class Skill extends Component {
     draw() {
+        if(this.state.hide) return '';
+
         return String.raw`
             <div id="${this.id}" class="col-lg-4 col-md-6">
                 <div class="card">

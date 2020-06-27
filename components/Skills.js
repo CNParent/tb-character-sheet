@@ -3,7 +3,18 @@ class Skills extends Component {
         return String.raw`
             <div id="${this.id}" class="container-fluid">
                 <div class="row">
-                    ${this.drawSkills()}
+                    ${this.state.skills.skills
+                        .map((x,i) => this.add(new Skill(`${this.id}_${i}`, { 
+                            skill: x, 
+                            edit: false,
+                            hide: this.state.skills.compact && x.rating == 0 && x.readonly,
+                            remove: () => this.state.skills.skills.splice(i, 1),
+                            setSpecial: () => {
+                                this.state.skills.skills.forEach(y => y.specialty = x == y);
+                                this.update();
+                            }
+                        })))
+                        .reduce((a,b) => `${a}${b}`, '')}
                     <div class="col-lg-4 col-md-6">
                         <div class="card">
                             <div class="card-body">
@@ -13,25 +24,6 @@ class Skills extends Component {
                     </div>
                 </div>
             </div>
-        `;
-    }
-
-    drawSkills() {
-        let skills = this.state.skills.skills;
-        if(this.state.skills.compact) skills = skills.filter(x => x.rating > 0);
-
-        return String.raw`
-            ${skills
-                .map((x,i) => this.add(new Skill(`${this.id}_${i}`, { 
-                    skill: x, 
-                    edit: false,
-                    remove: () => this.state.skills.skills.splice(i, 1),
-                    setSpecial: () => {
-                        this.state.skills.skills.forEach(y => y.specialty = x == y);
-                        this.update();
-                    }
-                })))
-                .reduce((a,b) => `${a}${b}`, '')}
         `;
     }
 
@@ -65,7 +57,7 @@ class Skills extends Component {
                 bluck: "Health",
                 readonly: false,
                 cap: 7,
-                rating: 2
+                rating: 0
             });
 
             this.state.edit = false;
