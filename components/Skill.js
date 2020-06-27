@@ -4,9 +4,7 @@ class Skill extends Component {
             <div id="${this.id}" class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <div class="d-flex flex-row-reverse">
-                            <span data-bluck="" class="badge badge-dark ${this.state.skill.readonly ? '' : 'btn'}">${this.state.skill.bluck}</span>
-                        </div>
+                        ${this.drawLuckToggle()}
                         <div class="d-flex">
                             ${this.drawName()}
                             <h2><span id="${this.id}_rating" class="badge btn btn-dark">${this.state.skill.rating}</span></h2>
@@ -16,6 +14,15 @@ class Skill extends Component {
                         ${this.drawLuck()}
                     </div>
                 </div>
+            </div>
+        `;
+    }
+
+    drawLuckToggle() {
+        let classes = this.state.skill.readonly ? 'badge-light border border-dark' : 'btn badge-dark';
+        return String.raw`
+            <div class="d-flex flex-row-reverse">
+                <span data-bluck="" class="badge ${classes}">${this.state.skill.bluck}</span>
             </div>
         `;
     }

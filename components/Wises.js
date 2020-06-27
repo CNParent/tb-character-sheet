@@ -4,7 +4,13 @@ class Wises extends Component {
             <div id="${this.id}" class="container-fluid">
                 <div class="row">
                     ${this.state.wises.map((x,i) => this.add(new Wise(`wises_${i}`, { wise: x, edit: false }))).reduce((a,b) => `${a}${b}`, '')}
-                    ${this.drawEditor()}
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                ${this.drawEditor()}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
@@ -14,29 +20,17 @@ class Wises extends Component {
         if(this.state.wises.length == 4) return '';
 
         if(this.state.edit) return String.raw`
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="input-group align-self-center mr-1">
-                            <input id="${this.id}_newWiseName" class="form-control">
-                            <div class="input-group-append">
-                                <button id="${this.id}_confirm" class="btn btn-light border border-dark">&check;</button>
-                                <button id="${this.id}_cancel" class="btn btn-light border border-dark">&cross;</button>
-                            </div>
-                        </div>
-                    </div>
+            <div class="input-group align-self-center mr-1">
+                <input id="${this.id}_newWiseName" class="form-control">
+                <div class="input-group-append">
+                    <button id="${this.id}_confirm" class="btn btn-light border border-dark">&check;</button>
+                    <button id="${this.id}_cancel" class="btn btn-light border border-dark">&cross;</button>
                 </div>
             </div>
         `;
 
         return String.raw`
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <button id="${this.id}_add" class="btn btn-light border border-dark">Add wise</button>
-                    </div>
-                </div>
-            </div>
+            <button id="${this.id}_add" class="btn btn-light border border-dark">Add wise</button>
         `;
     }
 
