@@ -17,7 +17,6 @@ class Wises extends Component {
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h2>New Wise</h2>
                         <div class="input-group align-self-center mr-1">
                             <input id="${this.id}_newWiseName" class="form-control">
                             <div class="input-group-append">

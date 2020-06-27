@@ -1,10 +1,6 @@
-let skills = () => {
-    return {
-        skills: [
-            skill({ name: 'Alchemist', bluck: 'W', readonly: true }),
-            skill({ name: 'Arcanist', rating: 3, bluck: 'W', readonly: true }),
-            skill({ name: 'Armorer', bluck: 'H, readonly: true', readonly: true }),
-            skill({ name: 'Cartographer', bluck: 'W', readonly: true })
-        ]
-    }
-}
+let skills = () => [
+    skill({ name: 'Alchemist', bluck: 'Will', readonly: true }),
+    skill({ name: 'Arcanist', bluck: 'Will', readonly: true }),
+    skill({ name: 'Armorer', bluck: 'Health', readonly: true }),
+    skill({ name: 'Cartographer', bluck: 'Will', readonly: true })
+];

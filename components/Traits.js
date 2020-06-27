@@ -17,7 +17,6 @@ class Traits extends Component {
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h2>New Trait</h2>
                         <div class="input-group align-self-center mr-1">
                             <input id="${this.id}_newTraitName" class="form-control">
                             <div class="input-group-append">
