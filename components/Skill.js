@@ -12,6 +12,7 @@ class Skill extends Component {
                         ${this.drawPass()}
                         ${this.drawFail()}
                         ${this.drawLuck()}
+                        ${this.drawRemove()}
                     </div>
                 </div>
             </div>
@@ -88,6 +89,16 @@ class Skill extends Component {
         `;
     }
 
+    drawRemove() {
+        if(this.state.skill.readonly) return '';
+
+        return String.raw`
+            <div class="d-flex">
+                <button id="${this.id}_remove" class="btn btn-light border border-dark ml-auto">Delete</button>
+            </div>
+        `;
+    }
+
     maxPass = () => this.state.skill.rating < 1 ? 1 : this.state.skill.rating;
     maxFail = () => this.state.skill.rating < 2 ? 0 : this.state.skill.rating - 1;
 
@@ -118,6 +129,13 @@ class Skill extends Component {
             this.state.skill.bluck = this.state.skill.bluck == "Will" ? "Health" : "Will";
             this.update();
         });
+
+        $(`#${this.id}_remove`).on('click touch', e => {
+            if(!confirm(`Delete ${this.state.skill.name}?`)) return;
+
+            this.state.remove();
+            this.parent.update();
+        })
 
         $(`#${this.id}_rating`).on('click touch', e => {
             this.state.skill.rating += e.originalEvent.shiftKey ? -1 : 1;

@@ -4,7 +4,11 @@ class Skills extends Component {
             <div id="${this.id}" class="container-fluid">
                 <div class="row">
                     ${this.state.skills
-                        .map((x,i) => this.add(new Skill(`${this.id}_${i}`, { skill: x, edit: false })))
+                        .map((x,i) => this.add(new Skill(`${this.id}_${i}`, { 
+                            skill: x, 
+                            edit: false,
+                            remove: () => this.state.skills.splice(i, 1)
+                        })))
                         .reduce((a,b) => `${a}${b}`, '')}
                     <div class="col-md-6">
                         <div class="card">
