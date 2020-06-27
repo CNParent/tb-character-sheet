@@ -3,6 +3,6 @@ let container = ({ name, size, format }) => {
         name,
         size,
         format,
-        items = []
+        items: []
     }
 };

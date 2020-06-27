@@ -2,12 +2,13 @@ class Navbar extends Component{
 
     tabs = [
         { id: 'abilities', label: 'Abilities' },
-        { id: 'skills', label: 'Skills' },
-        { id: 'traits', label: 'Traits' },
-        { id: 'wises', label: 'Wises' },
         { id: 'advancement', label: 'Advancement' },
         { id: 'bio', label: 'Bio' },
-        { id: 'circles', label: 'Circles' }
+        { id: 'circles', label: 'Circles' },
+        { id: 'inventory', label: 'Inventory' },
+        { id: 'skills', label: 'Skills' },
+        { id: 'traits', label: 'Traits' },
+        { id: 'wises', label: 'Wises' }
     ]
 
     draw() {

@@ -12,7 +12,8 @@ class App extends Component {
         if (this.state.navbar.tab == 'advancement') return this.add(new Advancement('advancement'));
         if (this.state.navbar.tab == 'bio') return this.add(new Bio('bio'));
         if (this.state.navbar.tab == 'circles') return this.add(new Circles('circles'));
-        if (this.state.navbar.tab == 'skills') return this.add(new Skills('skills', { skills: this.state.skills, edit: false }))
+        if (this.state.navbar.tab == 'inventory') return this.add(new Inventory('inventory'));
+        if (this.state.navbar.tab == 'skills') return this.add(new Skills('skills', { skills: this.state.skills, edit: false }));
         if (this.state.navbar.tab == 'traits') return this.add(new Traits('traits', { traits: this.state.traits, edit: false }));
         if (this.state.navbar.tab == 'wises') return this.add(new Wises('wises', { wises: this.state.wises, edit: false }))
     }
