@@ -54,7 +54,8 @@ class Traits extends Component {
                 name: $(`#${this.id}_newTraitName`).val(), 
                 level: 1, 
                 used: 0, 
-                checks: 0 
+                usedAgainst: false,
+                checks: 0
             });
 
             this.state.edit = false;

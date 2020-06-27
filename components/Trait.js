@@ -12,6 +12,7 @@ class Trait extends Component {
                             <div class="btn-group">
                                 ${this.drawCheck(1)}
                                 ${this.drawCheck(2)}
+                                <button data-used="" class="btn ${this.state.usedAgainst ? 'btn-dark' : 'btn-light'} border border-dark">Used</button>
                             </div>
                             <div class="btn-group ml-1">
                                 ${this.drawLevelBenefit(1)}
@@ -104,6 +105,11 @@ class Trait extends Component {
 
             this.parent.state.traits.splice(i, 1);
             this.parent.update();
+        });
+
+        this.find('[data-used]').on('click touch', e => {
+            this.state.usedAgainst = !this.state.usedAgainst;
+            this.update();
         });
     }
 }
