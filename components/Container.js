@@ -1,5 +1,7 @@
 class Container extends Component {
 
+    canAdd = () => ['custom', 'pockets'].find(x => x == this.state.container.format);
+
     draw() {
         if(this.state.container.hide) return '';
 
@@ -19,6 +21,7 @@ class Container extends Component {
                             ${this.state.container.items.map((x,i) => this.drawItem(x,i)).reduce((a,b) => `${a}${b}`, '')}
                             ${this.drawEmptySlots()}
                         </div>
+                        ${this.drawDelete()}
                     </div>
                 </div>
             </div>
@@ -26,7 +29,8 @@ class Container extends Component {
     }
     
     drawAdd() {
-        if(this.state.container.format != 'pockets') return '';
+        if(!this.canAdd()) return '';
+
         if(this.state.container.size == 1) 
             return String.raw`
                 <span id="${this.id}_add" class="${this.smallButton()}">more space</span>
@@ -38,13 +42,21 @@ class Container extends Component {
         `;
     }
 
+    drawDelete() {
+        if(this.state.container.format != 'custom') return'';
+
+        return String.raw`
+            <button id="${this.id}_delete" class="btn btn-light border border-dark">Delete</button>
+        `;
+    }
+
     drawEdit() {
         let item = this.state.container.items[this.state.edit];
         let btnStyle = 'btn border border-dark align-self-start';
         return String.raw`
             <div class="btn bg-light d-flex mb-1 p-0 border border-dark" style="height: ${item.size * 2.5}em;">
                 <div class="input-group">
-                    <input id="${this.id}_name" class="form-control" value="${item.text}">
+                    <input id="${this.id}_itemname" class="form-control" value="${item.text}">
                     <div class="input-group-append">
                         <button id="${this.id}_size" class="${btnStyle} btn-dark">${item.size}</button>
                         <button id="${this.id}_exit" class="${btnStyle} btn-light">&cross;</button>
@@ -80,6 +92,16 @@ class Container extends Component {
             </h4>
         `;
 
+        if(this.state.container.format == 'custom' && this.state.editName) return String.raw`
+            <input id="${this.id}_name" class="form-control" value="${this.state.container.name}">
+        `;
+
+        if(this.state.container.format == 'custom') return String.raw`
+            <h4 data-rename="" class="flex-grow-1 m-0">
+                <span class="badge btn btn-light text-left card-title w-100 mb-0">${this.state.container.name}</span>
+            </h4>
+        `;
+
         return String.raw`
             <h5 class="m-0">
                 <span class="card-title mb-0">${this.state.container.name}</span>
@@ -110,6 +132,12 @@ class Container extends Component {
             this.update();
         });
 
+        $(`#${this.id}_delete`).click(e => {
+            if(!confirm(`Delete ${this.state.container.name}?`)) return;
+
+            this.state.delete();
+        })
+
         $(`#${this.id}_hide`).click(e => {
             this.state.container.hide = true;
             this.parent.update();
@@ -137,7 +165,13 @@ class Container extends Component {
             this.update();
         });
 
-        $(`#${this.id}_name`).on('change', e => this.state.container.items[this.state.edit].text = $(e.target).val());
+        $(`#${this.id}_itemname`).on('change', e => this.state.container.items[this.state.edit].text = $(e.target).val());
+
+        $(`#${this.id}_name`).on('change', e => {
+            this.state.container.name = $(e.target).val();
+            this.state.editName = undefined;
+            this.update();
+        });
 
         this.find('[data-edit]').click(e => {
             if(this.state.edit) {
@@ -161,5 +195,10 @@ class Container extends Component {
             this.state.container.size = isBackpack ? 3 : 6;
             this.update();
         });
+
+        this.find('[data-rename]').click(e => {
+            this.state.editName = true;
+            this.update();
+        })
     }
 }
