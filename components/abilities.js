@@ -33,7 +33,7 @@ class Abilities extends Component {
     initialize() {
         super.initialize();
 
-        this.find('[data-increment]').on('click touch', e => {
+        this.find('[data-increment]').click(e => {
             let prop = $(e.target).attr('data-increment');
             this.state[prop] += e.originalEvent.shiftKey ? -1 : 1;
             if(this.state[prop] == 9) this.state[prop] = 0;

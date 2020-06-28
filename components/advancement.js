@@ -96,7 +96,7 @@ class Advancement extends Component {
     initialize() {
         super.initialize();
 
-        this.find('[data-minus]').on('click touch', (e) => {
+        this.find('[data-minus]').click((e) => {
             let prop = $(e.target).attr('data-minus');
             if(this.state[prop] < 1) return;
 
@@ -104,13 +104,13 @@ class Advancement extends Component {
             this.update();
         });
 
-        this.find('[data-plus]').on('click touch', (e) => {
+        this.find('[data-plus]').click((e) => {
             let prop = $(e.target).attr('data-plus');
             this.state[prop]++;
             this.update();
         });
 
-        this.find('[data-spend]').on('click touch', (e) => {
+        this.find('[data-spend]').click((e) => {
             let artha = $(e.target).attr('data-spend');
             let currentProp = `current${artha}`;
             let spentProp = `spent${artha}`;
@@ -121,7 +121,7 @@ class Advancement extends Component {
             this.update();
         })
 
-        this.find('[data-unspend]').on('click touch', (e) => {
+        this.find('[data-unspend]').click((e) => {
             let artha = $(e.target).attr('data-unspend');
             let currentProp = `current${artha}`;
             let spentProp = `spent${artha}`;

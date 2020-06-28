@@ -48,29 +48,29 @@ class Wise extends Component {
     initialize() {
         super.initialize();
 
-        this.find('[data-rename]').on('click touch', e => {
+        this.find('[data-rename]').click(e => {
             this.state.edit = true;
             this.update();
         });
 
-        this.find('[data-cancel]').on('click touch', e => {
+        this.find('[data-cancel]').click(e => {
             this.state.edit = false;
             this.update();
         });
 
-        this.find('[data-confirm]').on('click touch', e => {
+        this.find('[data-confirm]').click(e => {
             this.state.wise.name = this.find('input').val();
             this.state.edit = false;
             this.update();
         });
 
-        this.find('[data-wise]').on('click touch', e => {
+        this.find('[data-wise]').click(e => {
             let prop = $(e.target).attr('data-wise');
             this.state.wise[prop] = !this.state.wise[prop];
             this.update();
         });
 
-        $(`#${this.id}_delete`).on('click touch', e => {
+        $(`#${this.id}_delete`).click(e => {
             let i = this.id.split('_')[1];
             if(!confirm(`Remove ${this.parent.state.wises[i].name}?`)) return;
 

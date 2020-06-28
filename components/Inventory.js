@@ -38,7 +38,7 @@ class Inventory extends Component {
     initialize() {
         super.initialize();
 
-        this.find('[data-show]').on('click touch', e => {
+        this.find('[data-show]').click(e => {
             let index = $(e.target).attr('data-show');
             this.state[index].hide = false;
             this.update();

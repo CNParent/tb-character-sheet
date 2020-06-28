@@ -11,6 +11,8 @@ class Navbar extends Component{
         { id: 'wises', label: 'Wises' }
     ]
 
+    characters = [...new Array(window.localStorage.length)].map((x,i) => window.localStorage.key(i))
+
     draw() {
         return String.raw`
             <nav id="${this.id}" class="navbar navbar-expand-md navbar-light bg-light">
@@ -20,6 +22,20 @@ class Navbar extends Component{
                 <div id="${this.id}_nav" class="collapse navbar-collapse">
                     <div class="navbar-nav">
                         ${this.tabs.map((t) => this.drawTab(t)).reduce((a,b) => `${a}${b}`)}
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="${this.id}_characters" data-toggle="dropdown" >Characters</a>
+                            <div class="dropdown-menu">
+                                ${this.characters.map(x => String.raw`<a href="#" class="dropdown-item">${x}</a>`).reduce((a,b) => `${a}${b}`, '')}
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="${this.id}_options" data-toggle="dropdown" >Options</a>
+                            <div class="dropdown-menu">
+                                <a id="${this.id}_save" href="#" class="dropdown-item">Save</a>
+                                <a id="${this.id}_export" href="#" class="dropdown-item">Export</a>
+                                <a id="${this.id}_import" href="#" class="dropdown-item">Import</a>
+                            </div>
+                        </li>
                     </div>
                 </div>
             </nav>
@@ -31,7 +47,11 @@ class Navbar extends Component{
     `;
 
     initialize() {
+        super.initialize();
+
         $(`#${this.id} [data-tab]`).click(this.navigate);
+
+        $(`#${this.id}_save`)
     }
 
     navigate = (e) => {

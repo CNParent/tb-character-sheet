@@ -50,7 +50,7 @@ class Ability extends Component {
     initialize() {
         super.initialize();        
 
-        this.find('[data-increment]').on('click touch', e => {
+        this.find('[data-increment]').click(e => {
             this.state.rating += e.originalEvent.shiftKey ? -1 : 1;
             if (this.state.rating < 0) this.state.rating = this.state.cap;
             if (this.state.rating > this.state.cap) this.state.rating = 0;

@@ -75,18 +75,18 @@ class Conditions extends Component{
     initialize() {
         super.initialize();
 
-        this.find('[data-condition]').on('click touch', (e) => {
+        this.find('[data-condition]').click((e) => {
             let prop = $(e.target).attr('data-condition');
             this.state[prop] = !this.state[prop];
             this.update();
         });
 
-        this.find('[data-close]').on('click touch', e => {
+        this.find('[data-close]').click(e => {
             this.state.shown = false;
             this.update();
         });
 
-        this.find('[data-open]').on('click touch', e => {
+        this.find('[data-open]').click(e => {
             this.state.shown = true;
             this.update();
         });

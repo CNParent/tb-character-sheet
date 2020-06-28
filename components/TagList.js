@@ -56,12 +56,12 @@ class TagList extends Component {
     }
 
     initialize() {
-        this.find('[data-cancel]').on('click touch', (e) => {
+        this.find('[data-cancel]').click((e) => {
             this.state.edit = undefined;
             this.update();
         });
 
-        this.find('[data-done]').on('click touch', (e) => {
+        this.find('[data-done]').click((e) => {
             let value = $(`#${this.id}_input`).val();
             if(this.state.edit < this.state.items.length) this.state.items[this.state.edit] = value;
             else this.state.items.push(value);
@@ -70,19 +70,19 @@ class TagList extends Component {
             this.update();
         });
 
-        this.find('[data-index]').on('click touch', (e) => {
+        this.find('[data-index]').click((e) => {
             let i = $(e.target).attr('data-index');
             this.state.items.splice(i, 1);
             this.update();
         });
 
-        this.find('[data-item]').on('click touch', (e) => {
+        this.find('[data-item]').click((e) => {
             let i = $(e.target).attr('data-item');
             this.state.edit = i;
             this.update();
         });
 
-        this.find('[data-add]').on('click touch', (e) => {
+        this.find('[data-add]').click((e) => {
             this.state.edit = this.state.items.length;
             this.update();
         });

@@ -56,7 +56,7 @@ class Skills extends Component {
     initialize() {
         super.initialize();
 
-        $(`#${this.id}_confirm`).on('click touch', e => {
+        $(`#${this.id}_confirm`).click(e => {
             this.state.skills.skills.push({
                 name: $(`#${this.id}_newSkillName`).val(),
                 pass: 0,
@@ -71,22 +71,22 @@ class Skills extends Component {
             this.update();
         });
 
-        $(`#${this.id}_cancel`).on('click touch', e => {
+        $(`#${this.id}_cancel`).click(e => {
             this.state.edit = false;
             this.update();
         });
 
-        $(`#${this.id}_add`).on('click touch', e => {
+        $(`#${this.id}_add`).click(e => {
             this.state.edit = true;
             this.update();
         });
 
-        $(`#${this.id}_hide`).on('click touch', e => {
+        $(`#${this.id}_hide`).click(e => {
             this.state.skills.compact = !this.state.skills.compact;
             this.update();
         });
 
-        $(`#${this.id}_special`).on('click touch', e => {
+        $(`#${this.id}_special`).click(e => {
             this.state.skills.lockspecial = !this.state.skills.lockspecial;
             this.update();
         });

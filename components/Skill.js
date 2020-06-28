@@ -110,18 +110,18 @@ class Skill extends Component {
     initialize() {
         super.initialize();
 
-        this.find('[data-confirm]').on('click touch', e => {
+        this.find('[data-confirm]').click(e => {
             this.state.skill.name = $(`#${this.id}_name`).val();
             this.state.edit = false;
             this.update();
         });
 
-        this.find('[data-cancel]').on('click touch', e => {
+        this.find('[data-cancel]').click(e => {
             this.state.edit = false;
             this.update();
         });
 
-        this.find('[data-name]').on('click touch', e => {
+        this.find('[data-name]').click(e => {
             if(this.state.skill.special && !this.state.lockspecial) {
                 this.state.setSpecial();
             }
@@ -131,21 +131,21 @@ class Skill extends Component {
             }
         });
 
-        this.find('[data-bluck]').on('click touch', e => {
+        this.find('[data-bluck]').click(e => {
             if(this.state.skill.readonly) return;
 
             this.state.skill.bluck = this.state.skill.bluck == "Will" ? "Health" : "Will";
             this.update();
         });
 
-        $(`#${this.id}_remove`).on('click touch', e => {
+        $(`#${this.id}_remove`).click(e => {
             if(!confirm(`Delete ${this.state.skill.name}?`)) return;
 
             this.state.remove();
             this.parent.update();
         })
 
-        $(`#${this.id}_rating`).on('click touch', e => {
+        $(`#${this.id}_rating`).click(e => {
             this.state.skill.rating += e.originalEvent.shiftKey ? -1 : 1;
             if (this.state.skill.rating < 0) this.state.skill.rating = this.state.skill.cap;
             if (this.state.skill.rating > this.state.skill.cap) this.state.skill.rating = 0;

@@ -43,12 +43,12 @@ class Traits extends Component {
     initialize() {
         super.initialize();
 
-        $(`#${this.id}_add`).on('click touch', e => {
+        $(`#${this.id}_add`).click(e => {
             this.state.edit = true;
             this.update();
         });
 
-        $(`#${this.id}_confirm`).on('click touch', e => {
+        $(`#${this.id}_confirm`).click(e => {
             this.state.traits.push({ 
                 name: $(`#${this.id}_newTraitName`).val(), 
                 level: 1, 
@@ -61,7 +61,7 @@ class Traits extends Component {
             this.update();
         })
 
-        $(`#${this.id}_cancel`).on('click touch', e => {
+        $(`#${this.id}_cancel`).click(e => {
             this.state.edit = false;
             this.update();
         })

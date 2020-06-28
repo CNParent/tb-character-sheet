@@ -53,7 +53,7 @@ class Nature extends Component {
     initialize() {
         super.initialize();
         
-        this.find('[data-current]').on('click touch', e => {
+        this.find('[data-current]').click(e => {
             this.state.current -= e.originalEvent.shiftKey ? -1 : 1;
             if(this.state.current < 0) this.state.current = this.state.maximum;
             if(this.state.current > this.state.maximum) this.state.current = 0;
@@ -61,7 +61,7 @@ class Nature extends Component {
             this.update();
         });
 
-        this.find('[data-maximum]').on('click touch', e => {
+        this.find('[data-maximum]').click(e => {
             this.state.current += e.originalEvent.shiftKey ? -1 : 1;
             this.state.maximum += e.originalEvent.shiftKey ? -1 : 1;
             if (this.state.maximum < 0) this.state.maximum = this.state.current = 7;

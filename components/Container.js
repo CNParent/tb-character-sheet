@@ -84,29 +84,29 @@ class Container extends Component {
     initialize() {
         super.initialize();
 
-        $(`#${this.id}_add`).on('click touch', e => {
+        $(`#${this.id}_add`).click(e => {
             this.state.container.size++;
             this.update();
         });
 
-        $(`#${this.id}_del`).on('click touch', e => {
+        $(`#${this.id}_del`).click(e => {
             if(this.state.container.size == 1) return;
 
             this.state.container.size--;
             this.update();
         });
 
-        $(`#${this.id}_hide`).on('click touch', e => {
+        $(`#${this.id}_hide`).click(e => {
             this.state.container.hide = true;
             this.parent.update();
         });
 
-        $(`#${this.id}_sort`).on('click touch', e => {
+        $(`#${this.id}_sort`).click(e => {
             this.state.container.items.sort((a,b) => a.text.localeCompare(b.text));
             this.update();
         });
 
-        $(`#${this.id}_exit`).on('click touch', e => {
+        $(`#${this.id}_exit`).click(e => {
             if(!$(`#${this.id}_name`).val() || !this.state.container.items[this.state.edit].text) 
                 this.state.container.items.splice(this.state.edit, 1);
 
@@ -114,7 +114,7 @@ class Container extends Component {
             this.update();
         });
 
-        $(`#${this.id}_size`).on('click touch', e => {
+        $(`#${this.id}_size`).click(e => {
             let item = this.state.container.items[this.state.edit];
             item.size += e.originalEvent.shiftKey ? -1 : 1;
             if(item.size < 1) item.size = 1;
@@ -125,7 +125,7 @@ class Container extends Component {
 
         $(`#${this.id}_name`).on('change', e => this.state.container.items[this.state.edit].text = $(e.target).val());
 
-        this.find('[data-edit]').on('click touch', e => {
+        this.find('[data-edit]').click(e => {
             this.state.edit = $(e.target).attr('data-edit');
             if(!this.state.container.items[this.state.edit])
                 this.state.container.items.push({ text: '', size: 1 });

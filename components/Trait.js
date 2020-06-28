@@ -61,23 +61,23 @@ class Trait extends Component {
     initialize() {
         super.initialize();
 
-        this.find('[data-rename]').on('click touch', e => {
+        this.find('[data-rename]').click(e => {
             this.state.edit = true;
             this.update();
         });
 
-        this.find('[data-cancel]').on('click touch', e => {
+        this.find('[data-cancel]').click(e => {
             this.state.edit = false;
             this.update();
         });
 
-        this.find('[data-confirm]').on('click touch', e => {
+        this.find('[data-confirm]').click(e => {
             this.state.trait.name = this.find('input').val();
             this.state.edit = false;
             this.update();
         });
 
-        this.find('[data-level]').on('click touch', e => {
+        this.find('[data-level]').click(e => {
             this.state.trait.level += e.originalEvent.shiftKey ? -1 : 1;
             if (this.state.trait.level == 4) this.state.trait.level = 1;
             if (this.state.trait.level == 0) this.state.trait.level = 3;
@@ -85,21 +85,21 @@ class Trait extends Component {
             this.update();
         });
 
-        this.find('[data-check]').on('click touch', e => {
+        this.find('[data-check]').click(e => {
             let checks = Number($(e.target).attr('data-check'));
             if(this.state.trait.checks == checks) checks--;
             this.state.trait.checks = checks;
             this.update();
         });
 
-        this.find('[data-used]').on('click touch', e => {
+        this.find('[data-used]').click(e => {
             let used = Number($(e.target).attr('data-used'));
             if(this.state.trait.used == used) used--;
             this.state.trait.used = used;
             this.update();
         });
 
-        $(`#${this.id}_delete`).on('click touch', e => {
+        $(`#${this.id}_delete`).click(e => {
             let i = this.id.split('_')[1];
             if(!confirm(`Delete ${this.parent.state.traits[i].name}?`)) return;
 
@@ -107,7 +107,7 @@ class Trait extends Component {
             this.parent.update();
         });
 
-        this.find('[data-used]').on('click touch', e => {
+        this.find('[data-used]').click(e => {
             this.state.usedAgainst = !this.state.usedAgainst;
             this.update();
         });

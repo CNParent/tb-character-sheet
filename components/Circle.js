@@ -45,17 +45,17 @@ class Circle extends Component {
 
     initialize() {
         super.initialize();
-        this.find('[data-add]').on('click touch', e => {
+        this.find('[data-add]').click(e => {
             this.state.edit = this.state.items.length;
             this.update();
         });
 
-        this.find('[data-cancel]').on('click touch', e => {
+        this.find('[data-cancel]').click(e => {
             this.state.edit = undefined;
             this.update();
         });
 
-        this.find('[data-confirm]').on('click touch', e => {
+        this.find('[data-confirm]').click(e => {
             let index = $(e.target).attr('data-confirm');
             let value = this.find('[data-name]').val();
             if(this.state.items.length == index) this.state.items.push(value);
@@ -65,12 +65,12 @@ class Circle extends Component {
             this.update();
         });
 
-        this.find('[data-edit]').on('click touch', e => {
+        this.find('[data-edit]').click(e => {
             this.state.edit = $(e.target).attr('data-edit');
             this.update();
         });
 
-        this.find('[data-remove]').on('click touch', e => {
+        this.find('[data-remove]').click(e => {
             this.state.items.splice($(e.target).attr('data-remove'), 1);
             this.update();
         });

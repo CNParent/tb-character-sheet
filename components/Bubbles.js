@@ -18,7 +18,7 @@ class Bubbles extends Component {
     initialize() {
         super.initialize();
 
-        this.find('[data-index]').on('click touch', e => {
+        this.find('[data-index]').click(e => {
             let i = Number($(e.target).attr('data-index'));
             if(this.state.value > i) this.state.value = i;
             else this.state.value = i + 1;
