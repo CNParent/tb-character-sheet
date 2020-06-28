@@ -3,15 +3,15 @@ class Inventory extends Component {
         return String.raw`
             <div id="${this.id}" class="container-fluid">
                 <div class="row">
-                    ${this.state.map((x, i) => this.add(new Container(`${this.id}_container_${i}`, { container: x }))).reduce((a,b) => `${a}${b}`, '')}
-                    ${this.drawHidden()}
+                    ${this.state.containers.map((x, i) => this.add(new Container(`${this.id}_container_${i}`, { container: x }))).reduce((a,b) => `${a}${b}`, '')}
+                    ${this.drawList()}
                 </div> 
             <div>
         `;
     }
 
-    drawHidden() {
-        if(this.state.filter(x => x.hide).length == 0) return '';
+    drawList() {
+        if(this.state.containers.filter(x => x.hide).length == 0) return '';
 
         return String.raw`
             <div class="col-lg-3 col-md-4 col-sm-6 my-1">
@@ -20,7 +20,8 @@ class Inventory extends Component {
                         <h5 class="m-0">Containers</h5>
                     </div>
                     <div class="card-body d-flex flex-column">
-                        ${this.state.map((x,i) => this.drawHiddenButton(x, i)).reduce((a,b) => `${a}${b}`, '')}
+                        ${this.state.containers.map((x,i) => this.drawHiddenButton(x, i)).reduce((a,b) => `${a}${b}`, '')}
+                        <span id="${this.id}_add" class="btn btn-light border border-dark">Add container</span>
                     </div>
                 </div>
             </div>
@@ -40,7 +41,7 @@ class Inventory extends Component {
 
         this.find('[data-show]').click(e => {
             let index = $(e.target).attr('data-show');
-            this.state[index].hide = false;
+            this.state.containers[index].hide = false;
             this.update();
         });
     }

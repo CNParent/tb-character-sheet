@@ -24,7 +24,7 @@ class Container extends Component {
             </div>
         `;
     }
-
+    
     drawAdd() {
         if(this.state.container.format != 'pockets') return '';
         if(this.state.container.size == 1) 
@@ -140,11 +140,19 @@ class Container extends Component {
         $(`#${this.id}_name`).on('change', e => this.state.container.items[this.state.edit].text = $(e.target).val());
 
         this.find('[data-edit]').click(e => {
-            this.state.edit = $(e.target).attr('data-edit');
-            if(!this.state.container.items[this.state.edit])
-                this.state.container.items.push({ text: 'New item', size: 1 });
+            if(this.state.edit) {
+                if(!this.state.container.items[this.state.edit].text)
+                    this.state.container.items.splice(this.state.edit, 1);
 
-            this.update();
+                this.state.edit = undefined;
+                this.update();
+            } else {
+                this.state.edit = $(e.target).attr('data-edit');
+                if(!this.state.container.items[this.state.edit])
+                    this.state.container.items.push({ text: '', size: 1 });
+
+                this.update();
+            }
         });
 
         this.find('[data-pack]').click(e => {
