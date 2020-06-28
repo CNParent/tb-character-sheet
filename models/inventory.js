@@ -7,5 +7,7 @@ let inventory = () => [
     container({ name: 'Torso', size: 2, format: 'static' }),
     container({ name: 'Belt', size: 3, format: 'static' }),
     container({ name: 'Pockets', size: 1, format: 'pockets' }),
-    container({ name: 'Pack', size: 6, format: 'pack' })
+    container({ name: 'Pack', size: 6, format: 'pack' }),
+    container({ name: 'Ground', size: 1, format: 'pockets' }),
+    container({ name: 'Stash', size: 12, format: 'stash' })
 ];
