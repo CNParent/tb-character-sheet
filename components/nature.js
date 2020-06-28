@@ -11,7 +11,7 @@ class Nature extends Component {
                     </div>
                     ${this.drawPass()}
                     ${this.drawFail()}
-                    ${this.add(new ItemList('descriptors', { items: this.state.descriptors }))}
+                    ${this.add(new TagList('descriptors', { items: this.state.descriptors }))}
                 </div>
             </div>
         `;

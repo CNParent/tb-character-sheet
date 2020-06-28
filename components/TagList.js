@@ -1,4 +1,4 @@
-class ItemList extends Component {
+class TagList extends Component {
     draw(){
         return String.raw`
             <div id="${this.id}">
