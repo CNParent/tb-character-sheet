@@ -7,7 +7,7 @@ class Container extends Component {
             <div id="${this.id}" class="col-lg-3 col-md-4 col-sm-6 my-1">
                 <div class="card">
                     <div class="card-header p-2 d-flex">
-                        <h5 class="m-0"><span class="card-title mb-0">${this.state.container.name}</span></h5>
+                        ${this.drawName()}
                         <div class="btn-group ml-auto">
                             ${this.drawAdd()}
                             <span id="${this.id}_hide" class="${this.smallButton()}">hide</span>
@@ -55,7 +55,7 @@ class Container extends Component {
     }
 
     drawEmptySlots() {
-        if(this.space() == 0) return '';
+        if(this.space() < 1) return '';
 
         let index = this.state.container.items.length;
         if(this.state.edit == index) return this.drawEdit();
@@ -70,6 +70,20 @@ class Container extends Component {
 
         return String.raw`
             <span data-edit="${index}" class="btn btn-light text-left border border-dark mb-1" style="height: ${item.size * 2.5}em;">${item.text}</span>
+        `;
+    }
+
+    drawName() {
+        if(this.state.container.format == 'pack') return String.raw`
+            <h4 data-pack="" class="flex-grow-1 m-0">
+                <span class="badge btn btn-light text-left card-title w-100 mb-0">${this.state.container.name}</span>
+            </h4>
+        `;
+
+        return String.raw`
+            <h5 class="m-0">
+                <span class="card-title mb-0">${this.state.container.name}</span>
+            </h5>
         `;
     }
 
@@ -128,8 +142,15 @@ class Container extends Component {
         this.find('[data-edit]').click(e => {
             this.state.edit = $(e.target).attr('data-edit');
             if(!this.state.container.items[this.state.edit])
-                this.state.container.items.push({ text: '', size: 1 });
+                this.state.container.items.push({ text: 'New item', size: 1 });
 
+            this.update();
+        });
+
+        this.find('[data-pack]').click(e => {
+            let isBackpack = this.state.container.name == 'Backpack';
+            this.state.container.name = isBackpack ? 'Satchel' : 'Backpack';
+            this.state.container.size = isBackpack ? 3 : 6;
             this.update();
         });
     }
