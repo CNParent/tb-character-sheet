@@ -88,8 +88,8 @@ class Navbar extends Component{
     }
     
     load = e => {
-        let key = e.target.files[0].name;
         e.target.files[0].text().then((t) => {
+            let key = JSON.parse(t).bio.name;
             localStorage.setItem(key, t);
             this.update();
         });
