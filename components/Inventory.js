@@ -17,9 +17,9 @@ class Inventory extends Component {
             <div class="col-lg-3 col-md-4 col-sm-6 my-1">
                 <div class="card">
                     <div class="card-header p-2">
-                        <h5 class="m-0">Show Hidden Container</h5>
+                        <h5 class="m-0">Containers</h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body d-flex flex-column">
                         ${this.state.map((x,i) => this.drawHiddenButton(x, i)).reduce((a,b) => `${a}${b}`, '')}
                     </div>
                 </div>
@@ -31,7 +31,7 @@ class Inventory extends Component {
         if(!container.hide) return '';
 
         return String.raw`
-            <button data-show="${index}" class="btn btn-light border border-dark my-1">${container.name}</button>
+            <span data-show="${index}" class="btn btn-light">${container.name}</span>
         `;
     }
 
