@@ -20,22 +20,25 @@ class Navbar extends Component{
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div id="${this.id}_nav" class="collapse navbar-collapse">
-                    <div class="navbar-nav">
+                    <ul class="navbar-nav mr-auto">
                         ${this.tabs.map((t) => this.drawTab(t)).reduce((a,b) => `${a}${b}`)}
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" id="${this.id}_characters" data-toggle="dropdown" >Characters</a>
                             <div class="dropdown-menu">
-                                ${this.characters.map(x => String.raw`<a href="#" class="dropdown-item">${x}</a>`).reduce((a,b) => `${a}${b}`, '')}
+                                ${this.characters.map(x => String.raw`<a href="#" data-character="${x}" class="dropdown-item">${x}</a>`).reduce((a,b) => `${a}${b}`, '')}
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" id="${this.id}_options" data-toggle="dropdown" >Options</a>
+                    </ul>
+                    <div class="navbar-nav">
+                        <a id="${this.id}_saveconfirm" class="nav-item nav-link text-success" hidden="hidden">${this.parent.state.bio.name} saved</a>
+                        <div class="nav-item dropdown">
+                            <button class="dropdown-toggle btn btn-light border border-dark" id="${this.id}_options" data-toggle="dropdown" >Options</button>
                             <div class="dropdown-menu">
                                 <a id="${this.id}_save" href="#" class="dropdown-item">Save</a>
                                 <a id="${this.id}_export" href="#" class="dropdown-item">Export</a>
                                 <a id="${this.id}_import" href="#" class="dropdown-item">Import</a>
                             </div>
-                        </li>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -49,13 +52,26 @@ class Navbar extends Component{
     initialize() {
         super.initialize();
 
-        $(`#${this.id} [data-tab]`).click(this.navigate);
+        $(`#${this.id}_save`).click(e => {
+            if(!this.parent.state.bio.name) {
+                alert('Cannot save an unnamed character');
+                return;
+            }
 
-        $(`#${this.id}_save`)
-    }
+            localStorage.setItem(this.parent.state.bio.name, JSON.stringify(this.parent.state));
+            this.update();
 
-    navigate = (e) => {
-        this.state.tab = $(e.target).attr('data-tab');
-        this.parent.update();
+            $(`#${this.id}_saveconfirm`).removeAttr('hidden');
+        });
+
+        this.find('[data-character]').click(e => {
+            this.parent.state = JSON.parse(localStorage.getItem($(e.target).attr('data-character')));
+            this.parent.update();
+        });
+
+        this.find('[data-tab]').click(e => {
+            this.state.tab = $(e.target).attr('data-tab');
+            this.parent.update();
+        });
     }
 }
