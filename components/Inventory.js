@@ -37,7 +37,7 @@ class Inventory extends Component {
         if(!container.hide) return '';
 
         return String.raw`
-            <span data-show="${index}" class="btn btn-light border border-dark mb-1">${container.name}</span>
+            <span data-show="${index}" class="btn btn-light border border-dark mt-1">${container.name}</span>
         `;
     }
 
