@@ -64,6 +64,18 @@ class Navbar extends Component{
             $(`#${this.id}_saveconfirm`).removeAttr('hidden');
         });
 
+        $(`#${this.id}_export`).click(e => {
+            let href = URL.createObjectURL(new Blob([JSON.stringify(this.parent.state)]));
+            e.target.href = href;
+            e.target.download = `${this.parent.state.bio.name}.json`;
+        });
+
+        $(`#${this.id}_import`).click(e => {
+            let file = $('<input type="file">');
+            file.change(this.load);
+            file.click();
+        });
+
         this.find('[data-character]').click(e => {
             this.parent.state = JSON.parse(localStorage.getItem($(e.target).attr('data-character')));
             this.parent.update();
@@ -72,6 +84,14 @@ class Navbar extends Component{
         this.find('[data-tab]').click(e => {
             this.state.tab = $(e.target).attr('data-tab');
             this.parent.update();
+        });
+    }
+    
+    load = e => {
+        let key = e.target.files[0].name;
+        e.target.files[0].text().then((t) => {
+            localStorage.setItem(key, t);
+            this.update();
         });
     }
 }
