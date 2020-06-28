@@ -122,10 +122,10 @@ class Skill extends Component {
         });
 
         this.find('[data-name]').on('click touch', e => {
-            if(this.state.skill.readonly) {
+            if(this.state.skill.special && !this.state.lockspecial) {
                 this.state.setSpecial();
             }
-            else {
+            else if(!this.state.skill.readonly) {
                 this.state.edit = true;
                 this.update();
             }
