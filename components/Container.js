@@ -54,7 +54,7 @@ class Container extends Component {
         let item = this.state.container.items[this.state.edit];
         let btnStyle = 'btn border border-dark align-self-start';
         return String.raw`
-            <div class="btn bg-light d-flex mb-1 p-0 border border-dark" style="height: ${item.size * 2.5}em;">
+            <div class="btn bg-light d-flex mb-1 p-0 border" style="height: ${item.size * 2.5}em;">
                 <div class="input-group">
                     <input id="${this.id}_itemname" class="form-control" value="${item.text}">
                     <div class="input-group-append">
@@ -73,7 +73,7 @@ class Container extends Component {
         if(this.state.edit == index) return this.drawEdit();
 
         return String.raw`
-            <span data-edit="${index}" class="btn btn-light border border-dark mb-1" style="height: ${2.5 * this.space()}em;"></span>
+            <span data-edit="${index}" class="btn btn-light border mb-1" style="height: ${2.5 * this.space()}em;"></span>
         `;
     }
 
@@ -81,7 +81,7 @@ class Container extends Component {
         if(this.state.edit == index) return this.drawEdit();
 
         return String.raw`
-            <span data-edit="${index}" class="btn btn-light text-left border border-dark mb-1" style="height: ${item.size * 2.5}em;">${item.text}</span>
+            <span data-edit="${index}" class="btn btn-light text-left border mb-1" style="height: ${item.size * 2.5}em;">${item.text}</span>
         `;
     }
 
@@ -149,7 +149,7 @@ class Container extends Component {
         });
 
         $(`#${this.id}_exit`).click(e => {
-            if(!$(`#${this.id}_name`).val() || !this.state.container.items[this.state.edit].text) 
+            if(!$(`#${this.id}_itemname`).val() || !this.state.container.items[this.state.edit].text) 
                 this.state.container.items.splice(this.state.edit, 1);
 
             this.state.edit = undefined;
@@ -165,9 +165,11 @@ class Container extends Component {
             this.update();
         });
 
-        $(`#${this.id}_itemname`).blur(e => this.state.container.items[this.state.edit].text = $(e.target).val());
+        $(`#${this.id}_itemname`).change(e => {
+            this.state.container.items[this.state.edit].text = $(e.target).val();
+        });
 
-        $(`#${this.id}_name`).blur(e => {
+        $(`#${this.id}_name`).change(e => {
             this.state.container.name = $(e.target).val();
             this.state.editName = undefined;
             this.update();
@@ -199,6 +201,8 @@ class Container extends Component {
         this.find('[data-rename]').click(e => {
             this.state.editName = true;
             this.update();
-        })
+        });
+
+        if(this.state.edit) this.find('input').focus();
     }
 }
