@@ -11,7 +11,6 @@ class Container extends Component {
                     <div class="card-header p-2 d-flex">
                         ${this.drawName()}
                         <div class="btn-group ml-auto">
-                            ${this.drawAdd()}
                             <span id="${this.id}_hide" class="${this.smallButton()}">hide</span>
                             <span id="${this.id}_sort" class="${this.smallButton()}">a &rarr; z</span>
                         </div>
@@ -21,7 +20,10 @@ class Container extends Component {
                             ${this.state.container.items.map((x,i) => this.drawItem(x,i)).reduce((a,b) => `${a}${b}`, '')}
                             ${this.drawEmptySlots()}
                         </div>
-                        ${this.drawDelete()}
+                        <div class="d-flex">
+                            ${this.drawAdd()}
+                            ${this.drawDelete()}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -33,12 +35,12 @@ class Container extends Component {
 
         if(this.state.container.size == 1) 
             return String.raw`
-                <span id="${this.id}_add" class="${this.smallButton()}">more space</span>
+                <span id="${this.id}_add" class="btn btn-light border">&darr;</span>
             `;
 
         return String.raw`
-            <span id="${this.id}_add" class="${this.smallButton()}">more space</span>
-            <span id="${this.id}_del" class="${this.smallButton()}">less space</span>
+            <span id="${this.id}_add" class="btn btn-light border">&darr;</span>
+            <span id="${this.id}_del" class="btn btn-light border">&uarr;</span>
         `;
     }
 
@@ -46,7 +48,7 @@ class Container extends Component {
         if(this.state.container.format != 'custom') return'';
 
         return String.raw`
-            <button id="${this.id}_delete" class="btn btn-light border border-dark">Delete</button>
+            <button id="${this.id}_delete" class="btn btn-light border ml-auto">Delete</button>
         `;
     }
 
@@ -165,11 +167,11 @@ class Container extends Component {
             this.update();
         });
 
-        $(`#${this.id}_itemname`).change(e => {
+        $(`#${this.id}_itemname`).blur(e => {
             this.state.container.items[this.state.edit].text = $(e.target).val();
         });
 
-        $(`#${this.id}_name`).change(e => {
+        $(`#${this.id}_name`).blur(e => {
             this.state.container.name = $(e.target).val();
             this.state.editName = undefined;
             this.update();
