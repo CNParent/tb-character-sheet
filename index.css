@@ -10,3 +10,7 @@
     padding: 0px;
     border-radius: 1.5em;
 }
+
+#app .wrap {
+    white-space: pre-line;
+}
