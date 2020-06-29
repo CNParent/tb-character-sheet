@@ -16,10 +16,10 @@ class Container extends Component {
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="d-flex flex-row-reverse btn-group">
+                        <div class="d-flex">
                             <div class="btn-group">
-                                ${this.drawAdd()}
                                 ${this.drawSize()}
+                                ${this.drawAdd()}
                             </div>
                         </div>
                         <div class="d-flex flex-column">
