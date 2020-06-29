@@ -15,9 +15,7 @@ class TagList extends Component {
         if(this.state.edit != undefined) return '';
 
         return String.raw`
-            <div class="btn-group m-1">
-                <span class="btn badge badge-light border border-dark" data-add="">add</span>
-            </div>
+            <button class="btn badge badge-light border border-dark p-2 m-1" data-add="">add</button>
         `;
     }
 
@@ -29,50 +27,29 @@ class TagList extends Component {
             text = this.state.items[this.state.edit];
 
         return String.raw`
-            <div class="form-row form-group input-group">
-                <input id="${this.id}_input" class="form-control" value="${text}" />
-                <div class="input-group-append">
-                    <button class="btn btn-light border border-dark" data-done="">&check;</button>
-                    <button class="btn btn-light border border-dark" data-cancel="">&cross;</button>
-                </div>
-            </div>
+            <input id="${this.id}_input" class="form-control" value="${text}" />
         `;
     }
 
     drawItem(item, index){
         if(this.state.edit == index) return String.raw`
-            <div class="btn-group my-1 mr-1">
-                <span class="btn badge badge-light border border-dark">${item}</span>
-                <span class="btn badge badge-dark" data-cancel="">&cross;</span>
-            </div>
+            <span class="btn badge badge-light border border-dark p-2 my-1 mr-1">${item}</span>
         `;;
 
         return String.raw`
-            <div class="btn-group my-1 mr-1">
-                <span class="btn badge badge-dark" data-item="${index}">${item}</span>
-                <span class="btn badge badge-light border border-dark" data-index="${index}">&cross;</span>
-            </div>
+            <button class="btn badge badge-dark p-2 my-1 mr-1" data-item="${index}">${item}</button>
         `;
     }
 
     initialize() {
-        this.find('[data-cancel]').click((e) => {
-            this.state.edit = undefined;
-            this.update();
-        });
+        super.initialize();
 
-        this.find('[data-done]').click((e) => {
-            let value = $(`#${this.id}_input`).val();
-            if(this.state.edit < this.state.items.length) this.state.items[this.state.edit] = value;
-            else this.state.items.push(value);
+        this.find('input').blur(e => {
+            this.state.items[this.state.edit] = $(e.target).val();
+            if(!this.state.items[this.state.edit])
+                this.state.items.splice(this.state.edit, 1);
 
             this.state.edit = undefined;
-            this.update();
-        });
-
-        this.find('[data-index]').click((e) => {
-            let i = $(e.target).attr('data-index');
-            this.state.items.splice(i, 1);
             this.update();
         });
 
@@ -86,5 +63,7 @@ class TagList extends Component {
             this.state.edit = this.state.items.length;
             this.update();
         });
+
+        if(this.state.edit != undefined) this.find('input').focus();
     }
 }
