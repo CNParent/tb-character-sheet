@@ -78,7 +78,7 @@ class Bio extends Component {
             this.update();
         });
 
-        this.find('textarea').keyup(e => {
+        this.find('textarea').on('keyup focus', e => {
             e.target.style.height = `${e.target.scrollHeight + 2}px`;
         });
 
