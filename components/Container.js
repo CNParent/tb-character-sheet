@@ -87,7 +87,7 @@ class Container extends Component {
         if(this.state.edit == index) return this.drawEdit();
 
         return String.raw`
-            <span data-edit="${index}" class="btn btn-light text-left border mb-1" style="height: ${item.size * 2.5}em;">${item.text}</span>
+            <span data-edit="${index}" class="btn btn-light text-left border border-dark mb-1" style="height: ${item.size * 2.5}em;">${item.text}</span>
         `;
     }
 
