@@ -14,7 +14,6 @@ class Wise extends Component {
                                 ${this.drawTest('Fate', 'fate')}
                                 ${this.drawTest('Persona', 'persona')}
                             </div>
-                            <button id="${this.id}_delete" class="btn btn-light border border-dark ml-auto">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -35,32 +34,27 @@ class Wise extends Component {
         `;
 
         return String.raw`
-            <div class="input-group align-self-center mb-1">
-                <input class="form-control" value="${this.state.wise.name}">
-                <div class="input-group-append">
-                    <button data-confirm="" class="btn btn-light border border-dark">&check;</button>
-                    <button data-cancel="" class="btn btn-light border border-dark">&cross;</button>
-                </div>
-            </div>
+            <input class="form-control mb-1" value="${this.state.wise.name}">
         `;
     }
 
     initialize() {
         super.initialize();
 
+        this.find('input').blur(e => {
+            this.state.wise.name = this.find('input').val();
+            if(!this.state.wise.name) {
+                this.state.delete();
+                this.parent.update();
+                return;
+            }
+
+            this.state.edit = false;
+            this.update();
+        });
+
         this.find('[data-rename]').click(e => {
             this.state.edit = true;
-            this.update();
-        });
-
-        this.find('[data-cancel]').click(e => {
-            this.state.edit = false;
-            this.update();
-        });
-
-        this.find('[data-confirm]').click(e => {
-            this.state.wise.name = this.find('input').val();
-            this.state.edit = false;
             this.update();
         });
 
@@ -70,12 +64,6 @@ class Wise extends Component {
             this.update();
         });
 
-        $(`#${this.id}_delete`).click(e => {
-            let i = this.id.split('_')[1];
-            if(!confirm(`Remove ${this.parent.state.wises[i].name}?`)) return;
-
-            this.parent.state.wises.splice(i, 1);
-            this.parent.update();
-        });
+        if(this.state.edit) this.find('input').focus();
     }
 }

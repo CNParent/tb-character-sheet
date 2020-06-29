@@ -3,7 +3,11 @@ class Wises extends Component {
         return String.raw`
             <div id="${this.id}" class="container-fluid">
                 <div class="row">
-                    ${this.state.wises.map((x,i) => this.add(new Wise(`wises_${i}`, { wise: x, edit: false }))).reduce((a,b) => `${a}${b}`, '')}
+                    ${this.state.map((x,i) => this.add(new Wise(`wises_${i}`, { 
+                        wise: x, 
+                        edit: false,
+                        delete: () => this.state.splice(i, 1)
+                    }))).reduce((a,b) => `${a}${b}`, '')}
                     ${this.drawEditor()}
                 </div>
             </div>
@@ -11,23 +15,7 @@ class Wises extends Component {
     }
 
     drawEditor() {
-        if(this.state.wises.length == 4) return '';
-
-        if(this.state.edit) return String.raw`
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="input-group align-self-center mr-1">
-                            <input id="${this.id}_newWiseName" class="form-control">
-                            <div class="input-group-append">
-                                <button id="${this.id}_confirm" class="btn btn-light border border-dark">&check;</button>
-                                <button id="${this.id}_cancel" class="btn btn-light border border-dark">&cross;</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
+        if(this.state.length == 4) return '';
 
         return String.raw`
             <div class="col-md-6">
@@ -44,26 +32,16 @@ class Wises extends Component {
         super.initialize();
 
         $(`#${this.id}_add`).click(e => {
-            this.state.edit = true;
-            this.update();
-        });
-
-        $(`#${this.id}_confirm`).click(e => {
-            this.state.wises.push({ 
-                name: $(`#${this.id}_newWiseName`).val(), 
+            this.state.push({ 
+                name: 'New wise', 
                 pass: false,
                 fail: false,
                 fate: false,
                 persona: false
             });
 
-            this.state.edit = false;
+            this.state.edit = true;
             this.update();
-        })
-
-        $(`#${this.id}_cancel`).click(e => {
-            this.state.edit = false;
-            this.update();
-        })
+        });
     }
 }
