@@ -26,7 +26,7 @@ class Navbar extends Component{
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle ${this.characters.length == 0 ? 'disabled' : ''}" id="${this.id}_characters" data-toggle="dropdown" >Characters</a>
                                 <div class="dropdown-menu">
-                                    ${this.characters.map(x => String.raw`<a href="#" data-character="${x}" class="dropdown-item">${x}</a>`).reduce((a,b) => `${a}${b}`, '')}
+                                    ${this.characters.map(x => this.drawCharacter(x)).reduce((a,b) => `${a}${b}`, '')}
                                 </div>
                             </li>
                         </ul>
@@ -59,6 +59,11 @@ class Navbar extends Component{
                 ${text}
             </div>
         `;
+    }
+
+    drawCharacter(name) {
+        let classes = name == this.parent.state.bio.name ? 'bg-dark text-light' : '';
+        return String.raw`<a href="#" data-character="${name}" class="dropdown-item ${classes}">${name}</a>`
     }
 
     drawTab = (t) => String.raw`
@@ -113,8 +118,17 @@ class Navbar extends Component{
         });
 
         this.find('[data-character]').click(e => {
-            this.parent.state = JSON.parse(localStorage.getItem($(e.target).attr('data-character')));
-            this.parent.state.navbar.alert = `${this.parent.state.bio.name} opened`;
+            let character = $(e.target).attr('data-character');
+            if(character == this.parent.state.bio.name) return '';
+
+            let alert = '';
+            if(this.parent.state.bio.name && confirm(`Save ${this.parent.state.bio.name} before changing characters?`)) {
+                localStorage.setItem(this.parent.state.bio.name, JSON.stringify(this.parent.state));
+                alert += `${this.parent.state.bio.name} saved, `;
+            }
+
+            this.parent.state = JSON.parse(localStorage.getItem(character));
+            this.parent.state.navbar.alert = `${alert}${this.parent.state.bio.name} opened`;
             this.parent.update();
         });
 
@@ -128,7 +142,7 @@ class Navbar extends Component{
         e.target.files[0].text().then((t) => {
             let key = JSON.parse(t).bio.name;
             localStorage.setItem(key, t);
-            this.state.alert = `${this.parent.state.bio.name} added to character storage`;
+            this.state.alert = `${key} added to character storage`;
             this.parent.update();
         });
     }
