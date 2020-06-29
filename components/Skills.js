@@ -9,7 +9,7 @@ class Skills extends Component {
                             edit: false,
                             hide: this.state.skills.compact && x.rating == 0 && x.readonly,
                             lockspecial: this.state.skills.lockspecial,
-                            remove: () => this.state.skills.skills.splice(i, 1),
+                            delete: () => this.state.skills.skills.splice(i, 1),
                             setSpecial: () => {
                                 this.state.skills.skills.forEach(y => y.specialty = x == y);
                                 this.update();
@@ -19,6 +19,7 @@ class Skills extends Component {
                     <div class="col-lg-4 col-md-6">
                         <div class="card">
                             <div class="card-body">
+                                ${this.drawAdd()}
                                 ${this.drawControls()}
                             </div>
                         </div>
@@ -28,38 +29,29 @@ class Skills extends Component {
         `;
     }
 
-    drawControls() {
+    drawAdd() {
         if(this.state.skills.skills.filter(x => x.rating > 0).length >= 24) return '';
-        if(this.state.edit) return String.raw`
-            <div class="input-group align-self-center mr-1">
-                <input id="${this.id}_newSkillName" class="form-control">
-                <div class="input-group-append">
-                    <button id="${this.id}_confirm" class="btn btn-light border border-dark">&check;</button>
-                    <button id="${this.id}_cancel" class="btn btn-light border border-dark">&cross;</button>
-                </div>
-            </div>
+        
+        return String.raw`
+            <button id="${this.id}_add" class="btn btn-light border mb-1">Add skill</button>
         `;
+    }
 
+    drawControls() {
         let compactbg = this.state.skills.compact ? 'btn-dark' : 'btn-light';
         let specialbg = this.state.skills.lockspecial ? 'btn-dark' : 'btn-light';
-        let style = 'btn border border-dark mb-1'
         return String.raw`
-            <button id="${this.id}_add" class="${style} btn-light">Add skill</button>
-            <button id="${this.id}_hide" class="${style} ${compactbg}">
-                ${this.state.skills.compact ? 'Show all' : 'Hide unknown'}            
-            </button>
-            <button id="${this.id}_special" class="${style} ${specialbg}">
-                ${this.state.skills.lockspecial ? 'Unlock specialty' : 'Lock specialty'}
-            </button>
+            <button id="${this.id}_hide" class="btn border mb-1 ${compactbg}">Hide unknown</button>
+            <button id="${this.id}_special" class="btn border mb-1 ${specialbg}">Lock specialty</button>
         `;
     }
 
     initialize() {
         super.initialize();
 
-        $(`#${this.id}_confirm`).click(e => {
+        $(`#${this.id}_add`).click(e => {
             this.state.skills.skills.push({
-                name: $(`#${this.id}_newSkillName`).val(),
+                name: 'New skill',
                 pass: 0,
                 fail: 0,
                 bluck: "Health",
@@ -68,17 +60,6 @@ class Skills extends Component {
                 rating: 0
             });
 
-            this.state.edit = false;
-            this.update();
-        });
-
-        $(`#${this.id}_cancel`).click(e => {
-            this.state.edit = false;
-            this.update();
-        });
-
-        $(`#${this.id}_add`).click(e => {
-            this.state.edit = true;
             this.update();
         });
 

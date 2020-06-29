@@ -14,7 +14,6 @@ class Skill extends Component {
                         ${this.drawPass()}
                         ${this.drawFail()}
                         ${this.drawLuck()}
-                        ${this.drawRemove()}
                     </div>
                 </div>
             </div>
@@ -32,13 +31,7 @@ class Skill extends Component {
 
     drawName() {
         if(this.state.edit) return String.raw`
-            <div class="input-group align-self-center mb-1 mr-1">
-                <input id="${this.id}_name" class="form-control" value="${this.state.skill.name}">
-                <div class="input-group-append">
-                    <button data-confirm="" class="btn btn-light border border-dark">&check;</button>
-                    <button data-cancel="" class="btn btn-light border border-dark">&cross;</button>
-                </div>
-            </div>
+            <input id="${this.id}_name" class="form-control mb-1 mr-1" value="${this.state.skill.name}">
         `;
 
         return String.raw`
@@ -94,32 +87,11 @@ class Skill extends Component {
         `;
     }
 
-    drawRemove() {
-        if(this.state.skill.readonly) return '';
-
-        return String.raw`
-            <div class="d-flex">
-                <button id="${this.id}_remove" class="btn btn-light border border-dark ml-auto">Delete</button>
-            </div>
-        `;
-    }
-
     maxPass = () => this.state.skill.rating < 1 ? 1 : this.state.skill.rating;
     maxFail = () => this.state.skill.rating < 2 ? 0 : this.state.skill.rating - 1;
 
     initialize() {
         super.initialize();
-
-        this.find('[data-confirm]').click(e => {
-            this.state.skill.name = $(`#${this.id}_name`).val();
-            this.state.edit = false;
-            this.update();
-        });
-
-        this.find('[data-cancel]').click(e => {
-            this.state.edit = false;
-            this.update();
-        });
 
         this.find('[data-name]').click(e => {
             if(this.state.skill.special && !this.state.lockspecial) {
@@ -138,13 +110,6 @@ class Skill extends Component {
             this.update();
         });
 
-        $(`#${this.id}_remove`).click(e => {
-            if(!confirm(`Delete ${this.state.skill.name}?`)) return;
-
-            this.state.remove();
-            this.parent.update();
-        })
-
         $(`#${this.id}_rating`).click(e => {
             this.state.skill.rating += e.originalEvent.shiftKey ? -1 : 1;
             if (this.state.skill.rating < 0) this.state.skill.rating = this.state.skill.cap;
@@ -152,5 +117,19 @@ class Skill extends Component {
 
             this.update();
         });
+
+        this.find('input').blur(e => {
+            this.state.skill.name = this.find('input').val();
+            if(!this.state.skill.name) {
+                this.state.delete();
+                this.parent.update();
+                return;
+            }
+
+            this.state.edit = false;
+            this.update();
+        });
+
+        if(this.state.edit) this.find('input').focus();
     }
 }
