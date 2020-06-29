@@ -16,12 +16,17 @@ class Container extends Component {
                         </div>
                     </div>
                     <div class="card-body">
+                        <div class="d-flex flex-row-reverse btn-group">
+                            <div class="btn-group">
+                                ${this.drawAdd()}
+                                ${this.drawSize()}
+                            </div>
+                        </div>
                         <div class="d-flex flex-column">
                             ${this.state.container.items.map((x,i) => this.drawItem(x,i)).reduce((a,b) => `${a}${b}`, '')}
                             ${this.drawEmptySlots()}
                         </div>
                         <div class="d-flex">
-                            ${this.drawAdd()}
                             ${this.drawDelete()}
                         </div>
                     </div>
@@ -33,14 +38,13 @@ class Container extends Component {
     drawAdd() {
         if(!this.canAdd()) return '';
 
-        if(this.state.container.size == 1) 
-            return String.raw`
-                <span id="${this.id}_add" class="btn btn-light border">&darr;</span>
-            `;
+        if(this.state.container.size == 1) return String.raw`
+            <span id="${this.id}_add" class="${this.smallButton()}">&darr;</span>
+        `;
 
         return String.raw`
-            <span id="${this.id}_add" class="btn btn-light border">&darr;</span>
-            <span id="${this.id}_del" class="btn btn-light border">&uarr;</span>
+            <span id="${this.id}_add" class="${this.smallButton()}">&darr;</span>
+            <span id="${this.id}_del" class="${this.smallButton()}">&uarr;</span>
         `;
     }
 
@@ -111,13 +115,22 @@ class Container extends Component {
         `;
     }
 
-    space = () => {
-        let current = this.state.container.items.reduce((a,b) => a + b.size, 0);
-        let max = this.state.container.size;
-        return max - current;
+    drawSize() {
+        if(!this.canAdd()) return '';
+
+        return String.raw`
+            <span class="btn badge badge-dark align-self-center p-2">${this.current()} / ${this.state.container.size}</span>
+        `;
     }
 
-    smallButton = () => 'badge btn btn-light border border-dark align-self-center';
+    current = () => this.state.container.items.reduce((a,b) => a + b.size, 0);
+
+    space = () => {
+        let max = this.state.container.size;
+        return max - this.current();
+    }
+
+    smallButton = () => 'badge btn btn-light border border-dark align-self-center p-2';
 
     initialize() {
         super.initialize();
@@ -178,7 +191,7 @@ class Container extends Component {
         });
 
         this.find('[data-edit]').click(e => {
-            if(this.state.edit) {
+            if(this.state.edit != undefined) {
                 if(!this.state.container.items[this.state.edit].text)
                     this.state.container.items.splice(this.state.edit, 1);
 
@@ -205,6 +218,6 @@ class Container extends Component {
             this.update();
         });
 
-        if(this.state.edit) this.find('input').focus();
+        if(this.state.edit != undefined || this.state.editName) this.find('input').focus();
     }
 }

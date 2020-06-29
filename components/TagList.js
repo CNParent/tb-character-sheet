@@ -12,7 +12,7 @@ class TagList extends Component {
     }
 
     drawAdd() {
-        if(this.state.edit) return '';
+        if(this.state.edit != undefined) return '';
 
         return String.raw`
             <div class="btn-group m-1">

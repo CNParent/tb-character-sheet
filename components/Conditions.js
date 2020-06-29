@@ -14,7 +14,7 @@ class Conditions extends Component{
     draw() {
         if(!this.state.shown) return String.raw`
             <div id="${this.id}" class="container-fluid">
-                <div data-open="" class="btn btn-light border border-dark col">
+                <div data-open="" class="btn btn-light border col">
                     Conditions
                 </div>
             </div>
