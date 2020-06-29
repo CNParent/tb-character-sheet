@@ -7,7 +7,7 @@ class Skills extends Component {
                         .map((x,i) => this.add(new Skill(`${this.id}_${i}`, { 
                             skill: x, 
                             edit: false,
-                            hide: this.state.skills.compact && x.rating == 0 && x.readonly,
+                            hide: this.isSkillHidden(x),
                             lockspecial: this.state.skills.lockspecial,
                             delete: () => this.state.skills.skills.splice(i, 1),
                             setSpecial: () => {
@@ -18,7 +18,7 @@ class Skills extends Component {
                         .reduce((a,b) => `${a}${b}`, '')}
                     <div class="col-lg-4 col-md-6">
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-body d-flex">
                                 ${this.drawAdd()}
                                 ${this.drawControls()}
                             </div>
@@ -33,17 +33,35 @@ class Skills extends Component {
         if(this.state.skills.skills.filter(x => x.rating > 0).length >= 24) return '';
         
         return String.raw`
-            <button id="${this.id}_add" class="btn btn-light border mb-1">Add skill</button>
+            <button id="${this.id}_add" class="btn btn-light border mb-1 mr-1">Add skill</button>
         `;
     }
 
     drawControls() {
-        let compactbg = this.state.skills.compact ? 'btn-dark' : 'btn-light';
         let specialbg = this.state.skills.lockspecial ? 'btn-dark' : 'btn-light';
         return String.raw`
-            <button id="${this.id}_hide" class="btn border mb-1 ${compactbg}">Hide unknown</button>
+            <div class="dropdown">
+                <button class="dropdown-toggle btn btn-light border mb-1 mr-1" data-toggle="dropdown" >Show skills</button>
+                <div class="dropdown-menu">
+                    <button data-show-skills="all" class="dropdown-item ${this.styleForShow('all')}">All</button>
+                    <button data-show-skills="bluck" class="dropdown-item ${this.styleForShow('bluck')}">Known and learning</button>
+                    <button data-show-skills="zero" class="dropdown-item ${this.styleForShow('zero')}">Known</button>
+                </div>
+            </div>
             <button id="${this.id}_special" class="btn border mb-1 ${specialbg}">Lock specialty</button>
         `;
+    }
+
+    styleForShow(value) {
+        return this.state.skills.show == value ? 'bg-dark text-light' : '';
+    }
+
+    isSkillHidden(skill) {
+        if(this.state.skills.show == 'all') return false;
+        else if(this.state.skills.show == 'bluck') return skill.rating < 1 && skill.pass < 1;
+        else if(this.state.skills.show == 'zero') return skill.rating < 1;
+
+        return false;
     }
 
     initialize() {
@@ -63,8 +81,8 @@ class Skills extends Component {
             this.update();
         });
 
-        $(`#${this.id}_hide`).click(e => {
-            this.state.skills.compact = !this.state.skills.compact;
+        this.find('[data-show-skills]').click(e => {
+            this.state.skills.show = $(e.target).attr('data-show-skills');
             this.update();
         });
 
