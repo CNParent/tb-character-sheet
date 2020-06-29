@@ -49,11 +49,13 @@ class Navbar extends Component{
     }
 
     drawAlert() {
-        if(!this.state.alert) return'';
+        if(!this.state.alert) return '';
 
+        let text = this.state.alert;
+        this.state.alert = undefined;
         return String.raw`
             <div id="${this.id}_msg" class="alert alert-success btn w-100 text-left">
-                ${this.state.alert}
+                ${text}
             </div>
         `;
     }
@@ -109,7 +111,6 @@ class Navbar extends Component{
 
         this.find('[data-tab]').click(e => {
             this.state.tab = $(e.target).attr('data-tab');
-            this.state.alert = `${this.parent.state.bio.name} loaded`;
             this.parent.update();
         });
     }
