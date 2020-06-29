@@ -10,15 +10,14 @@ class Trait extends Component {
                         </div>
                         <div class="d-flex">
                             <div class="btn-group">
-                                ${this.drawCheck(1)}
-                                ${this.drawCheck(2)}
-                                <button data-used="" class="btn ${this.state.usedAgainst ? 'btn-dark' : 'btn-light'} border border-dark">Used</button>
-                            </div>
-                            <div class="btn-group ml-1">
                                 ${this.drawLevelBenefit(1)}
                                 ${this.drawLevelBenefit(2)}
                             </div>
-                            <button id="${this.id}_delete" class="btn btn-light border border-dark ml-auto">Delete</button>
+                            <div class="btn-group ml-1">
+                                ${this.drawCheck(1)}
+                                ${this.drawCheck(2)}
+                                <button data-used-against="" class="btn ${this.state.usedAgainst ? 'btn-dark' : 'btn-light'} border border-dark">Used</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -32,13 +31,7 @@ class Trait extends Component {
         `;
 
         return String.raw`
-            <div class="input-group align-self-center mb-1 mr-1">
-                <input class="form-control" value="${this.state.trait.name}">
-                <div class="input-group-append">
-                    <button data-confirm="" class="btn btn-light border border-dark">&check;</button>
-                    <button data-cancel="" class="btn btn-light border border-dark">&cross;</button>
-                </div>
-            </div>
+            <input class="form-control mb-1 mr-1" value="${this.state.trait.name}">
         `;
     }
 
@@ -66,15 +59,16 @@ class Trait extends Component {
             this.update();
         });
 
-        this.find('[data-cancel]').click(e => {
-            this.state.edit = false;
-            this.update();
-        });
-
-        this.find('[data-confirm]').click(e => {
+        this.find('input').blur(e => {
             this.state.trait.name = this.find('input').val();
-            this.state.edit = false;
-            this.update();
+            if(!this.state.trait.name) {
+                this.state.delete();
+                this.parent.update();
+                return;
+            } else {
+                this.state.edit = false;
+                this.update();
+            }
         });
 
         this.find('[data-level]').click(e => {
@@ -99,17 +93,11 @@ class Trait extends Component {
             this.update();
         });
 
-        $(`#${this.id}_delete`).click(e => {
-            let i = this.id.split('_')[1];
-            if(!confirm(`Delete ${this.parent.state.traits[i].name}?`)) return;
-
-            this.parent.state.traits.splice(i, 1);
-            this.parent.update();
-        });
-
-        this.find('[data-used]').click(e => {
+        this.find('[data-used-against]').click(e => {
             this.state.usedAgainst = !this.state.usedAgainst;
             this.update();
         });
+
+        if(this.state.edit) this.find('input').focus();
     }
 }
