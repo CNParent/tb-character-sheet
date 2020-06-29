@@ -38,6 +38,7 @@ class Navbar extends Component{
                                     <a id="${this.id}_export" href="#" class="dropdown-item">Export</a>
                                     <a id="${this.id}_import" href="#" class="dropdown-item">Import</a>
                                     <a id="${this.id}_delete" href="#" class="dropdown-item">Delete</a>
+                                    <a id="${this.id}_delete_all" href="#" class="dropdown-item">Delete all</a>
                                 </div>
                             </div>
                         </div>
@@ -95,6 +96,14 @@ class Navbar extends Component{
 
             localStorage.removeItem(this.parent.state.bio.name);
             this.state.alert = `${this.parent.state.bio.name} deleted from character storage`;
+            this.parent.update();
+        });
+
+        $(`#${this.id}_delete_all`).click(e => {
+            if(!confirm('Delete all saved characters?')) return;
+
+            localStorage.clear();
+            this.state.alert = 'All characters deleted from character storage';
             this.parent.update();
         });
 
