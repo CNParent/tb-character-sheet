@@ -1,5 +1,7 @@
 class Spells extends Component {
     draw() {
+        if(!this.state) this.state = spells();
+
         return String.raw`
             <div id="${this.id}" class="container-fluid">
                 <div class="row">
