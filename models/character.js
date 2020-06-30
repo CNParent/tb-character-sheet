@@ -8,6 +8,7 @@ let character = () => {
         conditions: conditions(),
         inventory: inventory(),
         skills: skills(),
+        spells: spells(),
         traits: [],
         wises: []
     };

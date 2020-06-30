@@ -14,6 +14,7 @@ class App extends Component {
         if (this.state.navbar.tab == 'circles') return this.add(new Circles('circles'));
         if (this.state.navbar.tab == 'inventory') return this.add(new Inventory('inventory'));
         if (this.state.navbar.tab == 'skills') return this.add(new Skills('skills', { skills: this.state.skills, edit: false }));
+        if (this.state.navbar.tab == 'spells') return this.add(new Spells('spells'));
         if (this.state.navbar.tab == 'traits') return this.add(new Traits('traits'));
         if (this.state.navbar.tab == 'wises') return this.add(new Wises('wises'))
     }

@@ -7,6 +7,7 @@ class Navbar extends Component{
         { id: 'circles', label: 'Circles' },
         { id: 'inventory', label: 'Inventory' },
         { id: 'skills', label: 'Skills' },
+        { id: 'spells', label: 'Spells' },
         { id: 'traits', label: 'Traits' },
         { id: 'wises', label: 'Wises' }
     ]
