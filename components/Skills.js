@@ -3,24 +3,28 @@ class Skills extends Component {
         return String.raw`
             <div id="${this.id}" class="container-fluid">
                 <div class="row">
-                    ${this.state.skills.skills
-                        .map((x,i) => this.add(new Skill(`${this.id}_${i}`, { 
-                            skill: x, 
-                            edit: false,
-                            hide: this.isSkillHidden(x),
-                            lockspecial: this.state.skills.lockspecial,
-                            delete: () => this.state.skills.skills.splice(i, 1),
-                            setSpecial: () => {
-                                this.state.skills.skills.forEach(y => y.specialty = x == y);
-                                this.update();
-                            }
-                        })))
-                        .reduce((a,b) => `${a}${b}`, '')}
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col">
                         <div class="card">
-                            <div class="card-body d-flex">
-                                ${this.drawAdd()}
-                                ${this.drawControls()}
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    ${this.drawAdd()}
+                                    ${this.drawControls()}
+                                </div>
+                                <div class="row mt-2">
+                                    ${this.state.skills.skills
+                                        .map((x,i) => this.add(new Skill(`${this.id}_${i}`, { 
+                                            skill: x, 
+                                            edit: false,
+                                            hide: this.isSkillHidden(x),
+                                            lockspecial: this.state.skills.lockspecial,
+                                            delete: () => this.state.skills.skills.splice(i, 1),
+                                            setSpecial: () => {
+                                                this.state.skills.skills.forEach(y => y.specialty = x == y);
+                                                this.update();
+                                            }
+                                        })))
+                                        .reduce((a,b) => `${a}${b}`, '')}
+                                </div>
                             </div>
                         </div>
                     </div>
