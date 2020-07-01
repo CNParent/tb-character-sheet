@@ -7,6 +7,7 @@ let character = () => {
         circles: circles(),
         conditions: conditions(),
         inventory: inventory(),
+        notes: [],
         skills: skills(),
         spells: spells(),
         traits: [],
