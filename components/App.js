@@ -18,4 +18,15 @@ class App extends Component {
         if (this.state.navbar.tab == 'traits') return this.add(new Traits('traits'));
         if (this.state.navbar.tab == 'wises') return this.add(new Wises('wises'))
     }
+
+    initialize() {
+        super.initialize();
+        
+        this.find('textarea').on('keyup focus', e => {
+            if(Number(e.target.style.height.replace('px', '')) > e.target.scrollHeight)
+                return;
+
+            e.target.style.height = `${e.target.scrollHeight + 5}px`;
+        });
+    }
 }
