@@ -119,8 +119,8 @@ class Navbar extends Component{
         });
 
         this.find('[data-character]').click(e => {
-            let character = $(e.target).attr('data-character');
-            if(character == this.parent.state.bio.name) return '';
+            let name = $(e.target).attr('data-character');
+            if(name == this.parent.state.bio.name) return '';
 
             let alert = '';
             if(this.parent.state.bio.name && confirm(`Save ${this.parent.state.bio.name} before changing characters?`)) {
@@ -128,7 +128,8 @@ class Navbar extends Component{
                 alert += `${this.parent.state.bio.name} saved, `;
             }
 
-            this.parent.state = JSON.parse(localStorage.getItem(character));
+            this.parent.state = JSON.parse(localStorage.getItem(name));
+            this.patch(this.parent.state, character());
             this.parent.state.navbar.alert = `${alert}${this.parent.state.bio.name} opened`;
             this.parent.update();
         });
@@ -146,5 +147,13 @@ class Navbar extends Component{
             this.state.alert = `${key} added to character storage`;
             this.parent.update();
         });
+    }
+
+    patch(a, b) {
+        for(let key in b) {
+            if(!a[key]) a[key] = b[key];
+            if(typeof(a[key]) == 'object')
+                this.patch(a[key], b[key]);
+        }
     }
 }

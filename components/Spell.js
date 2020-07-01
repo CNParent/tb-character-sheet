@@ -38,7 +38,7 @@ class Spell extends Component{
 
         return String.raw`
             <div class="d-flex">
-                <button data-edit="description" class="btn btn-light text-left align-top wrap w-100" style="min-height: 2.5em;">${this.state.spell.description}</button>
+                <button data-edit="description" class="btn btn-light text-left align-top wrap w-100 border" style="min-height: 2.5em;">${this.state.spell.description}</button>
             </div>
         `;
     }
