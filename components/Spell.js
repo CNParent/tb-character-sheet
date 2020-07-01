@@ -32,7 +32,7 @@ class Spell extends Component{
     drawDescription() {
         if(this.state.edit == 'description') return String.raw`
             <div class="d-flex">
-                <textarea data-description="" class="flex-grow-1 form-control">${this.state.spell.description}</textarea>
+                <textarea class="flex-grow-1 form-control">${this.state.spell.description}</textarea>
             </div>
         `;
 

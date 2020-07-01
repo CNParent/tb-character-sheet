@@ -7,12 +7,13 @@ class Notes extends Component{
                         <div class="card">
                             <div class="card-body">
                                 ${this.drawControls()}
-                                <div class="row">
+                                <div class="row mt-2">
                                     ${this.state.notes
                                         .map((x,i) => this.add(new Note(`${this.id}_notes_${i}`, {
-                                            show: true,
+                                            show: this.showNote(x),
                                             collapse: true,
-                                            note: x
+                                            note: x,
+                                            remove: () => this.state.notes.splice(i, 1)
                                         }))).reduce((a,b) => `${a}${b}`, '')}
                                 </div>
                             </div>
@@ -25,10 +26,18 @@ class Notes extends Component{
 
     drawControls() {
         return String.raw`
+            <button id="${this.id}_add" class="btn btn-light border">Add note</button>
             <div class="d-flex">
-                <button id="${this.id}_add" class="btn btn-light border">Add note</button>
+                <input id="${this.id}_filter" class="form-control" placeholder="filter" value="${this.state.filter}">
             </div>
         `;
+    }
+
+    showNote(note) {
+        if(!this.state.filter) return true;
+
+        return note.title.toLowerCase().indexOf(this.state.filter) != -1
+            || note.content.toLowerCase().indexOf(this.state.filter) != -1;
     }
 
     initialize() {
@@ -41,6 +50,11 @@ class Notes extends Component{
                 content: ''
             });
 
+            this.update();
+        });
+
+        $(`#${this.id}_filter`).change(e => {
+            this.state.filter = $(e.target).val().toLowerCase();
             this.update();
         });
     }
