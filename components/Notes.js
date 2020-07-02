@@ -47,7 +47,7 @@ class Notes extends Component{
             this.state.notes.splice(0, 0, {
                 title: 'New note',
                 date: (new Date()).toISOString(),
-                content: ''
+                content: 'Enter your notes here'
             });
 
             this.update();
