@@ -20,8 +20,7 @@ class Spell extends Component{
                         </div>
                         <div class="d-flex mt-1">
                             <h5><button data-circle="" class="badge btn btn-dark w-100 text-left">${this.circles[this.state.spell.circle - 1]}</button></h5>
-                            <button data-inventory="" class="btn ${this.state.spell.inventory ? 'btn-dark' : 'btn-light border'} ml-auto mr-1">Inventory</button>
-                            ${this.drawMemorized()}
+                            ${this.drawToggles()}
                         </div>
                         <div class="d-flex mt-1">
                         </div>
@@ -62,6 +61,20 @@ class Spell extends Component{
         `;
     }
 
+    drawToggles() {
+        if(this.state.caster == 'magician') return String.raw`
+            <button data-inventory="" class="btn ${this.state.spell.inventory ? 'btn-dark' : 'btn-light border'} ml-auto mr-1">Spellbook</button>
+            <button data-scroll="" class="btn ${this.state.spell.scroll ? 'btn-dark' : 'btn-light border'} mr-1">Scroll</button>
+            ${this.drawMemorized()}
+        `;
+
+        if(this.state.caster == 'theurge') return String.raw`
+            <button data-inventory="" class="btn ${this.state.spell.inventory ? 'btn-dark' : 'btn-light border'} ml-auto mr-1">Relic</button>
+        `;
+
+        return '';
+    }
+
     initialize() {
         super.initialize();
 
@@ -81,6 +94,11 @@ class Spell extends Component{
         this.find('[data-inventory]').click(e => {
             this.state.spell.inventory = !this.state.spell.inventory;
             this.parent.update();
+        });
+
+        this.find('[data-scroll]').click(e => {
+            this.state.spell.scroll = !this.state.spell.scroll;
+            this.update();
         });
 
         this.find('[data-memorized]').click(e => {

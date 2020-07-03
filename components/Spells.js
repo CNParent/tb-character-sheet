@@ -34,6 +34,7 @@ class Spells extends Component {
                                             hide: this.isHidden(x),
                                             canMemorize: this.space() >= x.circle,
                                             edit: false,
+                                            caster: this.caster(),
                                             remove: () => this.state.spells.splice(i, 1)
                                         })))
                                         .reduce((a,b) => `${a}${b}`, '')}
@@ -61,11 +62,20 @@ class Spells extends Component {
     drawFilters() {
         let filters = String.raw`
             <button data-show-spells="all" class="dropdown-item ${this.styleForShow('all')}">All</button>
-            <button data-show-spells="inventory" class="dropdown-item ${this.styleForShow('inventory')}">Inventory</button>
         `;
 
-        if(this.state.memory > 0) filters += String.raw`<button data-show-spells="memory" class="dropdown-item ${this.styleForShow('memory')}">Memorized</button>`;
-        if(this.state.urdr > 0) filters += String.raw`<button data-show-spells="burden" class="dropdown-item ${this.styleForShow('burden')}">Within burden</button>`;
+        if(this.state.memory > 0) filters += String.raw`
+            <button data-show-spells="capacity" class="dropdown-item ${this.styleForShow("capacity")}">Can memorize</button>
+            <button data-show-spells="inventory&scroll" class="dropdown-item ${this.styleForShow('inventory&scroll')}">Inventory</button>
+            <button data-show-spells="memory" class="dropdown-item ${this.styleForShow('memory')}">Memorized</button>
+            <button data-show-spells="scroll" class="dropdown-item ${this.styleForShow('scroll')}">Scrolls</button>
+            <button data-show-spells="inventory" class="dropdown-item ${this.styleForShow('inventory')}">Spellbook</button>
+        `;
+
+        if(this.state.urdr > 0) filters += String.raw`
+            <button data-show-spells="inventory" class="dropdown-item ${this.styleForShow('inventory')}">Relic</button>
+            <button data-show-spells="burden" class="dropdown-item ${this.styleForShow('burden')}">Within burden</button>
+        `;
 
         return filters;
     }
@@ -88,7 +98,7 @@ class Spells extends Component {
 
         return String.raw`
             <div class="d-flex col-md-6">
-                <h3><span class="align-self-center font-weight-bold">Inventory</span></h3>
+                <h3><span class="align-self-center font-weight-bold">In Spellbook</span></h3>
                 <span class="align-self-center btn badge-light border ml-auto">${this.inventory()}</span>
             </div>
         `;
@@ -108,10 +118,20 @@ class Spells extends Component {
     isHidden(spell) {
         if(this.state.show == 'all') return false;
         if(this.state.show == 'burden') return spell.circle > this.state.urdr - this.state.burden;
+        if(this.state.show == 'capacity') return this.space() < spell.circle && !spell.memorized;
         if(this.state.show == 'inventory') return !spell.inventory;
+        if(this.state.show == 'inventory&scroll') return !spell.inventory && !spell.scroll;
         if(this.state.show == 'memory') return spell.circle > this.space();
+        if(this.state.show == 'scroll') return !spell.scroll;
 
         return false;
+    }
+
+    caster = () => {
+        if(this.state.urdr > 0) return 'theurge';
+        if(this.state.memory > 0) return 'magician';
+
+        return '';
     }
 
     inventory = () => this.state.spells.reduce((a,b) => a + (b.inventory ? b.circle : 0), 0);
@@ -134,6 +154,7 @@ class Spells extends Component {
                 circle: 1,
                 memorized: false,
                 inventory: false,
+                scroll: false,
                 description: 'Enter a description'
             });
 
