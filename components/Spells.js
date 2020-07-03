@@ -121,7 +121,7 @@ class Spells extends Component {
         if(this.state.show == 'capacity') return this.space() < spell.circle && !spell.memorized;
         if(this.state.show == 'inventory') return !spell.inventory;
         if(this.state.show == 'inventory&scroll') return !spell.inventory && !spell.scroll;
-        if(this.state.show == 'memory') return spell.circle > this.space();
+        if(this.state.show == 'memory') return !spell.memorized;
         if(this.state.show == 'scroll') return !spell.scroll;
 
         return false;
