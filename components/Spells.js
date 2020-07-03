@@ -16,6 +16,7 @@ class Spells extends Component {
                                     ${this.drawMemory()}
                                     ${this.drawBurden()}
                                     ${this.drawUrdr()}
+                                    ${this.drawInventory()}
                                 </div>
                                 <div class="d-flex mt-2">
                                     <div class="dropdown">
@@ -58,9 +59,13 @@ class Spells extends Component {
     }
 
     drawFilters() {
-        let filters = String.raw`<button data-show-skills="all" class="dropdown-item ${this.styleForShow('all')}">All</button>`;
-        if(this.state.memory > 0) filters += String.raw`<button data-show-skills="memory" class="dropdown-item ${this.styleForShow('memory')}">Memorized</button>`;
-        if(this.state.urdr > 0) filters += String.raw`<button data-show-skills="burden" class="dropdown-item ${this.styleForShow('burden')}">Within burden</button>`;
+        let filters = String.raw`
+            <button data-show-spells="all" class="dropdown-item ${this.styleForShow('all')}">All</button>
+            <button data-show-spells="inventory" class="dropdown-item ${this.styleForShow('inventory')}">Inventory</button>
+        `;
+
+        if(this.state.memory > 0) filters += String.raw`<button data-show-spells="memory" class="dropdown-item ${this.styleForShow('memory')}">Memorized</button>`;
+        if(this.state.urdr > 0) filters += String.raw`<button data-show-spells="burden" class="dropdown-item ${this.styleForShow('burden')}">Within burden</button>`;
 
         return filters;
     }
@@ -74,6 +79,17 @@ class Spells extends Component {
                 <span class="align-self-center btn badge-light border ml-auto">${this.space()}</span>
                 <span class="align-self-center mx-1">/</span>
                 <button id="${this.id}_memory" class="align-self-center btn btn-dark">${this.state.memory}</button>
+            </div>
+        `;
+    }
+
+    drawInventory() {
+        if(this.state.memory == 0) return '';
+
+        return String.raw`
+            <div class="d-flex col-md-6">
+                <h3><span class="align-self-center font-weight-bold">Inventory</span></h3>
+                <span class="align-self-center btn badge-light border ml-auto">${this.inventory()}</span>
             </div>
         `;
     }
@@ -92,22 +108,23 @@ class Spells extends Component {
     isHidden(spell) {
         if(this.state.show == 'all') return false;
         if(this.state.show == 'burden') return spell.circle > this.state.urdr - this.state.burden;
+        if(this.state.show == 'inventory') return !spell.inventory;
         if(this.state.show == 'memory') return spell.circle > this.space();
 
         return false;
     }
 
-    space = () => {
-        return this.state.memory - this.state.spells.reduce((a,b) => a + (b.memorized ? b.circle : 0), 0)
-    }
+    inventory = () => this.state.spells.reduce((a,b) => a + (b.inventory ? 1 : 0), 0);
+
+    space = () => this.state.memory - this.state.spells.reduce((a,b) => a + (b.memorized ? b.circle : 0), 0)
 
     styleForShow = (value) => this.state.show == value ? 'bg-dark text-light' : '';
 
     initialize() {
         super.initialize();
 
-        this.find('[data-show-skills]').click(e => {
-            this.state.show = $(e.target).data('show-skills');
+        this.find('[data-show-spells]').click(e => {
+            this.state.show = $(e.target).data('show-spells');
             this.update();
         });
 
@@ -116,7 +133,8 @@ class Spells extends Component {
                 name: '~new spell',
                 circle: 1,
                 memorized: false,
-                description: ''
+                inventory: false,
+                description: 'Enter a description'
             });
 
             this.update();

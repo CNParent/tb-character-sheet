@@ -17,12 +17,17 @@ class Spell extends Component{
                     <div class="card-body">
                         <div class="d-flex">
                             ${this.drawName()}
+                        </div>
+                        <div class="d-flex mt-1">
+                            <h5><button data-circle="" class="badge btn btn-dark w-100 text-left">${this.circles[this.state.spell.circle - 1]}</button></h5>
+                            <button data-inventory="" class="btn ${this.state.spell.inventory ? 'btn-dark' : 'btn-light border'} ml-auto mr-1">Inventory</button>
                             ${this.drawMemorized()}
                         </div>
-                        <div class="d-flex">
-                            <h5><button data-circle="" class="badge btn btn-dark w-100 text-left">${this.circles[this.state.spell.circle - 1]}</button></h5>
+                        <div class="d-flex mt-1">
                         </div>
-                        ${this.drawDescription()}
+                        <div class="d-flex mt-1">
+                            ${this.drawDescription()}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -31,15 +36,11 @@ class Spell extends Component{
 
     drawDescription() {
         if(this.state.edit == 'description') return String.raw`
-            <div class="d-flex">
-                <textarea class="flex-grow-1 form-control">${this.state.spell.description}</textarea>
-            </div>
+            <textarea class="flex-grow-1 form-control">${this.state.spell.description}</textarea>
         `;
 
         return String.raw`
-            <div class="d-flex">
-                <button data-edit="description" class="btn btn-light text-left align-top wrap w-100 border" style="min-height: 2.5em;">${this.state.spell.description}</button>
-            </div>
+            <button data-edit="description" class="btn btn-light text-left align-top wrap w-100 border" style="min-height: 2.5em;">${this.state.spell.description}</button>
         `;
     }
 
@@ -47,7 +48,7 @@ class Spell extends Component{
         if(!this.state.canMemorize && !this.state.spell.memorized) return '';
 
         return String.raw`
-            <button data-memorized="" class="align-self-center badge btn ${this.state.spell.memorized ? 'btn-dark' : 'btn-light border'} ml-1 p-2">&check;</button>
+            <button data-memorized="" class="btn ${this.state.spell.memorized ? 'btn-dark' : 'btn-light border'} mr-1">Memorized</button>
         `;
     }
 
@@ -75,7 +76,12 @@ class Spell extends Component{
         this.find('[data-edit]').click(e => {
             this.state.edit = $(e.target).data('edit');
             this.update();
-        })
+        });
+
+        this.find('[data-inventory]').click(e => {
+            this.state.spell.inventory = !this.state.spell.inventory;
+            this.parent.update();
+        });
 
         this.find('[data-memorized]').click(e => {
             this.state.spell.memorized = !this.state.spell.memorized;
