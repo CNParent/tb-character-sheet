@@ -114,7 +114,7 @@ class Spells extends Component {
         return false;
     }
 
-    inventory = () => this.state.spells.reduce((a,b) => a + (b.inventory ? 1 : 0), 0);
+    inventory = () => this.state.spells.reduce((a,b) => a + (b.inventory ? b.circle : 0), 0);
 
     space = () => this.state.memory - this.state.spells.reduce((a,b) => a + (b.memorized ? b.circle : 0), 0)
 
