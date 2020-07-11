@@ -10,6 +10,7 @@ class Bio extends Component {
                             ${this.input('Class', 'classValue')}
                             ${this.input('Home', 'home')}
                             ${this.input('Raiment', 'raiment')}
+                            ${this.input('Epithet', 'epithet')}
                             ${this.input('Parents', 'parents')}
                             ${this.input('Mentor', 'mentor')}
                             ${this.input("Age", 'age')}

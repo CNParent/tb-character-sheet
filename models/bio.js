@@ -12,6 +12,7 @@ let bio = () => {
         belief: '',
         creed: '',
         goal: '',
-        instinct: ''
+        instinct: '',
+        epithet: ''
     }
 }
