@@ -16,6 +16,8 @@ class Navbar extends Component{
     characters = [...new Array(window.localStorage.length)].map((x,i) => window.localStorage.key(i))
 
     draw() {
+        this.characters.sort((a,b) => a.localeCompare(b));
+
         return String.raw`
             <div id="${this.id}">
                 <nav class="navbar navbar-expand-md navbar-light bg-light">
