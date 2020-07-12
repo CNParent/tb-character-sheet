@@ -67,7 +67,7 @@ class Navbar extends Component{
 
     drawCharacter(name) {
         let classes = name == this.parent.state.bio.name ? 'bg-dark text-light' : '';
-        return String.raw`<a href="#" data-character="${name}" class="dropdown-item ${classes}">${name}</a>`
+        return String.raw`<a href="#" data-character="${encodeURIComponent(name)}" class="dropdown-item ${classes}">${name}</a>`
     }
 
     drawTab = (t) => String.raw`
@@ -122,7 +122,7 @@ class Navbar extends Component{
         });
 
         this.find('[data-character]').click(e => {
-            let name = $(e.target).attr('data-character');
+            let name = decodeURIComponent($(e.target).attr('data-character'));
             if(name == this.parent.state.bio.name) return '';
 
             let alert = '';
