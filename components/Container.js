@@ -75,8 +75,14 @@ class Container extends Component {
     drawEmptySlots() {
         if(this.space() < 1) return '';
 
+        let attr = 'data-new';
+        let style = 'btn-light';
+        if(this.state.edit && !this.canTransfer()) {
+            style = 'btn-secondary';
+        }
+
         return String.raw`
-            <span data-new class="btn btn-light border mb-1" style="height: ${2.5 * this.space()}em;"></span>
+            <span ${attr} class="btn ${style} border mb-1" style="height: ${2.5 * this.space()}em;"></span>
         `;
     }
 
@@ -179,7 +185,7 @@ class Container extends Component {
             if(item.size < 1) item.size = 1;
             if(this.space() < 0) item.size = 1;
 
-            this.update();
+            this.parent.update();
         });
 
         $(`#${this.id}_itemname`).blur(e => {
