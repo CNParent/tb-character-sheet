@@ -3,6 +3,7 @@ class Inventory extends Component {
         return String.raw`
             <div id="${this.id}" class="container-fluid">
                 <div class="row">
+                    ${this.drawList()}
                     ${this.state.inventory.map((x, i) => 
                         this.add(new Container(`${this.id}_container_${i}`, { 
                             container: x,
@@ -12,7 +13,6 @@ class Inventory extends Component {
                                 this.update();
                             }
                         }))).reduce((a,b) => `${a}${b}`, '')}
-                    ${this.drawList()}
                 </div> 
             <div>
         `;
