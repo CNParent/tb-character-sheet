@@ -170,7 +170,7 @@ class Container extends Component {
         });
 
         $(`#${this.id}_size`).click(e => {
-            let item = this.state.container.items[this.state.edit];
+            let item = this.state.edit.item;
             item.size += e.originalEvent.shiftKey ? -1 : 1;
             if(item.size < 1) item.size = 1;
             if(this.space() < 0) item.size = 1;
