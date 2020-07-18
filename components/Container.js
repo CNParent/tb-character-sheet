@@ -121,6 +121,10 @@ class Container extends Component {
         `;
     }
 
+    canTransfer = () => this.state.edit
+        && this.state.edit.container != this.state.container
+        && this.space() >= this.state.edit.item.size;
+
     current = () => this.state.container.items.reduce((a,b) => a + b.size, 0);
 
     space = () => {
@@ -207,7 +211,7 @@ class Container extends Component {
                 this.state.edit = undefined;
             }
 
-            if(this.state.edit && this.state.edit.container != this.state.container) {
+            if(this.canTransfer()) {
                 this.state.container.items.push(this.state.edit.item);
                 this.state.edit.container.items.splice(this.state.edit.index, 1);
                 this.parent.state.edit = undefined;
