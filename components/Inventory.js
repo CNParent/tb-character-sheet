@@ -3,11 +3,12 @@ class Inventory extends Component {
         return String.raw`
             <div id="${this.id}" class="container-fluid">
                 <div class="row">
-                    ${this.state.map((x, i) => 
+                    ${this.state.inventory.map((x, i) => 
                         this.add(new Container(`${this.id}_container_${i}`, { 
                             container: x,
+                            edit: this.state.edit,
                             delete: () => {
-                                this.state.splice(i, 1);
+                                this.state.inventory.splice(i, 1);
                                 this.update();
                             }
                         }))).reduce((a,b) => `${a}${b}`, '')}
@@ -26,7 +27,7 @@ class Inventory extends Component {
                     </div>
                     <div class="card-body d-flex flex-column">
                         <span id="${this.id}_add" class="btn btn-light border">Add container</span>
-                        ${this.state.map((x,i) => this.drawHiddenButton(x, i)).reduce((a,b) => `${a}${b}`, '')}
+                        ${this.state.inventory.map((x,i) => this.drawHiddenButton(x, i)).reduce((a,b) => `${a}${b}`, '')}
                     </div>
                 </div>
             </div>
@@ -45,7 +46,7 @@ class Inventory extends Component {
         super.initialize();
 
         $(`#${this.id}_add`).click(e => {
-            this.state.push({
+            this.state.inventory.push({
                 name: 'Container',
                 size: 1,
                 format: 'custom',
@@ -57,7 +58,7 @@ class Inventory extends Component {
 
         this.find('[data-show]').click(e => {
             let index = $(e.target).attr('data-show');
-            this.state[index].hide = false;
+            this.state.inventory[index].hide = false;
             this.update();
         });
     }

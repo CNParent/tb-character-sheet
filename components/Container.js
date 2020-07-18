@@ -57,7 +57,7 @@ class Container extends Component {
     }
 
     drawEdit() {
-        let item = this.state.container.items[this.state.edit];
+        let item = this.state.edit.item;
         let btnStyle = 'btn border border-dark align-self-start';
         return String.raw`
             <div class="btn bg-light d-flex mb-1 p-0 border" style="height: ${item.size * 2.5}em;">
@@ -75,16 +75,14 @@ class Container extends Component {
     drawEmptySlots() {
         if(this.space() < 1) return '';
 
-        let index = this.state.container.items.length;
-        if(this.state.edit == index) return this.drawEdit();
-
         return String.raw`
-            <span data-edit="${index}" class="btn btn-light border mb-1" style="height: ${2.5 * this.space()}em;"></span>
+            <span data-new class="btn btn-light border mb-1" style="height: ${2.5 * this.space()}em;"></span>
         `;
     }
 
     drawItem(item, index) {
-        if(this.state.edit == index) return this.drawEdit();
+        if(this.state.edit && this.state.edit.item == item) 
+            return this.drawEdit();
 
         return String.raw`
             <span data-edit="${index}" class="btn btn-light text-left border border-dark mb-1" style="height: ${item.size * 2.5}em;">${item.text}</span>
@@ -164,11 +162,11 @@ class Container extends Component {
         });
 
         $(`#${this.id}_exit`).click(e => {
-            if(!$(`#${this.id}_itemname`).val() || !this.state.container.items[this.state.edit].text) 
-                this.state.container.items.splice(this.state.edit, 1);
+            if(!this.state.edit.item.text) 
+                this.state.container.items.splice(this.state.edit.index, 1);
 
-            this.state.edit = undefined;
-            this.update();
+            this.parent.state.edit = undefined;
+            this.parent.update();
         });
 
         $(`#${this.id}_size`).click(e => {
@@ -181,7 +179,7 @@ class Container extends Component {
         });
 
         $(`#${this.id}_itemname`).blur(e => {
-            this.state.container.items[this.state.edit].text = $(e.target).val();
+            this.state.edit.item.text = $(e.target).val();
         });
 
         $(`#${this.id}_name`).blur(e => {
@@ -191,18 +189,37 @@ class Container extends Component {
         });
 
         this.find('[data-edit]').click(e => {
-            if(this.state.edit != undefined) {
-                if(!this.state.container.items[this.state.edit].text)
-                    this.state.container.items.splice(this.state.edit, 1);
+            if(this.state.edit && !this.state.edit.item.text)
+                this.state.edit.container.items.splice(this.state.edit.index, 1);
 
+            let index = $(e.target).data('edit');
+            this.parent.state.edit = {
+                index: index,
+                item: this.state.container.items[index],
+                container: this.state.container
+            };
+            this.parent.update();
+        });
+
+        this.find('[data-new]').click(e => {
+            if(this.state.edit && !this.state.edit.item.text) {
+                this.state.edit.container.items.splice(this.state.edit.index, 1);
                 this.state.edit = undefined;
-                this.update();
-            } else {
-                this.state.edit = $(e.target).attr('data-edit');
-                if(!this.state.container.items[this.state.edit])
-                    this.state.container.items.push({ text: '', size: 1 });
+            }
 
-                this.update();
+            if(this.state.edit && this.state.edit.container != this.state.container) {
+                this.state.container.items.push(this.state.edit.item);
+                this.state.edit.container.items.splice(this.state.edit.index, 1);
+                this.parent.state.edit = undefined;
+                this.parent.update();
+            } else if(this.space() > 0) {
+                this.parent.state.edit = {
+                    item: { text: '', size: 1 },
+                    index: this.state.container.items.length,
+                    container: this.state.container
+                };
+                this.state.container.items.push(this.parent.state.edit.item);
+                this.parent.update();
             }
         });
 
