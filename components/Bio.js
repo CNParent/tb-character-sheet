@@ -74,7 +74,7 @@ class Bio extends Component {
 
         this.find('[data-input]').blur(e => {
             let prop = $(e.target).attr('data-input');
-            this.state[prop] = $(e.target).val();
+            this.state[prop] = this.textValue($(e.target).val());
             this.state.edit = false;
             this.update();
         });

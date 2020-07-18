@@ -189,11 +189,11 @@ class Container extends Component {
         });
 
         $(`#${this.id}_itemname`).blur(e => {
-            this.state.edit.item.text = $(e.target).val();
+            this.state.edit.item.text = this.textValue($(e.target).val());
         });
 
         $(`#${this.id}_name`).blur(e => {
-            this.state.container.name = $(e.target).val();
+            this.state.container.name = this.textValue($(e.target).val());
             this.state.editName = undefined;
             this.update();
         });

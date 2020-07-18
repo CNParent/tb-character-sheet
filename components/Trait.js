@@ -60,7 +60,7 @@ class Trait extends Component {
         });
 
         this.find('input').blur(e => {
-            this.state.trait.name = this.find('input').val();
+            this.state.trait.name = this.textValue($(e.target).val());
             if(!this.state.trait.name) {
                 this.state.delete();
                 this.parent.update();

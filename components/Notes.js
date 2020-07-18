@@ -54,7 +54,7 @@ class Notes extends Component{
         });
 
         $(`#${this.id}_filter`).change(e => {
-            this.state.filter = $(e.target).val().toLowerCase();
+            this.state.filter = this.textValue($(e.target).val().toLowerCase());
             this.update();
         });
     }

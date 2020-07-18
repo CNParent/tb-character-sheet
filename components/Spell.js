@@ -114,7 +114,7 @@ class Spell extends Component{
     }
 
     completeEdit = e => {
-        this.state.spell[this.state.edit] = $(e.target).val();
+        this.state.spell[this.state.edit] = this.textValue($(e.target).val());
         if(!this.state.spell.name) {
             this.state.remove();
             this.parent.update();

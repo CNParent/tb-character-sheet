@@ -119,7 +119,7 @@ class Skill extends Component {
         });
 
         this.find('input').blur(e => {
-            this.state.skill.name = this.find('input').val();
+            this.state.skill.name = this.textValue($(e.target).val());
             if(!this.state.skill.name) {
                 this.state.delete();
                 this.parent.update();

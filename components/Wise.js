@@ -42,7 +42,7 @@ class Wise extends Component {
         super.initialize();
 
         this.find('input').blur(e => {
-            this.state.wise.name = this.find('input').val();
+            this.state.wise.name = this.textValue($(e.target).val());
             if(!this.state.wise.name) {
                 this.state.delete();
                 this.parent.update();

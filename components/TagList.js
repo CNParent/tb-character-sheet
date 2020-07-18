@@ -45,7 +45,7 @@ class TagList extends Component {
         super.initialize();
 
         this.find('input').blur(e => {
-            this.state.items[this.state.edit] = $(e.target).val();
+            this.state.items[this.state.edit] = this.textValue($(e.target).val());
             if(!this.state.items[this.state.edit])
                 this.state.items.splice(this.state.edit, 1);
 

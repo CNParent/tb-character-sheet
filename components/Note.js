@@ -75,7 +75,7 @@ class Note extends Component {
     }
 
     completeEdit = e => {
-        this.state.note[this.state.edit] = $(e.target).val();
+        this.state.note[this.state.edit] = this.textValue($(e.target).val());
         if(!this.state.note.title) {
             this.state.remove();
             this.parent.update();
