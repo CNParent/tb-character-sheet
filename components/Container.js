@@ -78,7 +78,8 @@ class Container extends Component {
         let attr = 'data-new';
         let style = 'btn-light';
         if(this.state.edit && !this.canTransfer()) {
-            style = 'btn-secondary';
+            style = 'disabled btn-secondary';
+            attr = "disabled";
         }
 
         return String.raw`
