@@ -5,6 +5,7 @@ let abilities = () => {
         nature: nature(),
         resources: ability({ name: 'Resources', cap: 10 }),
         circles: ability({ name: 'Circles', cap: 10 }),
+        lifestyle: 0,
         might: 3,
         precedence: 0
     }

@@ -14,14 +14,21 @@ class Abilities extends Component {
                         ${this.add(new Ability('circles'))}
                         <div class="card">
                             <div class="card-body d-flex">
+                                <h2>Lifestyle</h2>
+                                <h5 class="ml-2"><button data-reset="lifestyle" class="btn badge btn-light border align-self-center">reset</button></h5>
+                                <h2 class="ml-auto"><button data-increment="lifestyle" data-max="99" class="btn badge btn-dark">${this.state.lifestyle}</button></h2>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body d-flex">
                                 <h2 class="mr-auto">Might</h2>
-                                <h2><span data-increment="might" class="btn badge badge-dark">${this.state.might}</span></h2>
+                                <h2><button data-increment="might" data-max="8" class="btn badge btn-dark">${this.state.might}</button></h2>
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body d-flex">
                                 <h2 class="mr-auto">Precedence</h2>
-                                <h2><span data-increment="precedence" class="btn badge badge-dark">${this.state.precedence}</span></h2>
+                                <h2><button data-increment="precedence" data-max="7" class="btn badge btn-dark">${this.state.precedence}</button></h2>
                             </div>
                         </div>
                     </div>
@@ -33,11 +40,18 @@ class Abilities extends Component {
     initialize() {
         super.initialize();
 
+        this.find('[data-reset]').click(e => {
+            let prop = $(e.target).data('reset');
+            this.state[prop] = 0;
+            this.update();
+        });
+
         this.find('[data-increment]').click(e => {
             let prop = $(e.target).attr('data-increment');
             this.state[prop] += e.originalEvent.shiftKey ? -1 : 1;
-            if(this.state[prop] == 9) this.state[prop] = 0;
-            if(this.state[prop] == -1) this.state[prop] = 8;
+            let max = Number($(e.target).data('max'));
+            if(this.state[prop] > max) this.state[prop] = 0;
+            if(this.state[prop] == -1) this.state[prop] = max;
 
             this.update();
         });
