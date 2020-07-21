@@ -81,14 +81,14 @@ class Trait extends Component {
 
         this.find('[data-check]').click(e => {
             let checks = Number($(e.target).attr('data-check'));
-            if(this.state.trait.checks == checks) checks--;
+            if(this.state.trait.checks >= checks) checks--;
             this.state.trait.checks = checks;
             this.update();
         });
 
         this.find('[data-used]').click(e => {
             let used = Number($(e.target).attr('data-used'));
-            if(this.state.trait.used == used) used--;
+            if(this.state.trait.used >= used) used--;
             this.state.trait.used = used;
             this.update();
         });
