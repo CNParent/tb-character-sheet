@@ -5,7 +5,7 @@ class Conditions extends Component{
         { title: 'Hungry and Thirsty', text: '-1 disposition to any conflict.' },
         { title: 'Angry (Ob 2 Will)', text: "Can't use wises or beneficial traits." },
         { title: 'Afraid (Ob 3 Will)', text: "Can't help or use Beginner's Luck." },
-        { title: 'Exhausted (Ob 3 Health)', text: 'Factor in all tests except Resources, Circles, and recovery.' },
+        { title: 'Exhausted (Ob 3 Health)', text: '-1 disposition to any conflict. Instinct takes a turn and carries a -1s penalty.' },
         { title: 'Injured (Ob 4 Health)', text: '-1D to skills, Nature, Will, and Health (but not recovery).' },
         { title: 'Sick (Ob 3 Will)', text: "-1D to skills, Nature, Will, and Health (but not recovery). Can't practice, learn, or advance." },
         { title: 'Dead', text: "May not use wises, test, or help." }
