@@ -16,7 +16,7 @@ class Trait extends Component {
                             <div class="btn-group ml-1">
                                 ${this.drawCheck(1)}
                                 ${this.drawCheck(2)}
-                                <button data-used-against="" class="btn ${this.state.usedAgainst ? 'btn-dark' : 'btn-light'} border border-dark">Used</button>
+                                <button data-used-against="" class="btn ${this.state.trait.usedAgainst ? 'btn-dark' : 'btn-light'} border border-dark">Used</button>
                             </div>
                         </div>
                     </div>
@@ -94,7 +94,7 @@ class Trait extends Component {
         });
 
         this.find('[data-used-against]').click(e => {
-            this.state.usedAgainst = !this.state.usedAgainst;
+            this.state.trait.usedAgainst = !this.state.trait.usedAgainst;
             this.update();
         });
 
