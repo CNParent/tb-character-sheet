@@ -16,12 +16,6 @@ class Container extends Component {
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="d-flex">
-                            <div class="btn-group">
-                                ${this.drawSize()}
-                                ${this.drawAdd()}
-                            </div>
-                        </div>
                         <div class="d-flex flex-column">
                             ${this.state.container.items.map((x,i) => this.drawItem(x,i)).reduce((a,b) => `${a}${b}`, '')}
                             ${this.drawEmptySlots()}
@@ -32,19 +26,6 @@ class Container extends Component {
                     </div>
                 </div>
             </div>
-        `;
-    }
-    
-    drawAdd() {
-        if(!this.canAdd()) return '';
-
-        if(this.state.container.size == 1) return String.raw`
-            <span id="${this.id}_add" class="${this.smallButton()}">&darr;</span>
-        `;
-
-        return String.raw`
-            <span id="${this.id}_add" class="${this.smallButton()}">&darr;</span>
-            <span id="${this.id}_del" class="${this.smallButton()}">&uarr;</span>
         `;
     }
 
@@ -73,7 +54,7 @@ class Container extends Component {
     }
 
     drawEmptySlots() {
-        if(this.space() < 1) return '';
+        if(this.space() < 1 && !this.canAdd()) return '';
 
         let attr = 'data-new';
         let style = 'btn-light';
@@ -120,21 +101,15 @@ class Container extends Component {
         `;
     }
 
-    drawSize() {
-        if(!this.canAdd()) return '';
-
-        return String.raw`
-            <span class="btn badge badge-dark align-self-center p-2">${this.current()} / ${this.state.container.size}</span>
-        `;
-    }
-
     canTransfer = () => this.state.edit
         && this.state.edit.container != this.state.container
-        && this.space() >= this.state.edit.item.size;
+        && (this.space() >= this.state.edit.item.size || this.canAdd());
 
     current = () => this.state.container.items.reduce((a,b) => a + b.size, 0);
 
     space = () => {
+        if(this.canAdd()) return 1;
+
         let max = this.state.container.size;
         return max - this.current();
     }
@@ -143,18 +118,6 @@ class Container extends Component {
 
     initialize() {
         super.initialize();
-
-        $(`#${this.id}_add`).click(e => {
-            this.state.container.size++;
-            this.update();
-        });
-
-        $(`#${this.id}_del`).click(e => {
-            if(this.state.container.size == 1) return;
-
-            this.state.container.size--;
-            this.update();
-        });
 
         $(`#${this.id}_delete`).click(e => {
             if(!confirm(`Delete ${this.state.container.name}?`)) return;
