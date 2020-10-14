@@ -41,12 +41,17 @@ class Container extends Component {
         let item = this.state.edit.item;
         let btnStyle = 'btn border border-dark align-self-start';
         return String.raw`
-            <div class="btn bg-light d-flex mb-1 p-0 border" style="height: ${item.size * 2.5}em;">
+            <div class="btn bg-light mb-1 p-0 border" style="height: ${(item.size + 1) * 2.5}em;">
                 <div class="input-group">
-                    <input id="${this.id}_itemname" class="form-control" value="${item.text}">
+                    <input id="${this.id}_itemname" class="form-control full-width" value="${item.text}">
                     <div class="input-group-append">
-                        <button id="${this.id}_size" class="${btnStyle} btn-dark">${item.size}</button>
                         <button id="${this.id}_exit" class="${btnStyle} btn-light">&cross;</button>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="btn-group ml-auto">
+                        <button id="${this.id}_size" class="${btnStyle} btn-dark">${item.size}</button>
+                        <button id="${this.id}_deleteItem" class="${btnStyle} btn-light">Delete</button>
                     </div>
                 </div>
             </div>
@@ -73,7 +78,25 @@ class Container extends Component {
             return this.drawEdit();
 
         return String.raw`
-            <span data-edit="${index}" class="btn btn-light text-left border border-dark mb-1" style="height: ${item.size * 2.5}em;">${item.text}</span>
+            <span data-edit="${index}" class="btn btn-light text-left border border-dark mb-1" style="height: ${item.size * 2.5}em;">
+                <span>${item.text}</span>
+            </span>
+            ${this.drawStack(item)}
+        `;
+    }
+
+    drawStack(item) {
+        if(!item.stackSize) return '';
+
+        return String.raw`
+            <div class="d-flex">
+                ${this.add(new Bubbles(`${this.id}_stack`, {
+                    count: item.stackSize,
+                    value: item.stack,
+                    label: 'Used',
+                    set: (val) => { item.stack = val }
+                }))}
+            </div>
         `;
     }
 
@@ -133,6 +156,12 @@ class Container extends Component {
         $(`#${this.id}_sort`).click(e => {
             this.state.container.items.sort((a,b) => a.text.localeCompare(b.text));
             this.update();
+        });
+
+        $(`#${this.id}_deleteItem`).click(e => {
+            this.state.container.items.splice(this.state.edit.index, 1);
+            this.parent.state.edit = undefined;
+            this.parent.update();
         });
 
         $(`#${this.id}_exit`).click(e => {
