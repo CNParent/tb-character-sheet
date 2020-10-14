@@ -33,6 +33,13 @@ class Navbar extends Component{
                                     ${this.characters.map(x => this.drawCharacter(x)).reduce((a,b) => `${a}${b}`, '')}
                                 </div>
                             </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle ${this.characters.length == 0 ? 'disabled' : ''}" id="${this.id}_mods" data-toggle="dropdown" >Mods</a>
+                                <div class="dropdown-menu">
+                                    <a href="#" data-mod="colonialMarines" class="dropdown-item">Colonial Marines</a>
+                                    <a href="#" data-mod="torchbearer" class="dropdown-item">Torchbearer</a>
+                                </div>
+                            </li>
                         </ul>
                         <div class="navbar-nav">
                             <div class="nav-item dropdown">
@@ -139,6 +146,11 @@ class Navbar extends Component{
 
         this.find('[data-tab]').click(e => {
             this.state.tab = $(e.target).attr('data-tab');
+            this.parent.update();
+        });
+
+        this.find('[data-mod]').click(e => {
+            this.parent.state = mods[$(e.target).data('mod')]();
             this.parent.update();
         });
     }
