@@ -39,20 +39,36 @@ class Container extends Component {
 
     drawEdit() {
         let item = this.state.edit.item;
+        if(item.stackSize === undefined) {
+            item.stackSize = 0;
+            item.stack = 0;
+        }
+
         let btnStyle = 'btn border border-dark align-self-start';
         return String.raw`
-            <div class="btn bg-light mb-1 p-0 border" style="height: ${(item.size + 1) * 2.5}em;">
-                <div class="input-group">
-                    <input id="${this.id}_itemname" class="form-control full-width" value="${item.text}">
-                    <div class="input-group-append">
-                        <button id="${this.id}_exit" class="${btnStyle} btn-light">&cross;</button>
+            <div class="btn bg-light mb-1 p-0 border">
+                <div class="d-flex m-1">
+                    <input id="${this.id}_itemname" class="form-control flex-grow-1" value="${item.text}">
+                    <button id="${this.id}_exit" class="${btnStyle} btn-light ml-1">&cross;</button>
+                </div>
+                <div class="d-flex m-1">
+                    <span id="${this.id}_size" class="${btnStyle} btn-dark">${item.size}</span>
+                    <span class="ml-1">Size</span>
+                    <div class="btn-group ml-auto">
+                        <button data-size="1" class="${btnStyle}">&uarr;</button>
+                        <button data-size="-1" class="${btnStyle}">&darr;</button>
                     </div>
                 </div>
-                <div class="d-flex">
+                <div class="d-flex m-1">
+                    <span id="${this.id}_stackSize" class="${btnStyle} btn-dark">${item.stackSize}</span>
+                    <span class="ml-1">Uses</span>
                     <div class="btn-group ml-auto">
-                        <button id="${this.id}_size" class="${btnStyle} btn-dark">${item.size}</button>
-                        <button id="${this.id}_deleteItem" class="${btnStyle} btn-light">Delete</button>
+                        <button data-stack-size="1" class="${btnStyle}">&uarr;</button>
+                        <button data-stack-size="-1" class="${btnStyle}">&darr;</button>
                     </div>
+                </div>
+                <div class="d-flex m-1">
+                    <button id="${this.id}_deleteItem" class="${btnStyle} btn-light">Delete</button>
                 </div>
             </div>
         `;
@@ -77,11 +93,12 @@ class Container extends Component {
         if(this.state.edit && this.state.edit.item == item) 
             return this.drawEdit();
 
+        let size = item.stackSize ? item.size + 1 : item.size;
         return String.raw`
-            <span data-edit="${index}" class="btn btn-light text-left border border-dark mb-1" style="height: ${item.size * 2.5}em;">
+            <span data-edit="${index}" class="btn btn-light text-left border border-dark mb-1" style="height: ${size * 2.5}em;">
                 <span>${item.text}</span>
+                ${this.drawStack(item)}
             </span>
-            ${this.drawStack(item)}
         `;
     }
 
@@ -89,7 +106,7 @@ class Container extends Component {
         if(!item.stackSize) return '';
 
         return String.raw`
-            <div class="d-flex">
+            <div class="d-flex mt-2">
                 ${this.add(new Bubbles(`${this.id}_stack`, {
                     count: item.stackSize,
                     value: item.stack,
@@ -172,15 +189,6 @@ class Container extends Component {
             this.parent.update();
         });
 
-        $(`#${this.id}_size`).click(e => {
-            let item = this.state.edit.item;
-            item.size += e.originalEvent.shiftKey ? -1 : 1;
-            if(item.size < 1) item.size = 1;
-            if(this.space() < 0) item.size = 1;
-
-            this.parent.update();
-        });
-
         $(`#${this.id}_itemname`).blur(e => {
             this.state.edit.item.text = this.textValue($(e.target).val());
         });
@@ -236,6 +244,23 @@ class Container extends Component {
         this.find('[data-rename]').click(e => {
             this.state.editName = true;
             this.update();
+        });
+
+        this.find('[data-size]').click(e => {
+            let item = this.state.edit.item;
+            item.size += Number($(e.target).data('size'));
+            if(item.size < 1) item.size = 1;
+            if(this.space() < 0) item.size = 1;
+
+            this.parent.update();
+        });
+        
+        this.find('[data-stack-size]').click(e => {
+            let item = this.state.edit.item;
+            item.stackSize += Number($(e.target).data('stack-size'));
+            if(item.stackSize < 1) item.stackSize = 1;
+
+            this.parent.update();
         });
 
         if(this.state.edit != undefined || this.state.editName) this.find('input').focus();
