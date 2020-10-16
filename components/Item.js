@@ -17,9 +17,12 @@ class Item extends Component {
         let item = this.state.item;
         let size = item.stackSize ? item.size + 1 : item.size;
         return String.raw`
-            <span id="${this.id}_select" class="btn btn-light text-left border border-dark mb-1 w-100" style="min-height: ${size * 2.5}em;">
-                <span>${item.text}</span>
-                ${this.drawStack()}
+            <span class="d-flex btn-group mb-1 w-100" style="min-height: ${size * 2.5}em;">
+                <span class="btn btn-light text-left border border-dark flex-grow-1">
+                    <span>${item.text}</span>
+                    ${this.drawStack()}
+                </span>
+                <button id="${this.id}_select" class="btn btn-light border border-dark flex-grow-0"></button>
             </span>
         `;
     }
@@ -47,7 +50,7 @@ class Item extends Component {
     drawEditDetails() {
         let item = this.state.item;
         return String.raw`
-            <div class="d-flex m-1">
+            <div class="d-flex m-1 align-items-center">
                 <span id="${this.id}_size" class="${this.btnStyle} btn-dark">${item.size}</span>
                 <span class="ml-1">Size</span>
                 <div class="btn-group ml-auto">
@@ -55,7 +58,7 @@ class Item extends Component {
                     <button data-size="-1" class="${this.btnStyle}">&darr;</button>
                 </div>
             </div>
-            <div class="d-flex m-1">
+            <div class="d-flex m-1 align-items-center">
                 <span id="${this.id}_stackSize" class="${this.btnStyle} btn-dark">${item.stackSize}</span>
                 <span class="ml-1">Uses</span>
                 <div class="btn-group ml-auto">
@@ -63,7 +66,7 @@ class Item extends Component {
                     <button data-stack-size="-1" class="${this.btnStyle}">&darr;</button>
                 </div>
             </div>
-            <div class="d-flex m-1">
+            <div class="d-flex m-1 align-items-center">
                 <div class="btn-group">
                     <button data-move="-1" class="${this.btnStyle} btn-light">&uarr;</button>
                     <button data-move="1" class="${this.btnStyle} btn-light">&darr;</button>
@@ -105,6 +108,14 @@ class Item extends Component {
             item.size += Number($(e.target).data('size'));
             if(item.size < 1) item.size = this.parent.space();
             if(this.parent.space() < 0) item.size = 1;
+
+            this.parent.update();
+        });
+        
+        this.find('[data-stack-size]').click(e => {
+            let item = this.state.item;
+            item.stackSize += Number($(e.target).data('stack-size'));
+            if(item.stackSize < 0) item.stackSize = 0;
 
             this.parent.update();
         });

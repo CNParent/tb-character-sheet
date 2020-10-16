@@ -205,14 +205,6 @@ class Container extends Component {
             this.state.editName = true;
             this.update();
         });
-        
-        this.find('[data-stack-size]').click(e => {
-            let item = this.state.edit.item;
-            item.stackSize += Number($(e.target).data('stack-size'));
-            if(item.stackSize < 0) item.stackSize = 0;
-
-            this.parent.update();
-        });
 
         if(this.state.edit != undefined || this.state.editName) this.find('input').focus();
     }
