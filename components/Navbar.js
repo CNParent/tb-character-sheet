@@ -139,7 +139,7 @@ class Navbar extends Component{
             }
 
             this.parent.state = JSON.parse(localStorage.getItem(name));
-            this.patch(this.parent.state, character());
+            this.patch(this.parent.state, mods[this.parent.state.mod]);
             this.parent.state.navbar.alert = `${alert}${this.parent.state.bio.name} opened`;
             this.parent.update();
         });
@@ -150,7 +150,9 @@ class Navbar extends Component{
         });
 
         this.find('[data-mod]').click(e => {
-            this.parent.state = mods[$(e.target).data('mod')]();
+            let mod = $(e.target).data('mod');
+            this.parent.state = mods[mod]();
+            this.parent.state.mod = mod;
             this.parent.update();
         });
     }
