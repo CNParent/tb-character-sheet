@@ -162,10 +162,6 @@ class Container extends Component {
             this.update();
         });
 
-        $(`#${this.id}_itemname`).blur(e => {
-            this.state.edit.item.text = this.textValue($(e.target).val());
-        });
-
         $(`#${this.id}_name`).blur(e => {
             this.state.container.name = this.textValue($(e.target).val());
             this.state.editName = undefined;

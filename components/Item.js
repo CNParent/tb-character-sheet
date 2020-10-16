@@ -98,6 +98,10 @@ class Item extends Component {
         $(`#${this.id}_exit`).click(() => this.state.exit());
         $(`#${this.id}_select`).click(() => this.state.select());
 
+        $(`#${this.id}_itemname`).blur(e => {
+            this.state.item.text = this.textValue($(e.target).val());
+        });
+
         this.find('[data-move]').click(e => {
             let val = Number($(e.target).data('move'));
             this.state.move(val);
