@@ -139,7 +139,7 @@ class Navbar extends Component{
             }
 
             this.parent.state = JSON.parse(localStorage.getItem(name));
-            this.patch(this.parent.state, mods[this.parent.state.mod]);
+            this.patch(this.parent.state, mods[this.parent.state.mod]());
             this.parent.state.navbar.alert = `${alert}${this.parent.state.bio.name} opened`;
             this.parent.update();
         });
