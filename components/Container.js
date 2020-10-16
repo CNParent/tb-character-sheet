@@ -90,7 +90,7 @@ class Container extends Component {
     }
 
     deleteItem(index) {
-        return () => {            
+        return () => {
             this.state.container.items.splice(index, 1);
             this.parent.state.edit = undefined;
             this.parent.update();
@@ -204,15 +204,6 @@ class Container extends Component {
         this.find('[data-rename]').click(e => {
             this.state.editName = true;
             this.update();
-        });
-
-        this.find('[data-size]').click(e => {
-            let item = this.state.edit.item;
-            item.size += Number($(e.target).data('size'));
-            if(item.size < 1) item.size = 1;
-            if(this.space() < 0) item.size = 1;
-
-            this.parent.update();
         });
         
         this.find('[data-stack-size]').click(e => {

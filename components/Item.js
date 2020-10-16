@@ -95,10 +95,18 @@ class Item extends Component {
         $(`#${this.id}_exit`).click(() => this.state.exit());
         $(`#${this.id}_select`).click(() => this.state.select());
 
-
         this.find('[data-move]').click(e => {
             let val = Number($(e.target).data('move'));
             this.state.move(val);
+        });
+
+        this.find('[data-size]').click(e => {
+            let item = this.state.item;
+            item.size += Number($(e.target).data('size'));
+            if(item.size < 1) item.size = this.parent.space();
+            if(this.parent.space() < 0) item.size = 1;
+
+            this.parent.update();
         });
     }
 }
