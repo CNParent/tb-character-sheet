@@ -107,7 +107,7 @@ class Container extends Component {
 
         let size = item.stackSize ? item.size + 1 : item.size;
         return String.raw`
-            <span data-edit="${index}" class="btn btn-light text-left border border-dark mb-1" style="height: ${size * 2.5}em;">
+            <span data-edit="${index}" class="btn btn-light text-left border border-dark mb-1" style="min-height: ${size * 2.5}em;">
                 <span>${item.text}</span>
                 ${this.drawStack(item, index)}
             </span>
@@ -216,6 +216,9 @@ class Container extends Component {
                 this.state.edit.container.items.splice(this.state.edit.index, 1);
 
             let index = $(e.target).data('edit');
+            if(index === undefined) index = $(e.target).parents('[data-edit]').data('edit');
+            if(index === undefined) return;
+                
             this.parent.state.edit = {
                 index: index,
                 item: this.state.container.items[index],
