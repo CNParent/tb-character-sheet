@@ -109,17 +109,17 @@ class Container extends Component {
         return String.raw`
             <span data-edit="${index}" class="btn btn-light text-left border border-dark mb-1" style="height: ${size * 2.5}em;">
                 <span>${item.text}</span>
-                ${this.drawStack(item)}
+                ${this.drawStack(item, index)}
             </span>
         `;
     }
 
-    drawStack(item) {
+    drawStack(item, index) {
         if(!item.stackSize) return '';
 
         return String.raw`
             <div class="d-flex mt-2">
-                ${this.add(new Bubbles(`${this.id}_stack`, {
+                ${this.add(new Bubbles(`${this.id}_item_${index}_stack`, {
                     count: item.stackSize,
                     value: item.stack,
                     label: 'Used',
