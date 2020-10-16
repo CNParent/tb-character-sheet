@@ -20,14 +20,16 @@ class Inventory extends Component {
 
     drawList() {
         return String.raw`
-            <div class="col-lg-3 col-md-4 col-sm-6 my-1">
+            <div class="col-md-12 my-1">
                 <div class="card">
                     <div class="card-header p-2">
                         <h5 class="m-0">Containers</h5>
                     </div>
                     <div class="card-body d-flex flex-column">
                         <span id="${this.id}_add" class="btn btn-light border">Add container</span>
-                        ${this.state.inventory.map((x,i) => this.drawHiddenButton(x, i)).reduce((a,b) => `${a}${b}`, '')}
+                        <div>
+                            ${this.state.inventory.map((x,i) => this.drawHiddenButton(x, i)).reduce((a,b) => `${a}${b}`, '')}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -38,7 +40,7 @@ class Inventory extends Component {
         if(!container.hide) return '';
 
         return String.raw`
-            <span data-show="${index}" class="btn btn-light border mt-1">${container.name}</span>
+            <span data-show="${index}" class="btn btn-light border mt-1 mr-1">${container.name}</span>
         `;
     }
 
