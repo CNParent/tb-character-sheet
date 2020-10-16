@@ -39,53 +39,6 @@ class Container extends Component {
         `;
     }
 
-    drawEdit() {
-        let item = this.state.edit.item;
-        if(item.stackSize === undefined) {
-            item.stackSize = 0;
-            item.stack = 0;
-        }
-
-        return String.raw`
-            <div class="btn bg-light mb-1 p-0 border">
-                <div class="d-flex m-1">
-                    <input id="${this.id}_itemname" class="form-control flex-grow-1" value="${item.text}">
-                    <button id="${this.id}_exit" class="${this.btnStyle} btn-light ml-1">&cross;</button>
-                </div>
-                ${this.drawEditDetails()}
-            </div>
-        `;
-    }
-
-    drawEditDetails() {
-        let item = this.state.edit.item;
-        return String.raw`
-            <div class="d-flex m-1">
-                <span id="${this.id}_size" class="${this.btnStyle} btn-dark">${item.size}</span>
-                <span class="ml-1">Size</span>
-                <div class="btn-group ml-auto">
-                    <button data-size="1" class="${this.btnStyle}">&uarr;</button>
-                    <button data-size="-1" class="${this.btnStyle}">&darr;</button>
-                </div>
-            </div>
-            <div class="d-flex m-1">
-                <span id="${this.id}_stackSize" class="${this.btnStyle} btn-dark">${item.stackSize}</span>
-                <span class="ml-1">Uses</span>
-                <div class="btn-group ml-auto">
-                    <button data-stack-size="1" class="${this.btnStyle}">&uarr;</button>
-                    <button data-stack-size="-1" class="${this.btnStyle}">&darr;</button>
-                </div>
-            </div>
-            <div class="d-flex m-1">
-                <div class="btn-group">
-                    <button data-move="-1" class="${this.btnStyle} btn-light">&uarr;</button>
-                    <button data-move="1" class="${this.btnStyle} btn-light">&darr;</button>
-                </div>
-                <button id="${this.id}_deleteItem" class="${this.btnStyle} btn-light ml-auto">Delete</button>
-            </div>
-        `;
-    }
-
     drawEmptySlots() {
         if(this.space() < 1 && !this.canAdd()) return '';
 
@@ -102,31 +55,14 @@ class Container extends Component {
     }
 
     drawItem(item, index) {
-        if(this.state.edit && this.state.edit.item == item) 
-            return this.drawEdit();
-
-        let size = item.stackSize ? item.size + 1 : item.size;
-        return String.raw`
-            <span data-edit="${index}" class="btn btn-light text-left border border-dark mb-1" style="min-height: ${size * 2.5}em;">
-                <span>${item.text}</span>
-                ${this.drawStack(item, index)}
-            </span>
-        `;
-    }
-
-    drawStack(item, index) {
-        if(!item.stackSize) return '';
-
-        return String.raw`
-            <div class="d-flex mt-2">
-                ${this.add(new Bubbles(`${this.id}_item_${index}_stack`, {
-                    count: item.stackSize,
-                    value: item.stack,
-                    label: 'Used',
-                    set: (val) => { item.stack = val }
-                }))}
-            </div>
-        `;
+        return this.add(new Item(`${this.id}_item_${index}`, {
+            edit: this.state.edit && this.state.edit.item == item,
+            item: item,
+            delete: this.deleteItem(index),
+            exit: this.stopEdit,
+            select: this.selectItem(item, index),
+            move: (val) => this.moveItem(item, index, val)
+        }));
     }
 
     drawName() {
@@ -151,6 +87,45 @@ class Container extends Component {
                 <span class="card-title mb-0">${this.state.container.name}</span>
             </h5>
         `;
+    }
+
+    deleteItem(index) {
+        return () => {            
+            this.state.container.items.splice(index, 1);
+            this.parent.state.edit = undefined;
+            this.parent.update();
+        }
+    }
+
+    moveItem(item, index, val) {
+        this.state.container.items.splice(index, 1);
+
+        index += val;
+        if (index < 0) index = this.state.container.items.length;
+        else if (index > this.state.container.items.length) index = 0;
+
+        this.state.container.items.splice(index, 0, item);
+        this.parent.update();
+    }
+
+    selectItem(item, index) {
+        return () => {
+            if(this.state.edit && !this.state.edit.item.text)
+                this.state.edit.container.items.splice(this.state.edit.index, 1);
+                
+            this.parent.state.edit = {
+                index: index,
+                item: item,
+                container: this.state.container
+            };
+
+            this.parent.update();
+        }
+    }
+
+    stopEdit = () => {
+        this.parent.state.edit = undefined;
+        this.parent.update();
     }
 
     canTransfer = () => this.state.edit
@@ -187,20 +162,6 @@ class Container extends Component {
             this.update();
         });
 
-        $(`#${this.id}_deleteItem`).click(e => {
-            this.state.container.items.splice(this.state.edit.index, 1);
-            this.parent.state.edit = undefined;
-            this.parent.update();
-        });
-
-        $(`#${this.id}_exit`).click(e => {
-            if(!this.state.edit.item.text) 
-                this.state.container.items.splice(this.state.edit.index, 1);
-
-            this.parent.state.edit = undefined;
-            this.parent.update();
-        });
-
         $(`#${this.id}_itemname`).blur(e => {
             this.state.edit.item.text = this.textValue($(e.target).val());
         });
@@ -209,22 +170,6 @@ class Container extends Component {
             this.state.container.name = this.textValue($(e.target).val());
             this.state.editName = undefined;
             this.update();
-        });
-
-        this.find('[data-edit]').click(e => {
-            if(this.state.edit && !this.state.edit.item.text)
-                this.state.edit.container.items.splice(this.state.edit.index, 1);
-
-            let index = $(e.target).data('edit');
-            if(index === undefined) index = $(e.target).parents('[data-edit]').data('edit');
-            if(index === undefined) return;
-                
-            this.parent.state.edit = {
-                index: index,
-                item: this.state.container.items[index],
-                container: this.state.container
-            };
-            this.parent.update();
         });
 
         this.find('[data-new]').click(e => {
@@ -267,18 +212,6 @@ class Container extends Component {
             if(item.size < 1) item.size = 1;
             if(this.space() < 0) item.size = 1;
 
-            this.parent.update();
-        });
-
-        this.find('[data-move]').click(e => {
-            let edit = this.parent.state.edit;
-            this.state.container.items.splice(edit.index, 1);
-
-            edit.index += Number($(e.target).data('move'));
-            if (edit.index < 0) edit.index = this.state.container.items.length;
-            else if (edit.index > this.state.container.items.length) edit.index = 0;
-
-            this.state.container.items.splice(edit.index, 0, edit.item);
             this.parent.update();
         });
         
