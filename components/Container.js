@@ -266,7 +266,7 @@ class Container extends Component {
         this.find('[data-stack-size]').click(e => {
             let item = this.state.edit.item;
             item.stackSize += Number($(e.target).data('stack-size'));
-            if(item.stackSize < 1) item.stackSize = 1;
+            if(item.stackSize < 0) item.stackSize = 0;
 
             this.parent.update();
         });
