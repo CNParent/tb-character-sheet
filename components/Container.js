@@ -77,6 +77,10 @@ class Container extends Component {
                 </div>
             </div>
             <div class="d-flex m-1">
+                <div class="btn-group">
+                    <button data-move="-1" class="${this.btnStyle} btn-light">&uarr;</button>
+                    <button data-move="1" class="${this.btnStyle} btn-light">&darr;</button>
+                </div>
                 <button id="${this.id}_deleteItem" class="${this.btnStyle} btn-light ml-auto">Delete</button>
             </div>
         `;
@@ -260,6 +264,18 @@ class Container extends Component {
             if(item.size < 1) item.size = 1;
             if(this.space() < 0) item.size = 1;
 
+            this.parent.update();
+        });
+
+        this.find('[data-move]').click(e => {
+            let edit = this.parent.state.edit;
+            this.state.container.items.splice(edit.index, 1);
+
+            edit.index += Number($(e.target).data('move'));
+            if (edit.index < 0) edit.index = this.state.container.items.length;
+            else if (edit.index > this.state.container.items.length) edit.index = 0;
+
+            this.state.container.items.splice(edit.index, 0, edit.item);
             this.parent.update();
         });
         
