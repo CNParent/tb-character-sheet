@@ -34,7 +34,7 @@ class Navbar extends Component{
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle ${this.characters.length == 0 ? 'disabled' : ''}" id="${this.id}_mods" data-toggle="dropdown" >Mods</a>
+                                <a href="#" class="nav-link dropdown-toggle" id="${this.id}_mods" data-toggle="dropdown" >Mods</a>
                                 <div class="dropdown-menu">
                                     <a href="#" data-mod="colonialMarines" class="dropdown-item">Colonial Marines</a>
                                     <a href="#" data-mod="torchbearer" class="dropdown-item">Torchbearer</a>
