@@ -36,8 +36,8 @@ class Navbar extends Component{
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" id="${this.id}_mods" data-toggle="dropdown" >Mods</a>
                                 <div class="dropdown-menu">
-                                    <a href="#" data-mod="colonialMarines" class="dropdown-item">Colonial Marines</a>
-                                    <a href="#" data-mod="torchbearer" class="dropdown-item">Torchbearer</a>
+                                    ${this.drawMod('colonialMarines', 'Colonial Marines')}
+                                    ${this.drawMod('torchbearer', 'Torchbearer')}                                    
                                 </div>
                             </li>
                         </ul>
@@ -75,6 +75,11 @@ class Navbar extends Component{
     drawCharacter(name) {
         let classes = name == this.parent.state.bio.name ? 'bg-dark text-light' : '';
         return String.raw`<a href="#" data-character="${encodeURIComponent(name)}" class="dropdown-item ${classes}">${name}</a>`
+    }
+
+    drawMod(value, text) {
+        let classes = this.parent.state.mod == value ? 'bg-dark text-light' : '';
+        return String.raw`<a href="#" data-mod="${value}" class="dropdown-item ${classes}">${text}</a>`;
     }
 
     drawTab = (t) => String.raw`
