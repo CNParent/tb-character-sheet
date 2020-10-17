@@ -13,6 +13,7 @@ let mods = {
                 container({ name: 'Pack', size: 1, format: 'pockets' }),
                 container({ name: 'Combat Webbing', size: 1, format: 'pockets' })
             ],
+            mod: 'colonialMarines',
             notes: [],
             skills: {
                 compact: false,
