@@ -45,11 +45,11 @@ class Wise extends Component {
 
     drawOld() {
         if (this.state.edit) return String.raw`
-            <input class="form-control mt-1 mb-1 mr-1" value="${this.state.wise.name}">
+            <input class="form-control mb-1" value="${this.state.wise.name}">
         `;
 
         return String.raw`
-            <button data-rename="" class="btn btn-dark mr-1 mb-1">${this.state.wise.name}</button>
+            <button data-rename="" class="btn btn-light border mb-1 w-100 text-left">${this.state.wise.name}</button>
         `;
     }
 

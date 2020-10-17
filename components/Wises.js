@@ -58,11 +58,11 @@ class Wises extends Component {
 
         return String.raw`
             <div class="card">
-                <div class="card-header">
-                    <h4>Previous Wises</h4>
-                </div>
                 <div class="card-body">
-                    ${this.state.map((x,i) => x.old ? this.drawWise(x,i) : '').reduce((a,b) => `${a}${b}`, '')}
+                    <h4>Previous Wises</h4>
+                    <div class="d-flex flex-column">
+                        ${this.state.map((x,i) => x.old ? this.drawWise(x,i) : '').reduce((a,b) => `${a}${b}`, '')}
+                    </div>
                 </div>
             </div>
         `;
