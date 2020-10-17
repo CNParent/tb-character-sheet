@@ -9,14 +9,11 @@ class Wises extends Component {
                         </div>
                         ${this.drawAdd()}
                         <div class="row">
-                            ${this.state.map((x,i) => this.add(new Wise(`wises_${i}`, { 
-                                wise: x, 
-                                edit: false,
-                                delete: () => this.state.splice(i, 1)
-                            }))).reduce((a,b) => `${a}${b}`, '')}
+                            ${this.state.map((x,i) => !x.old ? this.drawWise(x,i) : '').reduce((a,b) => `${a}${b}`, '')}
                         </div>
                     </div>
                 </div>
+                ${this.drawOldWises()}
                 <div id="wises_help" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="levelRequirements" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -45,7 +42,7 @@ class Wises extends Component {
     }
 
     drawAdd() {
-        if(this.state.length == 4) return '';
+        if(this.state.filter(x => !x.old).length == 4) return '';
 
         return String.raw`
             <div class="row">
@@ -54,6 +51,29 @@ class Wises extends Component {
                 </div>
             </div>
         `;
+    }
+    
+    drawOldWises() {
+        if (this.state.filter(x => x.old).length == 0) return '';
+
+        return String.raw`
+            <div class="card">
+                <div class="card-header">
+                    <h4>Previous Wises</h4>
+                </div>
+                <div class="card-body">
+                    ${this.state.map((x,i) => x.old ? this.drawWise(x,i) : '').reduce((a,b) => `${a}${b}`, '')}
+                </div>
+            </div>
+        `;
+    }
+
+    drawWise(wise, index) {
+        return this.add(new Wise(`wises_${index}`, {
+            wise: wise,
+            edit: false,
+            delete: () => this.state.splice(index, 1)
+        }));
     }
 
     initialize() {

@@ -1,5 +1,9 @@
 class Wise extends Component {
     draw() {
+        if(this.state.wise.old) return String.raw`
+            <span id="${this.id}">${this.drawOld()}</span>
+        `;
+
         return String.raw`
             <div id="${this.id}" class="col-md-6">
                 <div class="card">
@@ -14,6 +18,7 @@ class Wise extends Component {
                                 ${this.drawTest('Fate', 'fate')}
                                 ${this.drawTest('Persona', 'persona')}
                             </div>
+                            <button id="${this.id}_forget" class="btn btn-light border ml-auto">Forget</button>
                         </div>
                     </div>
                 </div>
@@ -29,7 +34,7 @@ class Wise extends Component {
     }
 
     drawName() {
-        if(!this.state.edit) return String.raw`
+        if (!this.state.edit) return String.raw`
             <h2 class="flex-grow-1"><span data-rename="" class="badge btn btn-light w-100 text-left">${this.state.wise.name}<span></h2>
         `;
 
@@ -38,8 +43,23 @@ class Wise extends Component {
         `;
     }
 
+    drawOld() {
+        if (this.state.edit) return String.raw`
+            <input class="form-control mt-1 mb-1 mr-1" value="${this.state.wise.name}">
+        `;
+
+        return String.raw`
+            <button data-rename="" class="btn btn-dark mr-1 mb-1">${this.state.wise.name}</button>
+        `;
+    }
+
     initialize() {
         super.initialize();
+
+        $(`#${this.id}_forget`).click(e => {
+            this.state.wise.old = true;
+            this.parent.update();
+        });
 
         this.find('input').blur(e => {
             this.state.wise.name = this.textValue($(e.target).val());
