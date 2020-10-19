@@ -40,7 +40,7 @@ class Item extends Component {
             <div class="btn bg-light mb-1 p-0 w-100 border">
                 <div class="d-flex m-1">
                     <input id="${this.id}_itemname" class="form-control flex-grow-1" value="${item.text}">
-                    <button id="${this.id}_exit" class="${this.btnStyle} btn-light ml-1">&cross;</button>
+                    <button id="${this.id}_exit" class="${this.btnStyle} btn-light ml-1">Done</button>
                 </div>
                 ${this.drawEditDetails()}
             </div>
