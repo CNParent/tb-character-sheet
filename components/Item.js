@@ -22,7 +22,7 @@ class Item extends Component {
                     <span>${item.text}</span>
                     ${this.drawStack()}
                 </span>
-                <button id="${this.id}_select" class="btn btn-light border border-dark flex-grow-0"></button>
+                <button id="${this.id}_select" class="btn btn-light border border-dark flex-grow-0">${item.size}</button>
             </span>
         `;
     }

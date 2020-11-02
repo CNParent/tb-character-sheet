@@ -1,7 +1,7 @@
 class Conditions extends Component{
 
     help = [
-        { title: 'Fresh' , text: '+1D to all tests until other condition.' },
+        { title: 'Fresh' , text: '+1D to all tests (except circles and resources) until other condition.' },
         { title: 'Hungry and Thirsty', text: '-1 disposition to any conflict.' },
         { title: 'Angry (Ob 2 Will)', text: "Can't use wises or beneficial traits." },
         { title: 'Afraid (Ob 3 Will)', text: "Can't help or use Beginner's Luck." },
