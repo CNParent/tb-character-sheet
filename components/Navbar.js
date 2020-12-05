@@ -66,8 +66,8 @@ class Navbar extends Component{
         let text = this.state.alert;
         this.state.alert = undefined;
         return String.raw`
-            <div id="${this.id}_msg" class="alert alert-success btn w-100 text-left">
-                ${text}
+            <div id="${this.id}_msg" class="alert alert-static alert-success btn text-center w-100">
+                <strong>${text}</strong>
             </div>
         `;
     }
