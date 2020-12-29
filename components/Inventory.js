@@ -47,7 +47,7 @@ class Inventory extends Component {
     initialize() {
         super.initialize();
 
-        $(`#${this.id}_add`).click(e => {
+        _(`#${this.id}_add`).map(x => x.addEventListener('click', e => {
             this.state.inventory.push({
                 name: 'Container',
                 size: 1,
@@ -56,12 +56,12 @@ class Inventory extends Component {
             });
 
             this.update();
-        });
+        }));
 
-        this.find('[data-show]').click(e => {
-            let index = $(e.target).attr('data-show');
+        this.find('[data-show]').map(x => x.addEventListener('click', e => {
+            let index = x.dataset.show;
             this.state.inventory[index].hide = false;
             this.update();
-        });
+        }));
     }
 }

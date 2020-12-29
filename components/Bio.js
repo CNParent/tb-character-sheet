@@ -67,18 +67,18 @@ class Bio extends Component {
     initialize() {
         super.initialize();
 
-        this.find('[data-edit]').click(e => {
-            this.state.edit = $(e.target).attr('data-edit');
+        this.find('[data-edit]').map(x => x.addEventListener('click', e => {
+            this.state.edit = x.dataset.edit;
             this.update();
-        });
+        }));
 
-        this.find('[data-input]').blur(e => {
-            let prop = $(e.target).attr('data-input');
-            this.state[prop] = this.textValue($(e.target).val());
+        this.find('[data-input]').map(x => x.addEventListener('blur', e => {
+            let prop = x.dataset.input;
+            this.state[prop] = this.textValue(x.value);
             this.state.edit = false;
             this.update();
-        });
+        }));
 
-        if(this.state.edit) this.find('[data-input]').focus();
+        if(this.state.edit) this.find('[data-input]')[0]?.focus();
     }
 }

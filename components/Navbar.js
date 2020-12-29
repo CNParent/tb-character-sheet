@@ -89,7 +89,7 @@ class Navbar extends Component{
     initialize() {
         super.initialize();
 
-        $(`#${this.id}_save`).click(e => {
+        _(`#${this.id}_save`)[0].addEventListener('click', e => {
             if(!this.parent.state.bio.name) {
                 alert('Cannot save an unnamed character');
                 return;
@@ -100,19 +100,20 @@ class Navbar extends Component{
             this.parent.update();
         });
 
-        $(`#${this.id}_export`).click(e => {
+        _(`#${this.id}_export`)[0].addEventListener('click', e => {
             let href = URL.createObjectURL(new Blob([JSON.stringify(this.parent.state)]));
             e.target.href = href;
             e.target.download = `${this.parent.state.bio.name}.tb2e`;
         });
 
-        $(`#${this.id}_import`).click(e => {
-            let file = $('<input type="file" accept=".tb2e">');
-            file.change(this.load);
-            file.click();
+        _(`#${this.id}_import`)[0].addEventListener('click', e => {
+            let file = document.createElement('input');
+            file.outerHTML = '<input type="file" accept=".tb2e">';
+            file.onchange = this.load;
+            file.onclick();
         });
 
-        $(`#${this.id}_delete`).click(e => {
+        _(`#${this.id}_delete`)[0].addEventListener('click', e => {
             if(!confirm(`Delete ${this.parent.state.bio.name}?`)) return;
 
             localStorage.removeItem(this.parent.state.bio.name);
@@ -120,7 +121,7 @@ class Navbar extends Component{
             this.parent.update();
         });
 
-        $(`#${this.id}_delete_all`).click(e => {
+        _(`#${this.id}_delete_all`)[0].addEventListener('click', e => {
             if(!confirm('Delete all saved characters?')) return;
 
             localStorage.clear();
@@ -128,13 +129,13 @@ class Navbar extends Component{
             this.parent.update();
         });
 
-        $(`#${this.id}_msg`).click(e => {
+        _(`#${this.id}_msg`).map(x => x.addEventListener('click', e => {
             this.state.alert = '';
             this.update();
-        });
+        }));
 
-        this.find('[data-character]').click(e => {
-            let name = decodeURIComponent($(e.target).attr('data-character'));
+        this.find('[data-character]').map(x => x.addEventListener('click', e => {
+            let name = decodeURIComponent(x.dataset.character);
             if(name == this.parent.state.bio.name) return '';
 
             let alert = '';
@@ -149,19 +150,19 @@ class Navbar extends Component{
             this.patch(this.parent.state, mods[this.parent.state.mod]());
             this.parent.state.navbar.alert = `${alert}${this.parent.state.bio.name} opened`;
             this.parent.update();
-        });
+        }));
 
-        this.find('[data-tab]').click(e => {
-            this.state.tab = $(e.target).attr('data-tab');
+        this.find('[data-tab]').map(x => x.addEventListener('click', e => {
+            this.state.tab = x.dataset.tab;
             this.parent.update();
-        });
+        }));
 
-        this.find('[data-mod]').click(e => {
-            let mod = $(e.target).data('mod');
+        this.find('[data-mod]').map(x => x.addEventListener('click', e => {
+            let mod = x.dataset.mod;
             this.parent.state = mods[mod]();
             this.parent.state.mod = mod;
             this.parent.update();
-        });
+        }));
     }
     
     load = e => {

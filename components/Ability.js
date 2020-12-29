@@ -50,12 +50,12 @@ class Ability extends Component {
     initialize() {
         super.initialize();        
 
-        this.find('[data-increment]').click(e => {
-            this.state.rating += e.originalEvent.shiftKey ? -1 : 1;
+        this.find('[data-increment]').map(x => x.addEventListener('click', e => {
+            this.state.rating += e.shiftKey ? -1 : 1;
             if (this.state.rating < 0) this.state.rating = this.state.cap;
             if (this.state.rating > this.state.cap) this.state.rating = 0;
 
             this.update();
-        });
+        }));
     }
 }

@@ -43,7 +43,7 @@ class Notes extends Component{
     initialize() {
         super.initialize();
 
-        $(`#${this.id}_add`).click(e => {
+        _(`#${this.id}_add`)[0].onclick = e => {
             this.state.notes.splice(0, 0, {
                 title: 'New note',
                 date: (new Date()).toISOString(),
@@ -51,11 +51,11 @@ class Notes extends Component{
             });
 
             this.update();
-        });
+        };
 
-        $(`#${this.id}_filter`).change(e => {
-            this.state.filter = this.textValue($(e.target).val().toLowerCase());
+        _(`#${this.id}_filter`)[0].onchange = e => {
+            this.state.filter = this.textValue(e.target.value.toLowerCase());
             this.update();
-        });
+        };
     }
 }

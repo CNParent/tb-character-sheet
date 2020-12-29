@@ -146,29 +146,29 @@ class Container extends Component {
     initialize() {
         super.initialize();
 
-        $(`#${this.id}_delete`).click(e => {
+        _(`#${this.id}_delete`).map(x => x.addEventListener('click', e => {
             if(!confirm(`Delete ${this.state.container.name}?`)) return;
 
             this.state.delete();
-        });
+        }));
 
-        $(`#${this.id}_hide`).click(e => {
+        _(`#${this.id}_hide`).map(x => x.addEventListener('click', e => {
             this.state.container.hide = true;
             this.parent.update();
-        });
+        }));
 
-        $(`#${this.id}_sort`).click(e => {
+        _(`#${this.id}_sort`).map(x => x.addEventListener('click', e => {
             this.state.container.items.sort((a,b) => a.text.localeCompare(b.text));
             this.update();
-        });
+        }));
 
-        $(`#${this.id}_name`).blur(e => {
-            this.state.container.name = this.textValue($(e.target).val());
+        _(`#${this.id}_name`).map(x => x.addEventListener('blur', e => {
+            this.state.container.name = this.textValue(x.value);
             this.state.editName = undefined;
             this.update();
-        });
+        }));
 
-        this.find('[data-new]').click(e => {
+        this.find('[data-new]').map(x => x.addEventListener('click', e => {
             if(this.state.edit && !this.state.edit.item.text) {
                 this.state.edit.container.items.splice(this.state.edit.index, 1);
                 this.state.edit = undefined;
@@ -188,20 +188,20 @@ class Container extends Component {
                 this.state.container.items.push(this.parent.state.edit.item);
                 this.parent.update();
             }
-        });
+        }));
 
-        this.find('[data-pack]').click(e => {
+        this.find('[data-pack]').map(x => x.addEventListener('click', e => {
             let isBackpack = this.state.container.name == 'Backpack';
             this.state.container.name = isBackpack ? 'Satchel' : 'Backpack';
             this.state.container.size = isBackpack ? 3 : 6;
             this.update();
-        });
+        }));
 
-        this.find('[data-rename]').click(e => {
+        this.find('[data-rename]').map(x => x.addEventListener('click', e => {
             this.state.editName = true;
             this.update();
-        });
+        }));
 
-        if(this.state.edit != undefined || this.state.editName) this.find('input').focus();
+        if(this.state.edit != undefined || this.state.editName) this.find('input')[0]?.focus();
     }
 }

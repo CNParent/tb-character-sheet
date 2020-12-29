@@ -61,7 +61,7 @@ class Traits extends Component {
     initialize() {
         super.initialize();
 
-        $(`#${this.id}_add`).click(e => {
+        _(`#${this.id}_add`).map(x => x.onclick = e => {
             this.state.push({ 
                 name: 'New trait', 
                 level: 1, 

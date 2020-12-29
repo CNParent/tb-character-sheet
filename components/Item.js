@@ -94,31 +94,31 @@ class Item extends Component {
     initialize() {
         super.initialize();
 
-        $(`#${this.id}_delete`).click(() => this.state.delete());
-        $(`#${this.id}_exit`).click(() => this.state.exit());
-        $(`#${this.id}_select`).click(() => this.state.select());
+        _(`#${this.id}_delete`).map(x => x.onclick = () => this.state.delete());
+        _(`#${this.id}_exit`).map(x => x.onclick = () => this.state.exit());
+        _(`#${this.id}_select`).map(x => x.onclick = () => this.state.select());
 
-        $(`#${this.id}_itemname`).blur(e => {
-            this.state.item.text = this.textValue($(e.target).val());
+        _(`#${this.id}_itemname`).map(x => x.onblur = e => {
+            this.state.item.text = this.textValue(x.value);
         });
 
-        this.find('[data-move]').click(e => {
-            let val = Number($(e.target).data('move'));
+        this.find('[data-move]').map(x => x.onclick = e => {
+            let val = Number(x.dataset.move);
             this.state.move(val);
         });
 
-        this.find('[data-size]').click(e => {
+        this.find('[data-size]').map(x => x.onclick = e => {
             let item = this.state.item;
-            item.size += Number($(e.target).data('size'));
+            item.size += Number(x.dataset.size);
             if(item.size < 1) item.size = this.parent.space();
             if(this.parent.space() < 0) item.size = 1;
 
             this.parent.update();
         });
         
-        this.find('[data-stack-size]').click(e => {
+        this.find('[data-stack-size]').map(x => x.onclick = e => {
             let item = this.state.item;
-            item.stackSize += Number($(e.target).data('stack-size'));
+            item.stackSize += Number(x.dataset.stackSize);
             if(item.stackSize < 0) item.stackSize = 0;
 
             this.parent.update();

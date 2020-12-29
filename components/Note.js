@@ -57,25 +57,25 @@ class Note extends Component {
     initialize() {
         super.initialize();
 
-        this.find('[data-collapse]').click(e => {
+        this.find('[data-collapse]').map(x => x.onclick = e => {
             this.state.collapse = !this.state.collapse;
             this.update();
         });
 
-        this.find('[data-edit]').click(e => {
-            this.state.edit = $(e.target).data('edit');
+        this.find('[data-edit]').map(x => x.onclick = e => {
+            this.state.edit = e.target.dataset.edit;
             this.update();
         });
 
-        this.find('input').blur(this.completeEdit);
-        this.find('textarea').blur(this.completeEdit);
+        this.find('input').map(x => x.onblur = this.completeEdit);
+        this.find('textarea').map(x => x.onblur = this.completeEdit);
 
-        if(this.state.edit == 'title') this.find('input').focus();
-        if(this.state.edit == 'content') this.find('textarea').focus();
+        if(this.state.edit == 'title') this.find('input')[0]?.focus();
+        if(this.state.edit == 'content') this.find('textarea')[0]?.focus();
     }
 
     completeEdit = e => {
-        this.state.note[this.state.edit] = this.textValue($(e.target).val());
+        this.state.note[this.state.edit] = this.textValue(e.target.value);
         if(!this.state.note.title) {
             this.state.remove();
             this.parent.update();

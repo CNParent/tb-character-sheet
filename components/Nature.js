@@ -55,22 +55,22 @@ class Nature extends Component {
     initialize() {
         super.initialize();
         
-        this.find('[data-current]').click(e => {
-            this.state.current -= e.originalEvent.shiftKey ? -1 : 1;
+        this.find('[data-current]')[0].onclick = e => {
+            this.state.current -= e.shiftKey ? -1 : 1;
             if(this.state.current < 0) this.state.current = this.state.maximum;
             if(this.state.current > this.state.maximum) this.state.current = 0;
 
             this.update();
-        });
+        };
 
-        this.find('[data-maximum]').click(e => {
-            this.state.current += e.originalEvent.shiftKey ? -1 : 1;
-            this.state.maximum += e.originalEvent.shiftKey ? -1 : 1;
+        this.find('[data-maximum]')[0].onclick = e => {
+            this.state.current += e.shiftKey ? -1 : 1;
+            this.state.maximum += e.shiftKey ? -1 : 1;
             if (this.state.maximum < 0) this.state.maximum = this.state.current = 7;
             if (this.state.maximum > 7) this.state.maximum = this.state.current = 0;
             if (this.state.current < 0) this.state.current = 0;
 
             this.update();
-        });
+        };
     }
 }

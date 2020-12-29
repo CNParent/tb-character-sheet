@@ -75,20 +75,20 @@ class Conditions extends Component{
     initialize() {
         super.initialize();
 
-        this.find('[data-condition]').click((e) => {
-            let prop = $(e.target).attr('data-condition');
+        this.find('[data-condition]').map(x => x.addEventListener('click', e => {
+            let prop = x.dataset.condition;
             this.state[prop] = !this.state[prop];
             this.update();
-        });
+        }));
 
-        this.find('[data-close]').click(e => {
+        this.find('[data-close]').map(x => x.addEventListener('click', e => {
             this.state.shown = false;
             this.update();
-        });
+        }));
 
-        this.find('[data-open]').click(e => {
+        this.find('[data-open]').map(x => x.addEventListener('click', e => {
             this.state.shown = true;
             this.update();
-        });
+        }));
     }
 }

@@ -18,13 +18,13 @@ class Bubbles extends Component {
     initialize() {
         super.initialize();
 
-        this.find('[data-index]').click(e => {
-            let i = Number($(e.target).attr('data-index'));
+        this.find('[data-index]').map(x => x.addEventListener('click', e => {
+            let i = Number(x.dataset.index);
             if(this.state.value > i) this.state.value = i;
             else this.state.value = i + 1;
 
             this.state.set(this.state.value);
             this.update();
-        });
+        }));
     }
 }
