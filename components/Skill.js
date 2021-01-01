@@ -93,7 +93,7 @@ class Skill extends Component {
     initialize() {
         super.initialize();
 
-        this.find('[data-name]')[0].onclick = e => {
+        this.find('[data-name]').map(x => x.onclick = e => {
             if(this.state.skill.special && !this.state.lockspecial) {
                 this.state.setSpecial();
             }
@@ -101,22 +101,22 @@ class Skill extends Component {
                 this.state.edit = true;
                 this.update();
             }
-        };
+        });
 
-        this.find('[data-bluck]')[0].onclick = e => {
+        this.find('[data-bluck]').map(x => x.onclick = e => {
             if(this.state.skill.readonly) return;
 
             this.state.skill.bluck = this.state.skill.bluck == "Will" ? "Health" : "Will";
             this.update();
-        };
+        });
 
-        _(`#${this.id}_rating`)[0].onclick = e => {
+        _(`#${this.id}_rating`).map(x => x.onclick = e => {
             this.state.skill.rating += e.shiftKey ? -1 : 1;
             if (this.state.skill.rating < 0) this.state.skill.rating = this.state.skill.cap;
             if (this.state.skill.rating > this.state.skill.cap) this.state.skill.rating = 0;
 
             this.update();
-        };
+        });
 
         this.find('input').map(x => x.onblur = e => {
             this.state.skill.name = this.textValue(e.target.value);
