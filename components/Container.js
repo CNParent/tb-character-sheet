@@ -12,7 +12,8 @@ class Container extends Component {
                 <div class="card">
                     <div class="card-header p-2 d-flex">
                         ${this.drawName()}
-                        <div class="btn-group ml-auto">
+                        ${this.drawCapacity()}
+                        <div class="ml-1 btn-group">
                             <span id="${this.id}_hide" class="${this.smallButton()}">hide</span>
                             <span id="${this.id}_sort" class="${this.smallButton()}">a &rarr; z</span>
                         </div>
@@ -28,6 +29,21 @@ class Container extends Component {
                     </div>
                 </div>
             </div>
+        `;
+    }
+
+    drawCapacity() {
+        var occupied = this.state.container.items.reduce((a,b) => a + b.size, 0);
+        if (this.state.container.format == 'custom') return String.raw`
+            <h5 class="ml-auto mr-1">
+                <span class="badge btn btn-light">${occupied}</span>
+            </h5>
+        `;
+
+        return String.raw`
+            <h5 class="ml-auto mr-1">
+                <span class="badge btn btn-light">${occupied} / ${this.state.container.size}</span>
+            </h5>
         `;
     }
 
@@ -73,7 +89,7 @@ class Container extends Component {
         `;
 
         if(this.state.container.format == 'custom' && this.state.editName) return String.raw`
-            <input id="${this.id}_name" class="form-control" value="${this.state.container.name}">
+            <input id="${this.id}_name" class="form-control mr-2" value="${this.state.container.name}">
         `;
 
         if(this.state.container.format == 'custom') return String.raw`
