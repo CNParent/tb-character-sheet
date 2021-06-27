@@ -78,43 +78,43 @@ class Spell extends Component{
     initialize() {
         super.initialize();
 
-        this.find('[data-circle]').click(e => {
-            this.state.spell.circle += e.originalEvent.shiftKey ? -1 : 1;
+        this.find('[data-circle]').map(x => x.onclick = e => {
+            this.state.spell.circle += e.shiftKey ? -1 : 1;
             if(this.state.spell.circle < 1) this.state.spell.circle = this.circles.length;
             if(this.state.spell.circle > this.circles.length) this.state.spell.circle = 1;
 
             this.parent.update(); // Impacts memory palace
         });
 
-        this.find('[data-edit]').click(e => {
-            this.state.edit = $(e.target).data('edit');
+        this.find('[data-edit]').map(x => x.onclick = e => {
+            this.state.edit = e.target.dataset.edit;
             this.update();
         });
 
-        this.find('[data-inventory]').click(e => {
+        this.find('[data-inventory]').map(x => x.onclick = e => {
             this.state.spell.inventory = !this.state.spell.inventory;
             this.parent.update();
         });
 
-        this.find('[data-scroll]').click(e => {
+        this.find('[data-scroll]').map(x => x.onclick = e => {
             this.state.spell.scroll = !this.state.spell.scroll;
             this.update();
         });
 
-        this.find('[data-memorized]').click(e => {
+        this.find('[data-memorized]').map(x => x.onclick = e => {
             this.state.spell.memorized = !this.state.spell.memorized;
             this.parent.update(); // Impacts memory palace
         });
 
-        this.find('input').blur(this.completeEdit);
-        this.find('textarea').blur(this.completeEdit);
+        this.find('input').map(x => x.onblur = this.completeEdit);
+        this.find('textarea').map(x => x.onblur = this.completeEdit);
 
-        if(this.state.edit == 'name') this.find('input').focus();
-        if(this.state.edit == 'description') this.find('textarea').focus();
+        if(this.state.edit == 'name') this.find('input')[0]?.focus();
+        if(this.state.edit == 'description') this.find('textarea')[0]?.focus();
     }
 
     completeEdit = e => {
-        this.state.spell[this.state.edit] = this.textValue($(e.target).val());
+        this.state.spell[this.state.edit] = this.textValue(e.target.value);
         if(!this.state.spell.name) {
             this.state.remove();
             this.parent.update();

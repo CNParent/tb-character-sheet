@@ -71,7 +71,7 @@ class Skills extends Component {
     initialize() {
         super.initialize();
 
-        $(`#${this.id}_add`).click(e => {
+        _(`#${this.id}_add`)[0].onclick = e => {
             this.state.skills.skills.push({
                 name: 'New skill',
                 pass: 0,
@@ -83,15 +83,15 @@ class Skills extends Component {
             });
 
             this.update();
-        });
+        };
 
-        this.find('[data-show-skills]').click(e => {
-            this.state.skills.show = $(e.target).attr('data-show-skills');
-            this.update();
-        });
-
-        $(`#${this.id}_special`).click(e => {
+        _(`#${this.id}_special`)[0].onclick = e => {
             this.state.skills.lockspecial = !this.state.skills.lockspecial;
+            this.update();
+        };
+
+        this.find('[data-show-skills]').map(x => x.onclick = e => {
+            this.state.skills.show = e.target.dataset.showSkills;
             this.update();
         });
     }

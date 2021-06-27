@@ -79,7 +79,7 @@ class Wises extends Component {
     initialize() {
         super.initialize();
 
-        $(`#${this.id}_add`).click(e => {
+        _(`#${this.id}_add`).map(x => x.onclick = e => {
             this.state.push({ 
                 name: 'New wise', 
                 pass: false,

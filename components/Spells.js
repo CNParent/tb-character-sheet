@@ -143,12 +143,12 @@ class Spells extends Component {
     initialize() {
         super.initialize();
 
-        this.find('[data-show-spells]').click(e => {
-            this.state.show = $(e.target).data('show-spells');
+        this.find('[data-show-spells]').map(x => x.onclick = e => {
+            this.state.show = e.target.dataset.showSpells;
             this.update();
         });
 
-        $(`#${this.id}_add`).click(e => {
+        _(`#${this.id}_add`).map(x => x.onclick = e => {
             this.state.spells.push({
                 name: '~new spell',
                 circle: 1,
@@ -161,30 +161,30 @@ class Spells extends Component {
             this.update();
         });
 
-        $(`#${this.id}_burden`).click(e => {
-            this.state.burden += e.originalEvent.shiftKey ? -1 : 1;
+        _(`#${this.id}_burden`).map(x => x.onclick = e => {
+            this.state.burden += e.shiftKey ? -1 : 1;
             if(this.state.burden < 0) this.state.burden = 0;
             
             this.update();
         });
 
-        $(`#${this.id}_burden_lower`).click(e => {
+        _(`#${this.id}_burden_lower`).map(x => x.onclick = e => {
             if(this.state.burden == 0) return;
 
             this.state.burden--;
             this.update();
         });
 
-        $(`#${this.id}_memory`).click(e => {
-            this.state.memory += e.originalEvent.shiftKey ? -1 : 1;
+        _(`#${this.id}_memory`).map(x => x.onclick = e => {
+            this.state.memory += e.shiftKey ? -1 : 1;
             if(this.state.memory < 0) this.state.memory = 5;
             if(this.state.memory > 5) this.state.memory = 0;
             
             this.update();
         });
 
-        $(`#${this.id}_urdr`).click(e => {
-            this.state.urdr += e.originalEvent.shiftKey ? -1 : 1;
+        _(`#${this.id}_urdr`).map(x => x.onclick = e => {
+            this.state.urdr += e.shiftKey ? -1 : 1;
             if(this.state.urdr < 0) this.state.urdr = 5;
             if(this.state.urdr > 5) this.state.urdr = 0;
             

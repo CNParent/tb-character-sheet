@@ -93,7 +93,7 @@ class Skill extends Component {
     initialize() {
         super.initialize();
 
-        this.find('[data-name]').click(e => {
+        this.find('[data-name]').map(x => x.onclick = e => {
             if(this.state.skill.special && !this.state.lockspecial) {
                 this.state.setSpecial();
             }
@@ -103,23 +103,23 @@ class Skill extends Component {
             }
         });
 
-        this.find('[data-bluck]').click(e => {
+        this.find('[data-bluck]').map(x => x.onclick = e => {
             if(this.state.skill.readonly) return;
 
             this.state.skill.bluck = this.state.skill.bluck == "Will" ? "Health" : "Will";
             this.update();
         });
 
-        $(`#${this.id}_rating`).click(e => {
-            this.state.skill.rating += e.originalEvent.shiftKey ? -1 : 1;
+        _(`#${this.id}_rating`).map(x => x.onclick = e => {
+            this.state.skill.rating += e.shiftKey ? -1 : 1;
             if (this.state.skill.rating < 0) this.state.skill.rating = this.state.skill.cap;
             if (this.state.skill.rating > this.state.skill.cap) this.state.skill.rating = 0;
 
             this.update();
         });
 
-        this.find('input').blur(e => {
-            this.state.skill.name = this.textValue($(e.target).val());
+        this.find('input').map(x => x.onblur = e => {
+            this.state.skill.name = this.textValue(e.target.value);
             if(!this.state.skill.name) {
                 this.state.delete();
                 this.parent.update();
@@ -130,6 +130,6 @@ class Skill extends Component {
             this.update();
         });
 
-        if(this.state.edit) this.find('input').focus();
+        if(this.state.edit) this.find('input')[0]?.focus();
     }
 }

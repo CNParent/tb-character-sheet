@@ -34,32 +34,32 @@ class Circle extends Component {
     initialize() {
         super.initialize();
 
-        this.find('input').blur(e => {
-            this.state.items[this.state.edit] = this.textValue($(e.target).val());
+        this.find('input').map(x => x.addEventListener('blur', e => {
+            this.state.items[this.state.edit] = this.textValue(x.value);
             if(!this.state.items[this.state.edit]) {
                 this.state.items.splice(this.state.edit, 1);
             }
 
             this.state.edit = undefined;
             this.update();
-        });
+        }));
 
-        this.find('[data-add]').click(e => {
+        this.find('[data-add]').map(x => x.addEventListener('click', e => {
             this.state.edit = this.state.items.length;
             this.state.items.push('');
             this.update();
-        });
+        }));
 
-        this.find('[data-edit]').click(e => {
-            this.state.edit = $(e.target).attr('data-edit');
+        this.find('[data-edit]').map(x => x.addEventListener('click', e => {
+            this.state.edit = x.dataset.edit;
             this.update();
-        });
+        }));
 
-        this.find('[data-sort]').click(e => {
+        this.find('[data-sort]').map(x => x.addEventListener('click', e => {
             this.state.items.sort((a,b) => a.localeCompare(b));
             this.update();
-        });
+        }));
 
-        if (this.state.edit != undefined) this.find('input').focus();
+        if (this.state.edit != undefined) this.find('input')[0]?.focus();
     }
 }

@@ -40,16 +40,16 @@ class Abilities extends Component {
     initialize() {
         super.initialize();
 
-        this.find('[data-reset]').click(e => {
-            let prop = $(e.target).data('reset');
+        this.find('[data-reset]').map(x => x.onclick = e => {
+            let prop = x.dataset.reset;
             this.state[prop] = 0;
             this.update();
         });
 
-        this.find('[data-increment]').click(e => {
-            let prop = $(e.target).attr('data-increment');
-            this.state[prop] += e.originalEvent.shiftKey ? -1 : 1;
-            let max = Number($(e.target).data('max'));
+        this.find('[data-increment]').map(x => x.onclick = e => {
+            let prop = x.dataset.increment;
+            this.state[prop] += e.shiftKey ? -1 : 1;
+            let max = Number(x.dataset.max);
             if(this.state[prop] > max) this.state[prop] = 0;
             if(this.state[prop] == -1) this.state[prop] = max;
 

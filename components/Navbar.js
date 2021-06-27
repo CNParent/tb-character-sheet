@@ -89,7 +89,7 @@ class Navbar extends Component{
     initialize() {
         super.initialize();
 
-        $(`#${this.id}_save`).click(e => {
+        _(`#${this.id}_save`)[0].onclick = e => {
             if(!this.parent.state.bio.name) {
                 alert('Cannot save an unnamed character');
                 return;
@@ -98,43 +98,45 @@ class Navbar extends Component{
             localStorage.setItem(this.parent.state.bio.name, JSON.stringify(this.parent.state));
             this.state.alert = `${this.parent.state.bio.name} saved`;
             this.parent.update();
-        });
+        };
 
-        $(`#${this.id}_export`).click(e => {
+        _(`#${this.id}_export`)[0].onclick = e => {
             let href = URL.createObjectURL(new Blob([JSON.stringify(this.parent.state)]));
             e.target.href = href;
             e.target.download = `${this.parent.state.bio.name}.tb2e`;
-        });
+        };
 
-        $(`#${this.id}_import`).click(e => {
-            let file = $('<input type="file" accept=".tb2e">');
-            file.change(this.load);
+        _(`#${this.id}_import`)[0].onclick = e => {
+            let file = document.createElement('input');
+            file.type = 'file';
+            file.accept = '.tb2e';
+            file.onchange = this.load;
             file.click();
-        });
+        };
 
-        $(`#${this.id}_delete`).click(e => {
+        _(`#${this.id}_delete`)[0].onclick = e => {
             if(!confirm(`Delete ${this.parent.state.bio.name}?`)) return;
 
             localStorage.removeItem(this.parent.state.bio.name);
             this.state.alert = `${this.parent.state.bio.name} deleted from character storage`;
             this.parent.update();
-        });
+        };
 
-        $(`#${this.id}_delete_all`).click(e => {
+        _(`#${this.id}_delete_all`)[0].onclick = e => {
             if(!confirm('Delete all saved characters?')) return;
 
             localStorage.clear();
             this.state.alert = 'All characters deleted from character storage';
             this.parent.update();
-        });
+        };
 
-        $(`#${this.id}_msg`).click(e => {
+        _(`#${this.id}_msg`).map(x => x.onclick = e => {
             this.state.alert = '';
             this.update();
         });
 
-        this.find('[data-character]').click(e => {
-            let name = decodeURIComponent($(e.target).attr('data-character'));
+        this.find('[data-character]').map(x => x.onclick = e => {
+            let name = decodeURIComponent(x.dataset.character);
             if(name == this.parent.state.bio.name) return '';
 
             let alert = '';
@@ -151,13 +153,13 @@ class Navbar extends Component{
             this.parent.update();
         });
 
-        this.find('[data-tab]').click(e => {
-            this.state.tab = $(e.target).attr('data-tab');
+        this.find('[data-tab]').map(x => x.onclick = e => {
+            this.state.tab = x.dataset.tab;
             this.parent.update();
         });
 
-        this.find('[data-mod]').click(e => {
-            let mod = $(e.target).data('mod');
+        this.find('[data-mod]').map(x => x.onclick = e => {
+            let mod = x.dataset.mod;
             this.parent.state = mods[mod]();
             this.parent.state.mod = mod;
             this.parent.update();

@@ -44,8 +44,8 @@ class TagList extends Component {
     initialize() {
         super.initialize();
 
-        this.find('input').blur(e => {
-            this.state.items[this.state.edit] = this.textValue($(e.target).val());
+        this.find('input').map(x => x.onblur = e => {
+            this.state.items[this.state.edit] = this.textValue(x.value);
             if(!this.state.items[this.state.edit])
                 this.state.items.splice(this.state.edit, 1);
 
@@ -53,17 +53,17 @@ class TagList extends Component {
             this.update();
         });
 
-        this.find('[data-item]').click((e) => {
-            let i = $(e.target).attr('data-item');
+        this.find('[data-item]').map(x => x.onclick = e => {
+            let i = e.target.dataset.item;
             this.state.edit = i;
             this.update();
         });
 
-        this.find('[data-add]').click((e) => {
+        this.find('[data-add]')[0].onclick = e => {
             this.state.edit = this.state.items.length;
             this.update();
-        });
+        };
 
-        if(this.state.edit != undefined) this.find('input').focus();
+        if(this.state.edit != undefined) this.find('input')[0]?.focus();
     }
 }

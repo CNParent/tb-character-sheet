@@ -54,13 +54,13 @@ class Trait extends Component {
     initialize() {
         super.initialize();
 
-        this.find('[data-rename]').click(e => {
+        this.find('[data-rename]').map(x => x.onclick = e => {
             this.state.edit = true;
             this.update();
         });
 
-        this.find('input').blur(e => {
-            this.state.trait.name = this.textValue($(e.target).val());
+        this.find('input').map(x => x.onblur = e => {
+            this.state.trait.name = this.textValue(e.target.value);
             if(!this.state.trait.name) {
                 this.state.delete();
                 this.parent.update();
@@ -71,33 +71,33 @@ class Trait extends Component {
             }
         });
 
-        this.find('[data-level]').click(e => {
-            this.state.trait.level += e.originalEvent.shiftKey ? -1 : 1;
+        this.find('[data-level]').map(x => x.onclick = e => {
+            this.state.trait.level += e.shiftKey ? -1 : 1;
             if (this.state.trait.level == 4) this.state.trait.level = 1;
             if (this.state.trait.level == 0) this.state.trait.level = 3;
 
             this.update();
         });
 
-        this.find('[data-check]').click(e => {
-            let checks = Number($(e.target).attr('data-check'));
+        this.find('[data-check]').map(x => x.onclick = e => {
+            let checks = Number(x.dataset.check);
             if(this.state.trait.checks >= checks) checks--;
             this.state.trait.checks = checks;
             this.update();
         });
 
-        this.find('[data-used]').click(e => {
-            let used = Number($(e.target).attr('data-used'));
+        this.find('[data-used]').map(x => x.onclick = e => {
+            let used = Number(e.target.dataset.used);
             if(this.state.trait.used >= used) used--;
             this.state.trait.used = used;
             this.update();
         });
 
-        this.find('[data-used-against]').click(e => {
+        this.find('[data-used-against]').map(x => x.onclick = e => {
             this.state.trait.usedAgainst = !this.state.trait.usedAgainst;
             this.update();
         });
 
-        if(this.state.edit) this.find('input').focus();
+        if(this.state.edit) this.find('input')[0]?.focus();
     }
 }

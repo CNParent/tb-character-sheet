@@ -56,13 +56,13 @@ class Wise extends Component {
     initialize() {
         super.initialize();
 
-        $(`#${this.id}_forget`).click(e => {
+        _(`#${this.id}_forget`).map(x => x.onclick = e => {
             this.state.wise.old = true;
             this.parent.update();
         });
 
-        this.find('input').blur(e => {
-            this.state.wise.name = this.textValue($(e.target).val());
+        this.find('input').map(x => x.onblur = e => {
+            this.state.wise.name = this.textValue(x.value);
             if(!this.state.wise.name) {
                 this.state.delete();
                 this.parent.update();
@@ -73,17 +73,17 @@ class Wise extends Component {
             this.update();
         });
 
-        this.find('[data-rename]').click(e => {
+        this.find('[data-rename]').map(x => x.onclick = e => {
             this.state.edit = true;
             this.update();
         });
 
-        this.find('[data-wise]').click(e => {
-            let prop = $(e.target).attr('data-wise');
+        this.find('[data-wise]').map(x => x.onclick = e => {
+            let prop = x.dataset.wise;
             this.state.wise[prop] = !this.state.wise[prop];
             this.update();
         });
 
-        if(this.state.edit) this.find('input').focus();
+        if(this.state.edit) this.find('input')[0]?.focus();
     }
 }

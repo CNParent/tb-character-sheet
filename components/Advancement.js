@@ -96,22 +96,22 @@ class Advancement extends Component {
     initialize() {
         super.initialize();
 
-        this.find('[data-minus]').click((e) => {
-            let prop = $(e.target).attr('data-minus');
+        this.find('[data-minus]').map(x => x.addEventListener('click', e => {
+            let prop = x.dataset.minus;
             if(this.state[prop] < 1) return;
 
             this.state[prop]--;
             this.update();
-        });
+        }));
 
-        this.find('[data-plus]').click((e) => {
-            let prop = $(e.target).attr('data-plus');
+        this.find('[data-plus]').map(x => x.addEventListener('click', e => {
+            let prop = x.dataset.plus;
             this.state[prop]++;
             this.update();
-        });
+        }));
 
-        this.find('[data-spend]').click((e) => {
-            let artha = $(e.target).attr('data-spend');
+        this.find('[data-spend]').map(x => x.addEventListener('click', e => {
+            let artha = x.dataset.spend;
             let currentProp = `current${artha}`;
             let spentProp = `spent${artha}`;
             if(this.state[currentProp] < 1) return;
@@ -119,10 +119,10 @@ class Advancement extends Component {
             this.state[currentProp]--;
             this.state[spentProp]++;
             this.update();
-        })
+        }));
 
-        this.find('[data-unspend]').click((e) => {
-            let artha = $(e.target).attr('data-unspend');
+        this.find('[data-unspend]').map(x => x.addEventListener('click', e => {
+            let artha = x.dataset.unspend;
             let currentProp = `current${artha}`;
             let spentProp = `spent${artha}`;
             if(this.state[spentProp] < 1) return;
@@ -130,6 +130,6 @@ class Advancement extends Component {
             this.state[currentProp]++;
             this.state[spentProp]--;
             this.update();
-        })
+        }));
     }
 }
