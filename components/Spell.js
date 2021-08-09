@@ -18,7 +18,7 @@ class Spell extends Component{
                         <div class="d-flex">
                             ${this.drawName()}
                         </div>
-                        <div class="d-flex mt-1">
+                        <div class="d-flex mt-1 flex-wrap">
                             <h5><button data-circle="" class="badge btn btn-dark w-100 text-left">${this.circles[this.state.spell.circle - 1]}</button></h5>
                             ${this.drawToggles()}
                         </div>
@@ -63,9 +63,11 @@ class Spell extends Component{
 
     drawToggles() {
         if(this.state.caster == 'magician') return String.raw`
-            <button data-inventory="" class="btn ${this.state.spell.inventory ? 'btn-dark' : 'btn-light border'} ml-auto mr-1">Spellbook</button>
-            <button data-scroll="" class="btn ${this.state.spell.scroll ? 'btn-dark' : 'btn-light border'} mr-1">Scroll</button>
-            ${this.drawMemorized()}
+            <div class="d-flex ml-auto">
+                <button data-inventory="" class="btn ${this.state.spell.inventory ? 'btn-dark' : 'btn-light border'} mr-1">Spellbook</button>
+                <button data-scroll="" class="btn ${this.state.spell.scroll ? 'btn-dark' : 'btn-light border'} mr-1">Scroll</button>
+                ${this.drawMemorized()}
+            </div>
         `;
 
         if(this.state.caster == 'theurge') return String.raw`
