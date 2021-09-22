@@ -47,7 +47,7 @@ class Navbar extends Component{
                             <div class="nav-item dropdown">
                                 <button class="dropdown-toggle btn btn-light border border-dark" id="${this.id}_options" data-toggle="dropdown">Options</button>
                                 <div class="dropdown-menu">
-                                    ${saved ? '' : String.raw`<a id="${this.id}_save" href="#" class="dropdown-item">Save</a>`}
+                                    <a id="${this.id}_save" href="#" class="dropdown-item">Save</a>
                                     <a id="${this.id}_export" href="#" class="dropdown-item">Export</a>
                                     <a id="${this.id}_import" href="#" class="dropdown-item">Import</a>
                                     <a id="${this.id}_delete" href="#" class="dropdown-item">Delete</a>
@@ -91,7 +91,7 @@ class Navbar extends Component{
     initialize() {
         super.initialize();
 
-        _(`#${this.id}_save`)[0].onclick = e => {
+        _(`#${this.id}_save`).map(x => x.onclick = e => {
             if(!this.parent.state.bio.name) {
                 alert('Cannot save an unnamed character');
                 return;
@@ -100,7 +100,7 @@ class Navbar extends Component{
             localStorage.setItem(this.parent.state.bio.name, JSON.stringify(this.parent.state));
             this.state.alert = `${this.parent.state.bio.name} saved`;
             this.parent.update();
-        };
+        });
 
         _(`#${this.id}_export`)[0].onclick = e => {
             let href = URL.createObjectURL(new Blob([JSON.stringify(this.parent.state)]));
