@@ -17,6 +17,8 @@ class Navbar extends Component{
 
     draw() {
         this.characters.sort((a,b) => a.localeCompare(b));
+        let saved = this.characters.find(x => x == this.parent.state.bio.name) != null;
+        if (saved) localStorage.setItem(this.parent.state.bio.name, JSON.stringify(this.parent.state));
 
         return String.raw`
             <div id="${this.id}">
@@ -28,7 +30,7 @@ class Navbar extends Component{
                         <ul class="navbar-nav mr-auto">
                             ${this.tabs.map((t) => this.drawTab(t)).reduce((a,b) => `${a}${b}`)}
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle ${this.characters.length == 0 ? 'disabled' : ''}" id="${this.id}_characters" data-toggle="dropdown" >Characters</a>
+                                <a href="#" class="nav-link dropdown-toggle ${this.characters.length == 0 ? 'disabled' : ''}" id="${this.id}_characters" data-toggle="dropdown">Characters</a>
                                 <div class="dropdown-menu">
                                     ${this.characters.map(x => this.drawCharacter(x)).reduce((a,b) => `${a}${b}`, '')}
                                 </div>
@@ -43,7 +45,7 @@ class Navbar extends Component{
                         </ul>
                         <div class="navbar-nav">
                             <div class="nav-item dropdown">
-                                <button class="dropdown-toggle btn btn-light border border-dark" id="${this.id}_options" data-toggle="dropdown" >Options</button>
+                                <button class="dropdown-toggle btn btn-light border border-dark" id="${this.id}_options" data-toggle="dropdown">Options</button>
                                 <div class="dropdown-menu">
                                     <a id="${this.id}_save" href="#" class="dropdown-item">Save</a>
                                     <a id="${this.id}_export" href="#" class="dropdown-item">Export</a>
@@ -89,7 +91,7 @@ class Navbar extends Component{
     initialize() {
         super.initialize();
 
-        _(`#${this.id}_save`)[0].onclick = e => {
+        _(`#${this.id}_save`).map(x => x.onclick = e => {
             if(!this.parent.state.bio.name) {
                 alert('Cannot save an unnamed character');
                 return;
@@ -98,7 +100,7 @@ class Navbar extends Component{
             localStorage.setItem(this.parent.state.bio.name, JSON.stringify(this.parent.state));
             this.state.alert = `${this.parent.state.bio.name} saved`;
             this.parent.update();
-        };
+        });
 
         _(`#${this.id}_export`)[0].onclick = e => {
             let href = URL.createObjectURL(new Blob([JSON.stringify(this.parent.state)]));
