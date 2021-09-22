@@ -17,6 +17,8 @@ class Navbar extends Component{
 
     draw() {
         this.characters.sort((a,b) => a.localeCompare(b));
+        let saved = this.characters.find(x => x == this.parent.state.bio.name) != null;
+        if (saved) localStorage.setItem(this.parent.state.bio.name, JSON.stringify(this.parent.state));
 
         return String.raw`
             <div id="${this.id}">
@@ -45,7 +47,7 @@ class Navbar extends Component{
                             <div class="nav-item dropdown">
                                 <button class="dropdown-toggle btn btn-light border border-dark" id="${this.id}_options" data-toggle="dropdown">Options</button>
                                 <div class="dropdown-menu">
-                                    <a id="${this.id}_save" href="#" class="dropdown-item">Save</a>
+                                    ${saved ? '' : String.raw`<a id="${this.id}_save" href="#" class="dropdown-item">Save</a>`}
                                     <a id="${this.id}_export" href="#" class="dropdown-item">Export</a>
                                     <a id="${this.id}_import" href="#" class="dropdown-item">Import</a>
                                     <a id="${this.id}_delete" href="#" class="dropdown-item">Delete</a>
