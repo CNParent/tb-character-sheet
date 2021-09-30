@@ -31,6 +31,7 @@ let mods = {
                     skill({ name: 'Operator', bluck: 'Health', special: true }),
                     skill({ name: 'Persuader', bluck: 'Will', special: true }),
                     skill({ name: 'Pilot', bluck: 'Health', special: true }),
+                    skill({ name: 'Programmer', bluck: 'Will', special: true }),
                     skill({ name: 'Scavenger', bluck: 'Will', special: true }),
                     skill({ name: 'Scientist', bluck: 'Will', special: true }),
                     skill({ name: 'Scout', bluck: 'Will', special: true }),
