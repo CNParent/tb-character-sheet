@@ -56,8 +56,8 @@ class Notes extends Component{
         _(`#${this.id} [data-sort]`).map((x) => x.onclick = e => {
             let sortMethod = e.target.dataset.sort;
             if (sortMethod == 'alpha') this.state.notes.sort((a,b) => a.title.localeCompare(b.title));
-            else if (sortMethod == 'oldest') this.state.notes.sort((a,b) => a.date < b.date);
-            else if (sortMethod == 'newest') this.state.notes.sort((a,b) => a.date > b.date);
+            else if (sortMethod == 'oldest') this.state.notes.sort((a,b) => a.date > b.date);
+            else if (sortMethod == 'newest') this.state.notes.sort((a,b) => a.date < b.date);
 
             this.state.sort = sortMethod;
             this.update();
