@@ -34,6 +34,7 @@ class Notes extends Component{
                         <button data-sort="newest" class="dropdown-item">Newest</button>
                         <button data-sort="oldest" class="dropdown-item">Oldest</button>
                         <button data-sort="alpha" class="dropdown-item">A &rarr; Z</button>
+                        <button data-sort="ralpha" class="dropdown-item">Z &rarr; A</button>
                     </div>
                 </div>
             </div>
@@ -56,6 +57,7 @@ class Notes extends Component{
         _(`#${this.id} [data-sort]`).map((x) => x.onclick = e => {
             let sortMethod = e.target.dataset.sort;
             if (sortMethod == 'alpha') this.state.notes.sort((a,b) => a.title.localeCompare(b.title));
+            else if (sortMethod == 'ralpha') this.state.notes.sort((a,b) => b.title.localeCompare(a.title));
             else if (sortMethod == 'oldest') this.state.notes.sort((a,b) => a.date > b.date);
             else if (sortMethod == 'newest') this.state.notes.sort((a,b) => a.date < b.date);
 
