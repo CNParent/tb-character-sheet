@@ -2,16 +2,13 @@
 	import character from "./models/character.js"
 
 	import Abilities from './components/Abilities.svelte'
+	import Advancement from './components/Advancement.svelte'
 	import Bio from "./components/Bio.svelte"
 	import Conditions from "./components/Conditions.svelte"
 	import Navbar from "./components/Navbar.svelte"
 
 	let model = character();
 	let tab = 'bio';
-
-	function changeTab(newTab) {
-		tab = newTab;
-	}
 </script>
 
 <svelte:head>
@@ -25,6 +22,7 @@
 	{#if tab == 'abilities'}
 	<Abilities model={model} />
 	{:else if tab == 'advancement'}
+	<Advancement model={model} />
 	{:else if tab == 'bio'}
 	<Bio model={model} />
 	{:else if tab == 'circles'}
