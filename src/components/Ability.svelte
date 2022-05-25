@@ -17,7 +17,7 @@
     <div class="card-body">
         <div class="d-flex">
             <h2 class="mr-auto">{ability.name}</h2>
-            <h2><span on:click={handleClick} class="badge btn btn-dark">{ability.rating}</span></h2>
+            <h2><button on:click={handleClick} class="badge btn btn-dark">{ability.rating}</button></h2>
         </div>
         {#if ability.rating < ability.cap}
             <Bubbles count={maxPass} bind:value={ability.pass}>pass</Bubbles>
