@@ -4,6 +4,7 @@
 	import Abilities from './components/Abilities.svelte'
 	import Advancement from './components/Advancement.svelte'
 	import Bio from "./components/Bio.svelte"
+	import Circles from './components/Circles.svelte'
 	import Conditions from "./components/Conditions.svelte"
 	import Navbar from "./components/Navbar.svelte"
 
@@ -26,6 +27,7 @@
 	{:else if tab == 'bio'}
 	<Bio model={model} />
 	{:else if tab == 'circles'}
+	<Circles circles={model.circles} />
 	{:else if tab == 'inventory'}
 	{:else if tab == 'notes'}
 	{:else if tab == 'skills'}
