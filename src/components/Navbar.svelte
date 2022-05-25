@@ -12,14 +12,12 @@
     let menu = '';
 
     function clearMenu(e) {
-        console.log(e.relatedTarget);
         if (e.relatedTarget?.className.includes('dropdown-item')) return;
         menu = '';
     }
 
     function setMenu(item) {
         menu = item;
-        console.log('menu = ' + menu);
     }
 
     function toggleNav() {

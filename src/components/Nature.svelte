@@ -6,8 +6,8 @@
 
     const maxNature = 7;
 
-    $: maxFail = nature.rating < 2 ? 0 : nature.rating - 1;
-    $: maxPass = nature.rating < 1 ? 1 : nature.rating;
+    $: maxFail = nature.maximum < 2 ? 0 : nature.maximum - 1;
+    $: maxPass = nature.maximum < 1 ? 1 : nature.maximum;
 
     function currentClick(e) {
         nature.current += e.shiftKey ? -1 : 1;
@@ -32,12 +32,12 @@
             <h2><span class="m-1">/</span></h2>
             <h2><button on:click={maxClick} class="btn badge btn-dark">{nature.maximum}</button></h2>
         </div>
-        {#if nature.rating < maxNature}
+        {#if nature.maximum < maxNature}
         <div class="d-flex">
             <Bubbles count={maxPass} bind:value={nature.pass}>pass</Bubbles>
         </div>
         {/if}
-        {#if maxFail > 0 && nature.rating < maxNature}
+        {#if maxFail > 0 && nature.maximum < maxNature}
         <div class="d-flex">
             <Bubbles count={maxFail} bind:value={nature.fail}>fail</Bubbles>
         </div>
