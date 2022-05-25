@@ -2,8 +2,14 @@
 	import character from "./models/character.js"
 	import Navbar from "./components/Navbar.svelte"
 	import Conditions from "./components/Conditions.svelte"
+	import Bio from "./components/Bio.svelte"
 
 	let model = character();
+	let tab = 'bio';
+
+	function changeTab(newTab) {
+		tab = newTab;
+	}
 </script>
 
 <svelte:head>
@@ -11,6 +17,19 @@
 </svelte:head>
 
 <main id="app">
-	<Navbar model={model} />
+	<Navbar model={model} bind:tab={tab} />
 	<Conditions model={model} />
+	<!-- svelte-ignore empty-block -->
+	{#if tab == 'abilities'}
+	{:else if tab == 'advancement'}
+	{:else if tab == 'bio'}
+	<Bio model={model} />
+	{:else if tab == 'circles'}
+	{:else if tab == 'inventory'}
+	{:else if tab == 'notes'}
+	{:else if tab == 'skills'}
+	{:else if tab == 'spells'}
+	{:else if tab == 'traits'}
+	{:else if tab == 'wises'}
+	{/if}
 </main>

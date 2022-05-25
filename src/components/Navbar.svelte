@@ -1,10 +1,11 @@
 <script>
 	import character from "../models/character.js"
+    import NavLink from "./NavLink.svelte"
 
     export let model = character();
     export let changeCharacter = () => 0;
     export let changeMod = () => 0;
-    export let changeTab = () => 0;
+    export let tab = 'bio';
 
     let isOpen = false;
     let navDisplay = 'none';
@@ -14,10 +15,6 @@
         console.log(e.relatedTarget);
         if (e.relatedTarget?.className.includes('dropdown-item')) return;
         menu = '';
-    }
-
-    function handleUpdate(event) {
-        isOpen = event.detail.isOpen;
     }
 
     function setMenu(item) {
@@ -32,8 +29,8 @@
     let characters = [...new Array(window.localStorage.length)].map((x,i) => window.localStorage.key(i));
     characters.sort((a,b) => a.localeCompare(b));
 
-    //let saved = characters.find(x => x == model.bio.name) != null;
-    //if (saved) localStorage.setItem(model.bio.name, JSON.stringify(model));
+    let saved = characters.find(x => x == model.bio.name) != null;
+    if (saved) localStorage.setItem(model.bio.name, JSON.stringify(model));
 </script>
 
 <nav class="navbar navbar-expand-md navbar-light bg-light">
@@ -42,16 +39,16 @@
     </button>
     <div id="${this.id}_nav" class="collapse navbar-collapse" style:display={navDisplay}>
         <ul class="navbar-nav mr-auto">
-            <a href='#' class:active={model.tab == 'abilities'} class="nav-item nav-link">Abilities</a>
-            <a href='#' class:active={model.tab == 'advancement'} class="nav-item nav-link">Advancement</a>
-            <a href='#' class:active={model.tab == 'bio'} class="nav-item nav-link">Bio</a>
-            <a href='#' class:active={model.tab == 'circles'} class="nav-item nav-link">Circles</a>
-            <a href='#' class:active={model.tab == 'inventory'} class="nav-item nav-link">Inventory</a>
-            <a href='#' class:active={model.tab == 'notes'} class="nav-item nav-link">Notes</a>
-            <a href='#' class:active={model.tab == 'skills'} class="nav-item nav-link">Skills</a>
-            <a href='#' class:active={model.tab == 'spells'} class="nav-item nav-link">Spells</a>
-            <a href='#' class:active={model.tab == 'traits'} class="nav-item nav-link">Traits</a>
-            <a href='#' class:active={model.tab == 'wises'} class="nav-item nav-link">Wises</a>
+            <NavLink bind:tab={tab} tabValue="abilities">Abilities</NavLink>
+            <NavLink bind:tab={tab} tabValue="advancement">Advancement</NavLink>
+            <NavLink bind:tab={tab} tabValue="bio">Bio</NavLink>
+            <NavLink bind:tab={tab} tabValue="circles">Circles</NavLink>
+            <NavLink bind:tab={tab} tabValue="inventory">Inventory</NavLink>
+            <NavLink bind:tab={tab} tabValue="notes">Notes</NavLink>
+            <NavLink bind:tab={tab} tabValue="skills">Skills</NavLink>
+            <NavLink bind:tab={tab} tabValue="spells">Spells</NavLink>
+            <NavLink bind:tab={tab} tabValue="traits">Traits</NavLink>
+            <NavLink bind:tab={tab} tabValue="wises">Wises</NavLink>
             <li class="nav-item dropdown">
                 <a href='#' class="nav-link dropdown-toggle" class:disabled={!characters.length} on:blur={clearMenu} on:click={() => setMenu('characters')}>Characters</a>
                 <div class="dropdown-menu" style="{`display: ${menu == 'characters' ? 'block' : 'none'}`}">

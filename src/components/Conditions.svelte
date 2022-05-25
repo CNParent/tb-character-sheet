@@ -4,8 +4,6 @@
 
     export let model = character();
 
-    console.log(model);
-
     let shown = true;
     let showHelp = false;
 
