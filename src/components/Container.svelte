@@ -15,6 +15,16 @@
     $: space = canAdd ? 1 : container.size - occupied;
     $: canTransfer = clipboard == null || canAdd || clipboard.size <= space;
 
+    function togglePack() {
+        if (container.size == 6 && occupied <= 3) {
+            container.size = 3;
+            container.name = 'Satchel';
+        } else {
+            container.size = 6;
+            container.name = 'Backpack';
+        }
+    }
+
     afterUpdate(() => {
         if (input) input.focus();
     });
@@ -25,7 +35,7 @@
         <div class="card-header p-2 d-flex">
             {#if container.format == 'pack'}
             <h4 class="flex-grow-1 m-0">
-                <button class="badge btn btn-light text-left card-title w-100 mb-0">{container.name}</button>
+                <button on:click={togglePack} class="badge btn btn-light text-left card-title w-100 mb-0">{container.name}</button>
             </h4>
             {:else if container.format == 'custom' && editName}
             <input bind:this={input} class="form-control mr-2" bind:value={container.name}>
