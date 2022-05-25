@@ -13,7 +13,7 @@ class Navbar extends Component{
         { id: 'wises', label: 'Wises' }
     ]
 
-    characters = [...new Array(window.localStorage.length)].map((x,i) => window.localStorage.key(i))
+    characters = [...new Array(localStorage.length)].map((x,i) => localStorage.key(i))
 
     draw() {
         this.characters.sort((a,b) => a.localeCompare(b));
