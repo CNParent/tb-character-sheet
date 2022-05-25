@@ -1,8 +1,10 @@
 <script>
 	import character from "./models/character.js"
-	import Navbar from "./components/Navbar.svelte"
-	import Conditions from "./components/Conditions.svelte"
+
+	import Abilities from './components/Abilities.svelte'
 	import Bio from "./components/Bio.svelte"
+	import Conditions from "./components/Conditions.svelte"
+	import Navbar from "./components/Navbar.svelte"
 
 	let model = character();
 	let tab = 'bio';
@@ -21,6 +23,7 @@
 	<Conditions model={model} />
 	<!-- svelte-ignore empty-block -->
 	{#if tab == 'abilities'}
+	<Abilities model={model} />
 	{:else if tab == 'advancement'}
 	{:else if tab == 'bio'}
 	<Bio model={model} />
