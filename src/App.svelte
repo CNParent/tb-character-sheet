@@ -17,7 +17,7 @@
 </svelte:head>
 
 <main id="app">
-	<Navbar model={model} bind:tab={tab} />
+	<Navbar bind:model={model} bind:tab={tab} />
 	<Conditions model={model} />
 	<!-- svelte-ignore empty-block -->
 	{#if tab == 'abilities'}

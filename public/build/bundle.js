@@ -151,6 +151,9 @@ var app = (function () {
     function afterUpdate(fn) {
         get_current_component().$$.after_update.push(fn);
     }
+    function onDestroy(fn) {
+        get_current_component().$$.on_destroy.push(fn);
+    }
 
     const dirty_components = [];
     const binding_callbacks = [];
@@ -273,6 +276,12 @@ var app = (function () {
             block.o(local);
         }
     }
+
+    const globals = (typeof window !== 'undefined'
+        ? window
+        : typeof globalThis !== 'undefined'
+            ? globalThis
+            : global);
 
     function bind(component, name, callback) {
         const index = component.$$.props[name];
@@ -936,7 +945,7 @@ var app = (function () {
     const file$e = "src\\components\\Ability.svelte";
 
     // (22:8) {#if ability.rating < ability.cap}
-    function create_if_block_1$3(ctx) {
+    function create_if_block_1$4(ctx) {
     	let bubbles;
     	let updating_value;
     	let current;
@@ -998,7 +1007,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_1$3.name,
+    		id: create_if_block_1$4.name,
     		type: "if",
     		source: "(22:8) {#if ability.rating < ability.cap}",
     		ctx
@@ -1150,7 +1159,7 @@ var app = (function () {
     	let current;
     	let mounted;
     	let dispose;
-    	let if_block0 = /*ability*/ ctx[0].rating < /*ability*/ ctx[0].cap && create_if_block_1$3(ctx);
+    	let if_block0 = /*ability*/ ctx[0].rating < /*ability*/ ctx[0].cap && create_if_block_1$4(ctx);
     	let if_block1 = /*maxFail*/ ctx[2] > 0 && /*ability*/ ctx[0].rating < /*ability*/ ctx[0].cap && create_if_block$8(ctx);
 
     	const block = {
@@ -1216,7 +1225,7 @@ var app = (function () {
     						transition_in(if_block0, 1);
     					}
     				} else {
-    					if_block0 = create_if_block_1$3(ctx);
+    					if_block0 = create_if_block_1$4(ctx);
     					if_block0.c();
     					transition_in(if_block0, 1);
     					if_block0.m(div1, t4);
@@ -1537,7 +1546,7 @@ var app = (function () {
     }
 
     // (40:8) {#if !editing}
-    function create_if_block_1$2(ctx) {
+    function create_if_block_1$3(ctx) {
     	let button;
     	let mounted;
     	let dispose;
@@ -1567,7 +1576,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_1$2.name,
+    		id: create_if_block_1$3.name,
     		type: "if",
     		source: "(40:8) {#if !editing}",
     		ctx
@@ -1639,7 +1648,7 @@ var app = (function () {
     		each_blocks[i] = create_each_block$4(get_each_context$4(ctx, each_value, i));
     	}
 
-    	let if_block0 = !/*editing*/ ctx[1] && create_if_block_1$2(ctx);
+    	let if_block0 = !/*editing*/ ctx[1] && create_if_block_1$3(ctx);
     	let if_block1 = /*editing*/ ctx[1] && create_if_block$7(ctx);
 
     	const block = {
@@ -1704,7 +1713,7 @@ var app = (function () {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
-    					if_block0 = create_if_block_1$2(ctx);
+    					if_block0 = create_if_block_1$3(ctx);
     					if_block0.c();
     					if_block0.m(div0, null);
     				}
@@ -1860,7 +1869,7 @@ var app = (function () {
     const file$c = "src\\components\\Nature.svelte";
 
     // (35:8) {#if nature.maximum < maxNature}
-    function create_if_block_1$1(ctx) {
+    function create_if_block_1$2(ctx) {
     	let div;
     	let bubbles;
     	let updating_value;
@@ -1928,7 +1937,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_1$1.name,
+    		id: create_if_block_1$2.name,
     		type: "if",
     		source: "(35:8) {#if nature.maximum < maxNature}",
     		ctx
@@ -2096,7 +2105,7 @@ var app = (function () {
     	let current;
     	let mounted;
     	let dispose;
-    	let if_block0 = /*nature*/ ctx[0].maximum < maxNature && create_if_block_1$1(ctx);
+    	let if_block0 = /*nature*/ ctx[0].maximum < maxNature && create_if_block_1$2(ctx);
     	let if_block1 = /*maxFail*/ ctx[2] > 0 && /*nature*/ ctx[0].maximum < maxNature && create_if_block$6(ctx);
 
     	function taglist_items_binding(value) {
@@ -2208,7 +2217,7 @@ var app = (function () {
     						transition_in(if_block0, 1);
     					}
     				} else {
-    					if_block0 = create_if_block_1$1(ctx);
+    					if_block0 = create_if_block_1$2(ctx);
     					if_block0.c();
     					transition_in(if_block0, 1);
     					if_block0.m(div2, t8);
@@ -7341,16 +7350,150 @@ var app = (function () {
     	}
     }
 
+    const mods = {
+        colonialMarines: () => {
+            return {
+                navbar: { tab: 'bio' },
+                abilities: abilities(),
+                advancement: advancement(),
+                bio: bio(),
+                circles: circles(),
+                conditions: conditions(),
+                inventory: [
+                    container({ name: 'Armament', size: 5, format: 'pockets' }),
+                    container({ name: 'Protection', size: 2, format: 'static' }),
+                    container({ name: 'Pack', size: 1, format: 'pockets' }),
+                    container({ name: 'Combat Webbing', size: 1, format: 'pockets' })
+                ],
+                mod: 'colonialMarines',
+                notes: [],
+                skills: {
+                    compact: false,
+                    skills: [
+                        skill({ name: 'Admin', bluck: 'Will', special: true }),
+                        skill({ name: 'Armorer', bluck: 'Health', special: true }),
+                        skill({ name: 'Broker', bluck: 'Will', special: true }),
+                        skill({ name: 'Criminal', bluck: 'Will', special: true }),
+                        skill({ name: 'Executive', bluck: 'Will', special: true }),
+                        skill({ name: 'Gunner', bluck: 'Health', special: true }),
+                        skill({ name: 'Instructor', bluck: 'Health', special: true }),
+                        skill({ name: 'Leader', bluck: 'Health', special: true }),
+                        skill({ name: 'Manipulator', bluck: 'Will', special: true }),
+                        skill({ name: 'Medic', bluck: 'Will', special: true }),
+                        skill({ name: 'Operator', bluck: 'Health', special: true }),
+                        skill({ name: 'Persuader', bluck: 'Will', special: true }),
+                        skill({ name: 'Pilot', bluck: 'Health', special: true }),
+                        skill({ name: 'Programmer', bluck: 'Will', special: true }),
+                        skill({ name: 'Scavenger', bluck: 'Will', special: true }),
+                        skill({ name: 'Scientist', bluck: 'Will', special: true }),
+                        skill({ name: 'Scout', bluck: 'Will', special: true }),
+                        skill({ name: 'Soldier', bluck: 'Health', special: false }),
+                        skill({ name: 'Survivalist', bluck: 'Health', special: true }),
+                        skill({ name: 'Technician', bluck: 'Health', special: true })
+                    ]
+                },
+                spells: spells(),
+                traits: [],
+                wises: []
+            }
+        },
+        torchbearer: character
+    };
+
+    const patch = (a, b) => {
+        for(let key in b) {
+            if(!a[key]) a[key] = b[key];
+            if(typeof(a[key]) == 'object') {
+                patch(a[key], b[key]);
+            }
+        }
+    };
+
+    var actions = {
+        delete: (model) => {
+            if(!confirm(`Delete ${model.bio.name}?`)) return;
+
+            localStorage.removeItem(model.bio.name);
+            return { success: `${model.bio.name} deleted from character storage` };
+        },
+        deleteAll: () => {
+            if(!confirm('Delete all saved characters?')) return;
+
+            localStorage.clear();
+            return { success: 'All characters deleted from character storage' };
+        },
+        export: (model) => {
+            let href = URL.createObjectURL(new Blob([JSON.stringify(model)]));
+            let a = document.createElement('a');
+            a.href = href;
+            a.download = `${model.bio.name}.tb2e`;
+            a.click();
+        },
+        import: (done) => {
+            let file = document.createElement('input');
+            file.type = 'file';
+            file.accept = '.tb2e';
+            file.onchange = (e) => {
+                e.target.files[0].text().then((t) => {
+                    let key = JSON.parse(t).bio.name;
+                    localStorage.setItem(key, t);
+                    done(`${key} added to character storage`);
+                });
+            };
+            file.click();
+        },
+        load: (model, key) => {
+            let name = key;
+            if(name == model.bio.name) return { model };
+
+            let alert = '';
+            if(model.bio.name && confirm(`Save ${model.bio.name} before changing characters?`)) {
+                localStorage.setItem(model.bio.name, JSON.stringify(model));
+                alert += `${model.bio.name} saved, `;
+            }
+
+            model = JSON.parse(localStorage.getItem(name));
+            if(!model.mod) model.mod = 'torchbearer';
+            
+            patch(model, mods[model.mod]());
+            return { model, alert: { success: `${alert}${model.bio.name} opened` }};
+        },
+        loadList: () => {
+            let characters = [...new Array(window.localStorage.length)].map((x,i) => window.localStorage.key(i));
+            characters.sort((a,b) => a.localeCompare(b));
+            return characters;
+        },
+        loadMod: (model, mod) => {
+            let alert = '';
+            if(model.bio.name && confirm(`Save ${model.bio.name} before changing characters?`)) {
+                localStorage.setItem(model.bio.name, JSON.stringify(model));
+                alert += `${model.bio.name} saved, `;
+            }
+
+            model = mods[mod]();
+            return { model, alert: { success: `${alert}${mod} loaded` }};
+        },
+        save: (model) => {
+            if(!model.bio.name)
+                return { error: 'Cannot save an unnamed character' };
+
+            localStorage.setItem(model.bio.name, JSON.stringify(model));
+            return { success: `${model.bio.name} saved` };
+        }
+    };
+
     /* src\components\Navbar.svelte generated by Svelte v3.48.0 */
+
+    const { console: console_1 } = globals;
     const file$1 = "src\\components\\Navbar.svelte";
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[29] = list[i];
+    	child_ctx[42] = list[i];
     	return child_ctx;
     }
 
-    // (40:12) <NavLink bind:tab={tab} tabValue="abilities">
+    // (97:12) <NavLink bind:tab={tab} tabValue="abilities">
     function create_default_slot_9(ctx) {
     	let t;
 
@@ -7370,14 +7513,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_9.name,
     		type: "slot",
-    		source: "(40:12) <NavLink bind:tab={tab} tabValue=\\\"abilities\\\">",
+    		source: "(97:12) <NavLink bind:tab={tab} tabValue=\\\"abilities\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (41:12) <NavLink bind:tab={tab} tabValue="advancement">
+    // (98:12) <NavLink bind:tab={tab} tabValue="advancement">
     function create_default_slot_8(ctx) {
     	let t;
 
@@ -7397,14 +7540,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_8.name,
     		type: "slot",
-    		source: "(41:12) <NavLink bind:tab={tab} tabValue=\\\"advancement\\\">",
+    		source: "(98:12) <NavLink bind:tab={tab} tabValue=\\\"advancement\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (42:12) <NavLink bind:tab={tab} tabValue="bio">
+    // (99:12) <NavLink bind:tab={tab} tabValue="bio">
     function create_default_slot_7(ctx) {
     	let t;
 
@@ -7424,14 +7567,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_7.name,
     		type: "slot",
-    		source: "(42:12) <NavLink bind:tab={tab} tabValue=\\\"bio\\\">",
+    		source: "(99:12) <NavLink bind:tab={tab} tabValue=\\\"bio\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (43:12) <NavLink bind:tab={tab} tabValue="circles">
+    // (100:12) <NavLink bind:tab={tab} tabValue="circles">
     function create_default_slot_6(ctx) {
     	let t;
 
@@ -7451,14 +7594,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_6.name,
     		type: "slot",
-    		source: "(43:12) <NavLink bind:tab={tab} tabValue=\\\"circles\\\">",
+    		source: "(100:12) <NavLink bind:tab={tab} tabValue=\\\"circles\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (44:12) <NavLink bind:tab={tab} tabValue="inventory">
+    // (101:12) <NavLink bind:tab={tab} tabValue="inventory">
     function create_default_slot_5(ctx) {
     	let t;
 
@@ -7478,14 +7621,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_5.name,
     		type: "slot",
-    		source: "(44:12) <NavLink bind:tab={tab} tabValue=\\\"inventory\\\">",
+    		source: "(101:12) <NavLink bind:tab={tab} tabValue=\\\"inventory\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (45:12) <NavLink bind:tab={tab} tabValue="notes">
+    // (102:12) <NavLink bind:tab={tab} tabValue="notes">
     function create_default_slot_4(ctx) {
     	let t;
 
@@ -7505,14 +7648,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_4.name,
     		type: "slot",
-    		source: "(45:12) <NavLink bind:tab={tab} tabValue=\\\"notes\\\">",
+    		source: "(102:12) <NavLink bind:tab={tab} tabValue=\\\"notes\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (46:12) <NavLink bind:tab={tab} tabValue="skills">
+    // (103:12) <NavLink bind:tab={tab} tabValue="skills">
     function create_default_slot_3(ctx) {
     	let t;
 
@@ -7532,14 +7675,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_3.name,
     		type: "slot",
-    		source: "(46:12) <NavLink bind:tab={tab} tabValue=\\\"skills\\\">",
+    		source: "(103:12) <NavLink bind:tab={tab} tabValue=\\\"skills\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (47:12) <NavLink bind:tab={tab} tabValue="spells">
+    // (104:12) <NavLink bind:tab={tab} tabValue="spells">
     function create_default_slot_2(ctx) {
     	let t;
 
@@ -7559,14 +7702,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_2.name,
     		type: "slot",
-    		source: "(47:12) <NavLink bind:tab={tab} tabValue=\\\"spells\\\">",
+    		source: "(104:12) <NavLink bind:tab={tab} tabValue=\\\"spells\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (48:12) <NavLink bind:tab={tab} tabValue="traits">
+    // (105:12) <NavLink bind:tab={tab} tabValue="traits">
     function create_default_slot_1(ctx) {
     	let t;
 
@@ -7586,14 +7729,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_1.name,
     		type: "slot",
-    		source: "(48:12) <NavLink bind:tab={tab} tabValue=\\\"traits\\\">",
+    		source: "(105:12) <NavLink bind:tab={tab} tabValue=\\\"traits\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (49:12) <NavLink bind:tab={tab} tabValue="wises">
+    // (106:12) <NavLink bind:tab={tab} tabValue="wises">
     function create_default_slot(ctx) {
     	let t;
 
@@ -7613,23 +7756,23 @@ var app = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(49:12) <NavLink bind:tab={tab} tabValue=\\\"wises\\\">",
+    		source: "(106:12) <NavLink bind:tab={tab} tabValue=\\\"wises\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (53:20) {#each characters as character}
+    // (110:20) {#each characters as character}
     function create_each_block(ctx) {
     	let button;
-    	let t_value = /*character*/ ctx[29] + "";
+    	let t_value = /*character*/ ctx[42] + "";
     	let t;
     	let mounted;
     	let dispose;
 
     	function click_handler_2() {
-    		return /*click_handler_2*/ ctx[22](/*character*/ ctx[29]);
+    		return /*click_handler_2*/ ctx[29](/*character*/ ctx[42]);
     	}
 
     	const block = {
@@ -7637,7 +7780,7 @@ var app = (function () {
     			button = element("button");
     			t = text(t_value);
     			attr_dev(button, "class", "dropdown-item");
-    			add_location(button, file$1, 53, 24, 2417);
+    			add_location(button, file$1, 110, 24, 3621);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -7645,7 +7788,7 @@ var app = (function () {
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(button, "blur", /*clearMenu*/ ctx[6], false, false, false),
+    					listen_dev(button, "blur", /*clearMenu*/ ctx[8], false, false, false),
     					listen_dev(button, "click", click_handler_2, false, false, false)
     				];
 
@@ -7654,6 +7797,7 @@ var app = (function () {
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
+    			if (dirty[0] & /*characters*/ 8 && t_value !== (t_value = /*character*/ ctx[42] + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(button);
@@ -7666,39 +7810,109 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(53:20) {#each characters as character}",
+    		source: "(110:20) {#each characters as character}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (80:0) {#if model.alert}
-    function create_if_block$1(ctx) {
-    	let div;
+    // (141:23) 
+    function create_if_block_1$1(ctx) {
+    	let button;
     	let strong;
-    	let t_value = /*model*/ ctx[1].alert + "";
+    	let t_value = /*alert*/ ctx[4].error + "";
     	let t;
+    	let mounted;
+    	let dispose;
 
     	const block = {
     		c: function create() {
-    			div = element("div");
+    			button = element("button");
     			strong = element("strong");
     			t = text(t_value);
-    			add_location(strong, file$1, 81, 4, 4228);
-    			attr_dev(div, "class", "alert alert-static alert success btn text-center w-100");
-    			add_location(div, file$1, 80, 0, 4154);
+    			add_location(strong, file$1, 142, 4, 5832);
+    			attr_dev(button, "class", "alert alert-static alert-danger btn text-center w-100");
+    			add_location(button, file$1, 141, 0, 5677);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			append_dev(div, strong);
+    			insert_dev(target, button, anchor);
+    			append_dev(button, strong);
     			append_dev(strong, t);
+    			/*button_binding_1*/ ctx[37](button);
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(button, "blur", /*blur_handler_1*/ ctx[38], false, false, false),
+    					listen_dev(button, "click", /*click_handler_8*/ ctx[39], false, false, false)
+    				];
+
+    				mounted = true;
+    			}
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*model*/ 2 && t_value !== (t_value = /*model*/ ctx[1].alert + "")) set_data_dev(t, t_value);
+    			if (dirty[0] & /*alert*/ 16 && t_value !== (t_value = /*alert*/ ctx[4].error + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
+    			if (detaching) detach_dev(button);
+    			/*button_binding_1*/ ctx[37](null);
+    			mounted = false;
+    			run_all(dispose);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1$1.name,
+    		type: "if",
+    		source: "(141:23) ",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (137:0) {#if alert?.success}
+    function create_if_block$1(ctx) {
+    	let button;
+    	let strong;
+    	let t_value = /*alert*/ ctx[4].success + "";
+    	let t;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			strong = element("strong");
+    			t = text(t_value);
+    			add_location(strong, file$1, 138, 4, 5607);
+    			attr_dev(button, "class", "alert alert-static alert-success btn text-center w-100");
+    			add_location(button, file$1, 137, 0, 5451);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+    			append_dev(button, strong);
+    			append_dev(strong, t);
+    			/*button_binding*/ ctx[34](button);
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(button, "blur", /*blur_handler*/ ctx[35], false, false, false),
+    					listen_dev(button, "click", /*click_handler_7*/ ctx[36], false, false, false)
+    				];
+
+    				mounted = true;
+    			}
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty[0] & /*alert*/ 16 && t_value !== (t_value = /*alert*/ ctx[4].success + "")) set_data_dev(t, t_value);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			/*button_binding*/ ctx[34](null);
+    			mounted = false;
+    			run_all(dispose);
     		}
     	};
 
@@ -7706,7 +7920,7 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(80:0) {#if model.alert}",
+    		source: "(137:0) {#if alert?.success}",
     		ctx
     	});
 
@@ -7787,7 +8001,7 @@ var app = (function () {
     	let dispose;
 
     	function navlink0_tab_binding(value) {
-    		/*navlink0_tab_binding*/ ctx[11](value);
+    		/*navlink0_tab_binding*/ ctx[18](value);
     	}
 
     	let navlink0_props = {
@@ -7804,7 +8018,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(navlink0, 'tab', navlink0_tab_binding));
 
     	function navlink1_tab_binding(value) {
-    		/*navlink1_tab_binding*/ ctx[12](value);
+    		/*navlink1_tab_binding*/ ctx[19](value);
     	}
 
     	let navlink1_props = {
@@ -7821,7 +8035,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(navlink1, 'tab', navlink1_tab_binding));
 
     	function navlink2_tab_binding(value) {
-    		/*navlink2_tab_binding*/ ctx[13](value);
+    		/*navlink2_tab_binding*/ ctx[20](value);
     	}
 
     	let navlink2_props = {
@@ -7838,7 +8052,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(navlink2, 'tab', navlink2_tab_binding));
 
     	function navlink3_tab_binding(value) {
-    		/*navlink3_tab_binding*/ ctx[14](value);
+    		/*navlink3_tab_binding*/ ctx[21](value);
     	}
 
     	let navlink3_props = {
@@ -7855,7 +8069,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(navlink3, 'tab', navlink3_tab_binding));
 
     	function navlink4_tab_binding(value) {
-    		/*navlink4_tab_binding*/ ctx[15](value);
+    		/*navlink4_tab_binding*/ ctx[22](value);
     	}
 
     	let navlink4_props = {
@@ -7872,7 +8086,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(navlink4, 'tab', navlink4_tab_binding));
 
     	function navlink5_tab_binding(value) {
-    		/*navlink5_tab_binding*/ ctx[16](value);
+    		/*navlink5_tab_binding*/ ctx[23](value);
     	}
 
     	let navlink5_props = {
@@ -7889,7 +8103,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(navlink5, 'tab', navlink5_tab_binding));
 
     	function navlink6_tab_binding(value) {
-    		/*navlink6_tab_binding*/ ctx[17](value);
+    		/*navlink6_tab_binding*/ ctx[24](value);
     	}
 
     	let navlink6_props = {
@@ -7906,7 +8120,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(navlink6, 'tab', navlink6_tab_binding));
 
     	function navlink7_tab_binding(value) {
-    		/*navlink7_tab_binding*/ ctx[18](value);
+    		/*navlink7_tab_binding*/ ctx[25](value);
     	}
 
     	let navlink7_props = {
@@ -7923,7 +8137,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(navlink7, 'tab', navlink7_tab_binding));
 
     	function navlink8_tab_binding(value) {
-    		/*navlink8_tab_binding*/ ctx[19](value);
+    		/*navlink8_tab_binding*/ ctx[26](value);
     	}
 
     	let navlink8_props = {
@@ -7940,7 +8154,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(navlink8, 'tab', navlink8_tab_binding));
 
     	function navlink9_tab_binding(value) {
-    		/*navlink9_tab_binding*/ ctx[20](value);
+    		/*navlink9_tab_binding*/ ctx[27](value);
     	}
 
     	let navlink9_props = {
@@ -7955,7 +8169,7 @@ var app = (function () {
 
     	navlink9 = new NavLink({ props: navlink9_props, $$inline: true });
     	binding_callbacks.push(() => bind(navlink9, 'tab', navlink9_tab_binding));
-    	let each_value = /*characters*/ ctx[9];
+    	let each_value = /*characters*/ ctx[3];
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -7963,7 +8177,13 @@ var app = (function () {
     		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
     	}
 
-    	let if_block = /*model*/ ctx[1].alert && create_if_block$1(ctx);
+    	function select_block_type(ctx, dirty) {
+    		if (/*alert*/ ctx[4]?.success) return create_if_block$1;
+    		if (/*alert*/ ctx[4]?.error) return create_if_block_1$1;
+    	}
+
+    	let current_block_type = select_block_type(ctx);
+    	let if_block = current_block_type && current_block_type(ctx);
 
     	const block = {
     		c: function create() {
@@ -8039,59 +8259,59 @@ var app = (function () {
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
     			attr_dev(span, "class", "navbar-toggler-icon");
-    			add_location(span, file$1, 35, 8, 1091);
+    			add_location(span, file$1, 92, 8, 2295);
     			attr_dev(button0, "class", "navbar-toggler");
     			attr_dev(button0, "type", "button");
-    			add_location(button0, file$1, 34, 4, 1007);
+    			add_location(button0, file$1, 91, 4, 2211);
     			attr_dev(a0, "href", "#");
     			attr_dev(a0, "class", "nav-link dropdown-toggle");
-    			toggle_class(a0, "disabled", !/*characters*/ ctx[9].length);
-    			add_location(a0, file$1, 50, 16, 2075);
+    			toggle_class(a0, "disabled", !/*characters*/ ctx[3].length);
+    			add_location(a0, file$1, 107, 16, 3279);
     			attr_dev(div0, "class", "dropdown-menu");
-    			attr_dev(div0, "style", div0_style_value = `display: ${/*menu*/ ctx[5] == 'characters' ? 'block' : 'none'}`);
-    			add_location(div0, file$1, 51, 16, 2247);
+    			attr_dev(div0, "style", div0_style_value = `display: ${/*menu*/ ctx[2] == 'characters' ? 'block' : 'none'}`);
+    			add_location(div0, file$1, 108, 16, 3451);
     			attr_dev(li0, "class", "nav-item dropdown");
-    			add_location(li0, file$1, 49, 12, 2027);
+    			add_location(li0, file$1, 106, 12, 3231);
     			attr_dev(a1, "href", "#");
     			attr_dev(a1, "class", "nav-link dropdown-toggle");
-    			add_location(a1, file$1, 58, 16, 2691);
+    			add_location(a1, file$1, 115, 16, 3869);
     			attr_dev(button1, "class", "dropdown-item");
-    			add_location(button1, file$1, 60, 20, 2922);
+    			add_location(button1, file$1, 117, 20, 4100);
     			attr_dev(button2, "class", "dropdown-item");
-    			add_location(button2, file$1, 61, 20, 3065);
+    			add_location(button2, file$1, 118, 20, 4243);
     			attr_dev(div1, "class", "dropdown-menu");
-    			attr_dev(div1, "style", div1_style_value = `display: ${/*menu*/ ctx[5] == 'mods' ? 'block' : 'none'}`);
-    			add_location(div1, file$1, 59, 16, 2815);
+    			attr_dev(div1, "style", div1_style_value = `display: ${/*menu*/ ctx[2] == 'mods' ? 'block' : 'none'}`);
+    			add_location(div1, file$1, 116, 16, 3993);
     			attr_dev(li1, "class", "nav-item dropdown");
-    			add_location(li1, file$1, 57, 12, 2643);
+    			add_location(li1, file$1, 114, 12, 3821);
     			attr_dev(ul, "class", "navbar-nav mr-auto");
-    			add_location(ul, file$1, 38, 8, 1248);
+    			add_location(ul, file$1, 95, 8, 2452);
     			attr_dev(button3, "href", "#");
     			attr_dev(button3, "class", "dropdown-toggle btn btn-light border border-dark");
-    			add_location(button3, file$1, 67, 16, 3364);
+    			add_location(button3, file$1, 124, 16, 4542);
     			attr_dev(button4, "class", "dropdown-item");
-    			add_location(button4, file$1, 69, 20, 3638);
+    			add_location(button4, file$1, 126, 20, 4816);
     			attr_dev(button5, "class", "dropdown-item");
-    			add_location(button5, file$1, 70, 20, 3723);
+    			add_location(button5, file$1, 127, 20, 4922);
     			attr_dev(button6, "class", "dropdown-item");
-    			add_location(button6, file$1, 71, 20, 3810);
+    			add_location(button6, file$1, 128, 20, 5032);
     			attr_dev(button7, "class", "dropdown-item");
-    			add_location(button7, file$1, 72, 20, 3897);
+    			add_location(button7, file$1, 129, 20, 5142);
     			attr_dev(button8, "class", "dropdown-item");
-    			add_location(button8, file$1, 73, 20, 3984);
+    			add_location(button8, file$1, 130, 20, 5252);
     			attr_dev(div2, "class", "dropdown-menu");
-    			attr_dev(div2, "style", div2_style_value = `display: ${/*menu*/ ctx[5] == 'options' ? 'block' : 'none'}`);
-    			add_location(div2, file$1, 68, 16, 3528);
+    			attr_dev(div2, "style", div2_style_value = `display: ${/*menu*/ ctx[2] == 'options' ? 'block' : 'none'}`);
+    			add_location(div2, file$1, 125, 16, 4706);
     			attr_dev(div3, "class", "nav-item dropdown");
-    			add_location(div3, file$1, 66, 12, 3315);
+    			add_location(div3, file$1, 123, 12, 4493);
     			attr_dev(div4, "class", "navbar-nav");
-    			add_location(div4, file$1, 65, 8, 3277);
+    			add_location(div4, file$1, 122, 8, 4455);
     			attr_dev(div5, "id", "$" + this.id + "_nav");
     			attr_dev(div5, "class", "collapse navbar-collapse");
-    			set_style(div5, "display", /*navDisplay*/ ctx[4], false);
-    			add_location(div5, file$1, 37, 4, 1153);
+    			set_style(div5, "display", /*navDisplay*/ ctx[1], false);
+    			add_location(div5, file$1, 94, 4, 2357);
     			attr_dev(nav, "class", "navbar navbar-expand-md navbar-light bg-light");
-    			add_location(nav, file$1, 33, 0, 942);
+    			add_location(nav, file$1, 90, 0, 2146);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -8162,22 +8382,27 @@ var app = (function () {
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(button0, "click", /*click_handler*/ ctx[10], false, false, false),
-    					listen_dev(a0, "blur", /*clearMenu*/ ctx[6], false, false, false),
-    					listen_dev(a0, "click", /*click_handler_1*/ ctx[21], false, false, false),
-    					listen_dev(a1, "blur", /*clearMenu*/ ctx[6], false, false, false),
-    					listen_dev(a1, "click", /*click_handler_3*/ ctx[23], false, false, false),
-    					listen_dev(button1, "blur", /*clearMenu*/ ctx[6], false, false, false),
-    					listen_dev(button1, "click", /*click_handler_4*/ ctx[24], false, false, false),
-    					listen_dev(button2, "blur", /*clearMenu*/ ctx[6], false, false, false),
-    					listen_dev(button2, "click", /*click_handler_5*/ ctx[25], false, false, false),
-    					listen_dev(button3, "blur", /*clearMenu*/ ctx[6], false, false, false),
-    					listen_dev(button3, "click", /*click_handler_6*/ ctx[26], false, false, false),
-    					listen_dev(button4, "blur", /*clearMenu*/ ctx[6], false, false, false),
-    					listen_dev(button5, "blur", /*clearMenu*/ ctx[6], false, false, false),
-    					listen_dev(button6, "blur", /*clearMenu*/ ctx[6], false, false, false),
-    					listen_dev(button7, "blur", /*clearMenu*/ ctx[6], false, false, false),
-    					listen_dev(button8, "blur", /*clearMenu*/ ctx[6], false, false, false)
+    					listen_dev(button0, "click", /*click_handler*/ ctx[17], false, false, false),
+    					listen_dev(a0, "blur", /*clearMenu*/ ctx[8], false, false, false),
+    					listen_dev(a0, "click", /*click_handler_1*/ ctx[28], false, false, false),
+    					listen_dev(a1, "blur", /*clearMenu*/ ctx[8], false, false, false),
+    					listen_dev(a1, "click", /*click_handler_3*/ ctx[30], false, false, false),
+    					listen_dev(button1, "blur", /*clearMenu*/ ctx[8], false, false, false),
+    					listen_dev(button1, "click", /*click_handler_4*/ ctx[31], false, false, false),
+    					listen_dev(button2, "blur", /*clearMenu*/ ctx[8], false, false, false),
+    					listen_dev(button2, "click", /*click_handler_5*/ ctx[32], false, false, false),
+    					listen_dev(button3, "blur", /*clearMenu*/ ctx[8], false, false, false),
+    					listen_dev(button3, "click", /*click_handler_6*/ ctx[33], false, false, false),
+    					listen_dev(button4, "click", /*saveClick*/ ctx[12], false, false, false),
+    					listen_dev(button4, "blur", /*clearMenu*/ ctx[8], false, false, false),
+    					listen_dev(button5, "click", /*exportClick*/ ctx[11], false, false, false),
+    					listen_dev(button5, "blur", /*clearMenu*/ ctx[8], false, false, false),
+    					listen_dev(button6, "click", /*importClick*/ ctx[15], false, false, false),
+    					listen_dev(button6, "blur", /*clearMenu*/ ctx[8], false, false, false),
+    					listen_dev(button7, "click", /*deleteClick*/ ctx[9], false, false, false),
+    					listen_dev(button7, "blur", /*clearMenu*/ ctx[8], false, false, false),
+    					listen_dev(button8, "click", /*deleteAllClick*/ ctx[10], false, false, false),
+    					listen_dev(button8, "blur", /*clearMenu*/ ctx[8], false, false, false)
     				];
 
     				mounted = true;
@@ -8186,7 +8411,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const navlink0_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 2) {
+    			if (dirty[1] & /*$$scope*/ 16384) {
     				navlink0_changes.$$scope = { dirty, ctx };
     			}
 
@@ -8199,7 +8424,7 @@ var app = (function () {
     			navlink0.$set(navlink0_changes);
     			const navlink1_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 2) {
+    			if (dirty[1] & /*$$scope*/ 16384) {
     				navlink1_changes.$$scope = { dirty, ctx };
     			}
 
@@ -8212,7 +8437,7 @@ var app = (function () {
     			navlink1.$set(navlink1_changes);
     			const navlink2_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 2) {
+    			if (dirty[1] & /*$$scope*/ 16384) {
     				navlink2_changes.$$scope = { dirty, ctx };
     			}
 
@@ -8225,7 +8450,7 @@ var app = (function () {
     			navlink2.$set(navlink2_changes);
     			const navlink3_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 2) {
+    			if (dirty[1] & /*$$scope*/ 16384) {
     				navlink3_changes.$$scope = { dirty, ctx };
     			}
 
@@ -8238,7 +8463,7 @@ var app = (function () {
     			navlink3.$set(navlink3_changes);
     			const navlink4_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 2) {
+    			if (dirty[1] & /*$$scope*/ 16384) {
     				navlink4_changes.$$scope = { dirty, ctx };
     			}
 
@@ -8251,7 +8476,7 @@ var app = (function () {
     			navlink4.$set(navlink4_changes);
     			const navlink5_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 2) {
+    			if (dirty[1] & /*$$scope*/ 16384) {
     				navlink5_changes.$$scope = { dirty, ctx };
     			}
 
@@ -8264,7 +8489,7 @@ var app = (function () {
     			navlink5.$set(navlink5_changes);
     			const navlink6_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 2) {
+    			if (dirty[1] & /*$$scope*/ 16384) {
     				navlink6_changes.$$scope = { dirty, ctx };
     			}
 
@@ -8277,7 +8502,7 @@ var app = (function () {
     			navlink6.$set(navlink6_changes);
     			const navlink7_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 2) {
+    			if (dirty[1] & /*$$scope*/ 16384) {
     				navlink7_changes.$$scope = { dirty, ctx };
     			}
 
@@ -8290,7 +8515,7 @@ var app = (function () {
     			navlink7.$set(navlink7_changes);
     			const navlink8_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 2) {
+    			if (dirty[1] & /*$$scope*/ 16384) {
     				navlink8_changes.$$scope = { dirty, ctx };
     			}
 
@@ -8303,7 +8528,7 @@ var app = (function () {
     			navlink8.$set(navlink8_changes);
     			const navlink9_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 2) {
+    			if (dirty[1] & /*$$scope*/ 16384) {
     				navlink9_changes.$$scope = { dirty, ctx };
     			}
 
@@ -8315,8 +8540,12 @@ var app = (function () {
 
     			navlink9.$set(navlink9_changes);
 
-    			if (dirty[0] & /*clearMenu, changeCharacter, characters*/ 580) {
-    				each_value = /*characters*/ ctx[9];
+    			if (dirty[0] & /*characters*/ 8) {
+    				toggle_class(a0, "disabled", !/*characters*/ ctx[3].length);
+    			}
+
+    			if (dirty[0] & /*clearMenu, changeCharacter, characters*/ 328) {
+    				each_value = /*characters*/ ctx[3];
     				validate_each_argument(each_value);
     				let i;
 
@@ -8339,33 +8568,32 @@ var app = (function () {
     				each_blocks.length = each_value.length;
     			}
 
-    			if (!current || dirty[0] & /*menu*/ 32 && div0_style_value !== (div0_style_value = `display: ${/*menu*/ ctx[5] == 'characters' ? 'block' : 'none'}`)) {
+    			if (!current || dirty[0] & /*menu*/ 4 && div0_style_value !== (div0_style_value = `display: ${/*menu*/ ctx[2] == 'characters' ? 'block' : 'none'}`)) {
     				attr_dev(div0, "style", div0_style_value);
     			}
 
-    			if (!current || dirty[0] & /*menu*/ 32 && div1_style_value !== (div1_style_value = `display: ${/*menu*/ ctx[5] == 'mods' ? 'block' : 'none'}`)) {
+    			if (!current || dirty[0] & /*menu*/ 4 && div1_style_value !== (div1_style_value = `display: ${/*menu*/ ctx[2] == 'mods' ? 'block' : 'none'}`)) {
     				attr_dev(div1, "style", div1_style_value);
     			}
 
-    			if (!current || dirty[0] & /*menu*/ 32 && div2_style_value !== (div2_style_value = `display: ${/*menu*/ ctx[5] == 'options' ? 'block' : 'none'}`)) {
+    			if (!current || dirty[0] & /*menu*/ 4 && div2_style_value !== (div2_style_value = `display: ${/*menu*/ ctx[2] == 'options' ? 'block' : 'none'}`)) {
     				attr_dev(div2, "style", div2_style_value);
     			}
 
-    			if (dirty[0] & /*navDisplay*/ 16) {
-    				set_style(div5, "display", /*navDisplay*/ ctx[4], false);
+    			if (dirty[0] & /*navDisplay*/ 2) {
+    				set_style(div5, "display", /*navDisplay*/ ctx[1], false);
     			}
 
-    			if (/*model*/ ctx[1].alert) {
+    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
+    				if_block.p(ctx, dirty);
+    			} else {
+    				if (if_block) if_block.d(1);
+    				if_block = current_block_type && current_block_type(ctx);
+
     				if (if_block) {
-    					if_block.p(ctx, dirty);
-    				} else {
-    					if_block = create_if_block$1(ctx);
     					if_block.c();
     					if_block.m(if_block_anchor.parentNode, if_block_anchor);
     				}
-    			} else if (if_block) {
-    				if_block.d(1);
-    				if_block = null;
     			}
     		},
     		i: function intro(local) {
@@ -8409,7 +8637,11 @@ var app = (function () {
     			destroy_component(navlink9);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(t31);
-    			if (if_block) if_block.d(detaching);
+
+    			if (if_block) {
+    				if_block.d(detaching);
+    			}
+
     			if (detaching) detach_dev(if_block_anchor);
     			mounted = false;
     			run_all(dispose);
@@ -8427,38 +8659,97 @@ var app = (function () {
     	return block;
     }
 
+    const autosaveInterval = 10000; // 10s
+
     function instance$1($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Navbar', slots, []);
     	let { model = character() } = $$props;
-    	let { changeCharacter = () => 0 } = $$props;
-    	let { changeMod = () => 0 } = $$props;
     	let { tab = 'bio' } = $$props;
-    	let isOpen = false;
     	let navDisplay = 'none';
     	let menu = '';
+    	let characters = [];
+    	let alert;
+    	let dismiss;
+
+    	function changeCharacter(character) {
+    		let result = actions.load(model, character);
+    		$$invalidate(16, model = result.model);
+    		$$invalidate(4, alert = result.alert);
+    	}
+
+    	function changeMod(mod) {
+    		let result = actions.loadMod(model, mod);
+    		$$invalidate(16, model = result.model);
+    		$$invalidate(4, alert = result.alert);
+    	}
 
     	function clearMenu(e) {
     		if (e.relatedTarget?.className.includes('dropdown-item')) return;
-    		$$invalidate(5, menu = '');
+    		$$invalidate(2, menu = '');
+    	}
+
+    	function deleteClick() {
+    		$$invalidate(4, alert = actions.delete(model));
+    		loadCharacterList();
+    	}
+
+    	function deleteAllClick() {
+    		$$invalidate(4, alert = actions.deleteAll());
+    		loadCharacterList();
+    	}
+
+    	function exportClick() {
+    		actions.export(model);
+    	}
+
+    	function loadCharacterList() {
+    		$$invalidate(3, characters = actions.loadList());
+    	}
+
+    	function saveClick() {
+    		$$invalidate(4, alert = actions.save(model));
+    		$$invalidate(3, characters = actions.loadList());
     	}
 
     	function setMenu(item) {
-    		$$invalidate(5, menu = item);
+    		$$invalidate(2, menu = item);
     	}
 
     	function toggleNav() {
-    		$$invalidate(4, navDisplay = navDisplay == 'none' ? 'block' : 'none');
+    		$$invalidate(1, navDisplay = navDisplay == 'none' ? 'block' : 'none');
     	}
 
-    	let characters = [...new Array(window.localStorage.length)].map((x, i) => window.localStorage.key(i));
-    	characters.sort((a, b) => a.localeCompare(b));
-    	let saved = characters.find(x => x == model.bio.name) != null;
-    	if (saved) localStorage.setItem(model.bio.name, JSON.stringify(model));
-    	const writable_props = ['model', 'changeCharacter', 'changeMod', 'tab'];
+    	function importClick() {
+    		actions.import(msg => {
+    			$$invalidate(4, alert = { success: msg });
+    			$$invalidate(3, characters = actions.loadList());
+    		});
+    	}
+
+    	loadCharacterList();
+
+    	let autoSave = window.setInterval(
+    		() => {
+    			console.log(`Autosave (${model.bio.name})`);
+    			let saved = characters.find(x => x == model.bio.name) != null;
+    			if (saved) actions.save(model);
+    		},
+    		autosaveInterval
+    	);
+
+    	afterUpdate(() => {
+    		if (dismiss) dismiss.focus();
+    	});
+
+    	onDestroy(() => {
+    		clearInterval(autoSave);
+    	});
+
+    	const writable_props = ['model', 'tab'];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Navbar> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<Navbar> was created with unknown prop '${key}'`);
     	});
 
     	const click_handler = () => toggleNav();
@@ -8514,46 +8805,74 @@ var app = (function () {
     	}
 
     	const click_handler_1 = () => setMenu('characters');
-    	const click_handler_2 = character => changeCharacter(JSON.parse(localStorage[character]));
+    	const click_handler_2 = character => changeCharacter(character);
     	const click_handler_3 = () => setMenu('mods');
     	const click_handler_4 = () => changeMod('colonialMarines');
     	const click_handler_5 = () => changeMod('torchbearer');
     	const click_handler_6 = () => setMenu('options');
 
+    	function button_binding($$value) {
+    		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
+    			dismiss = $$value;
+    			$$invalidate(5, dismiss);
+    		});
+    	}
+
+    	const blur_handler = () => $$invalidate(4, alert = null);
+    	const click_handler_7 = () => $$invalidate(4, alert = null);
+
+    	function button_binding_1($$value) {
+    		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
+    			dismiss = $$value;
+    			$$invalidate(5, dismiss);
+    		});
+    	}
+
+    	const blur_handler_1 = () => $$invalidate(4, alert = null);
+    	const click_handler_8 = () => $$invalidate(4, alert = null);
+
     	$$self.$$set = $$props => {
-    		if ('model' in $$props) $$invalidate(1, model = $$props.model);
-    		if ('changeCharacter' in $$props) $$invalidate(2, changeCharacter = $$props.changeCharacter);
-    		if ('changeMod' in $$props) $$invalidate(3, changeMod = $$props.changeMod);
+    		if ('model' in $$props) $$invalidate(16, model = $$props.model);
     		if ('tab' in $$props) $$invalidate(0, tab = $$props.tab);
     	};
 
     	$$self.$capture_state = () => ({
+    		afterUpdate,
+    		onDestroy,
     		character,
     		NavLink,
+    		actions,
     		model,
-    		changeCharacter,
-    		changeMod,
     		tab,
-    		isOpen,
+    		autosaveInterval,
     		navDisplay,
     		menu,
+    		characters,
+    		alert,
+    		dismiss,
+    		changeCharacter,
+    		changeMod,
     		clearMenu,
+    		deleteClick,
+    		deleteAllClick,
+    		exportClick,
+    		loadCharacterList,
+    		saveClick,
     		setMenu,
     		toggleNav,
-    		characters,
-    		saved
+    		importClick,
+    		autoSave
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('model' in $$props) $$invalidate(1, model = $$props.model);
-    		if ('changeCharacter' in $$props) $$invalidate(2, changeCharacter = $$props.changeCharacter);
-    		if ('changeMod' in $$props) $$invalidate(3, changeMod = $$props.changeMod);
+    		if ('model' in $$props) $$invalidate(16, model = $$props.model);
     		if ('tab' in $$props) $$invalidate(0, tab = $$props.tab);
-    		if ('isOpen' in $$props) isOpen = $$props.isOpen;
-    		if ('navDisplay' in $$props) $$invalidate(4, navDisplay = $$props.navDisplay);
-    		if ('menu' in $$props) $$invalidate(5, menu = $$props.menu);
-    		if ('characters' in $$props) $$invalidate(9, characters = $$props.characters);
-    		if ('saved' in $$props) saved = $$props.saved;
+    		if ('navDisplay' in $$props) $$invalidate(1, navDisplay = $$props.navDisplay);
+    		if ('menu' in $$props) $$invalidate(2, menu = $$props.menu);
+    		if ('characters' in $$props) $$invalidate(3, characters = $$props.characters);
+    		if ('alert' in $$props) $$invalidate(4, alert = $$props.alert);
+    		if ('dismiss' in $$props) $$invalidate(5, dismiss = $$props.dismiss);
+    		if ('autoSave' in $$props) autoSave = $$props.autoSave;
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -8562,15 +8881,22 @@ var app = (function () {
 
     	return [
     		tab,
-    		model,
-    		changeCharacter,
-    		changeMod,
     		navDisplay,
     		menu,
+    		characters,
+    		alert,
+    		dismiss,
+    		changeCharacter,
+    		changeMod,
     		clearMenu,
+    		deleteClick,
+    		deleteAllClick,
+    		exportClick,
+    		saveClick,
     		setMenu,
     		toggleNav,
-    		characters,
+    		importClick,
+    		model,
     		click_handler,
     		navlink0_tab_binding,
     		navlink1_tab_binding,
@@ -8587,29 +8913,20 @@ var app = (function () {
     		click_handler_3,
     		click_handler_4,
     		click_handler_5,
-    		click_handler_6
+    		click_handler_6,
+    		button_binding,
+    		blur_handler,
+    		click_handler_7,
+    		button_binding_1,
+    		blur_handler_1,
+    		click_handler_8
     	];
     }
 
     class Navbar extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-
-    		init(
-    			this,
-    			options,
-    			instance$1,
-    			create_fragment$1,
-    			safe_not_equal,
-    			{
-    				model: 1,
-    				changeCharacter: 2,
-    				changeMod: 3,
-    				tab: 0
-    			},
-    			null,
-    			[-1, -1]
-    		);
+    		init(this, options, instance$1, create_fragment$1, safe_not_equal, { model: 16, tab: 0 }, null, [-1, -1]);
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -8624,22 +8941,6 @@ var app = (function () {
     	}
 
     	set model(value) {
-    		throw new Error("<Navbar>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	get changeCharacter() {
-    		throw new Error("<Navbar>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	set changeCharacter(value) {
-    		throw new Error("<Navbar>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	get changeMod() {
-    		throw new Error("<Navbar>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	set changeMod(value) {
     		throw new Error("<Navbar>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
 
@@ -8793,7 +9094,7 @@ var app = (function () {
     	let current;
 
     	circles = new Circles({
-    			props: { circles: /*model*/ ctx[1].circles },
+    			props: { circles: /*model*/ ctx[0].circles },
     			$$inline: true
     		});
 
@@ -8805,7 +9106,11 @@ var app = (function () {
     			mount_component(circles, target, anchor);
     			current = true;
     		},
-    		p: noop,
+    		p: function update(ctx, dirty) {
+    			const circles_changes = {};
+    			if (dirty & /*model*/ 1) circles_changes.circles = /*model*/ ctx[0].circles;
+    			circles.$set(circles_changes);
+    		},
     		i: function intro(local) {
     			if (current) return;
     			transition_in(circles.$$.fragment, local);
@@ -8837,7 +9142,7 @@ var app = (function () {
     	let current;
 
     	bio = new Bio({
-    			props: { model: /*model*/ ctx[1] },
+    			props: { model: /*model*/ ctx[0] },
     			$$inline: true
     		});
 
@@ -8849,7 +9154,11 @@ var app = (function () {
     			mount_component(bio, target, anchor);
     			current = true;
     		},
-    		p: noop,
+    		p: function update(ctx, dirty) {
+    			const bio_changes = {};
+    			if (dirty & /*model*/ 1) bio_changes.model = /*model*/ ctx[0];
+    			bio.$set(bio_changes);
+    		},
     		i: function intro(local) {
     			if (current) return;
     			transition_in(bio.$$.fragment, local);
@@ -8881,7 +9190,7 @@ var app = (function () {
     	let current;
 
     	advancement = new Advancement({
-    			props: { model: /*model*/ ctx[1] },
+    			props: { model: /*model*/ ctx[0] },
     			$$inline: true
     		});
 
@@ -8893,7 +9202,11 @@ var app = (function () {
     			mount_component(advancement, target, anchor);
     			current = true;
     		},
-    		p: noop,
+    		p: function update(ctx, dirty) {
+    			const advancement_changes = {};
+    			if (dirty & /*model*/ 1) advancement_changes.model = /*model*/ ctx[0];
+    			advancement.$set(advancement_changes);
+    		},
     		i: function intro(local) {
     			if (current) return;
     			transition_in(advancement.$$.fragment, local);
@@ -8925,7 +9238,7 @@ var app = (function () {
     	let current;
 
     	abilities = new Abilities({
-    			props: { model: /*model*/ ctx[1] },
+    			props: { model: /*model*/ ctx[0] },
     			$$inline: true
     		});
 
@@ -8937,7 +9250,11 @@ var app = (function () {
     			mount_component(abilities, target, anchor);
     			current = true;
     		},
-    		p: noop,
+    		p: function update(ctx, dirty) {
+    			const abilities_changes = {};
+    			if (dirty & /*model*/ 1) abilities_changes.model = /*model*/ ctx[0];
+    			abilities.$set(abilities_changes);
+    		},
     		i: function intro(local) {
     			if (current) return;
     			transition_in(abilities.$$.fragment, local);
@@ -8968,6 +9285,7 @@ var app = (function () {
     	let t0;
     	let main;
     	let navbar;
+    	let updating_model;
     	let updating_tab;
     	let t1;
     	let conditions;
@@ -8976,21 +9294,30 @@ var app = (function () {
     	let if_block;
     	let current;
 
-    	function navbar_tab_binding(value) {
-    		/*navbar_tab_binding*/ ctx[2](value);
+    	function navbar_model_binding(value) {
+    		/*navbar_model_binding*/ ctx[2](value);
     	}
 
-    	let navbar_props = { model: /*model*/ ctx[1] };
+    	function navbar_tab_binding(value) {
+    		/*navbar_tab_binding*/ ctx[3](value);
+    	}
 
-    	if (/*tab*/ ctx[0] !== void 0) {
-    		navbar_props.tab = /*tab*/ ctx[0];
+    	let navbar_props = {};
+
+    	if (/*model*/ ctx[0] !== void 0) {
+    		navbar_props.model = /*model*/ ctx[0];
+    	}
+
+    	if (/*tab*/ ctx[1] !== void 0) {
+    		navbar_props.tab = /*tab*/ ctx[1];
     	}
 
     	navbar = new Navbar({ props: navbar_props, $$inline: true });
+    	binding_callbacks.push(() => bind(navbar, 'model', navbar_model_binding));
     	binding_callbacks.push(() => bind(navbar, 'tab', navbar_tab_binding));
 
     	conditions = new Conditions({
-    			props: { model: /*model*/ ctx[1] },
+    			props: { model: /*model*/ ctx[0] },
     			$$inline: true
     		});
 
@@ -9010,16 +9337,16 @@ var app = (function () {
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
-    		if (/*tab*/ ctx[0] == 'abilities') return 0;
-    		if (/*tab*/ ctx[0] == 'advancement') return 1;
-    		if (/*tab*/ ctx[0] == 'bio') return 2;
-    		if (/*tab*/ ctx[0] == 'circles') return 3;
-    		if (/*tab*/ ctx[0] == 'inventory') return 4;
-    		if (/*tab*/ ctx[0] == 'notes') return 5;
-    		if (/*tab*/ ctx[0] == 'skills') return 6;
-    		if (/*tab*/ ctx[0] == 'spells') return 7;
-    		if (/*tab*/ ctx[0] == 'traits') return 8;
-    		if (/*tab*/ ctx[0] == 'wises') return 9;
+    		if (/*tab*/ ctx[1] == 'abilities') return 0;
+    		if (/*tab*/ ctx[1] == 'advancement') return 1;
+    		if (/*tab*/ ctx[1] == 'bio') return 2;
+    		if (/*tab*/ ctx[1] == 'circles') return 3;
+    		if (/*tab*/ ctx[1] == 'inventory') return 4;
+    		if (/*tab*/ ctx[1] == 'notes') return 5;
+    		if (/*tab*/ ctx[1] == 'skills') return 6;
+    		if (/*tab*/ ctx[1] == 'spells') return 7;
+    		if (/*tab*/ ctx[1] == 'traits') return 8;
+    		if (/*tab*/ ctx[1] == 'wises') return 9;
     		return -1;
     	}
 
@@ -9066,13 +9393,22 @@ var app = (function () {
     		p: function update(ctx, [dirty]) {
     			const navbar_changes = {};
 
-    			if (!updating_tab && dirty & /*tab*/ 1) {
+    			if (!updating_model && dirty & /*model*/ 1) {
+    				updating_model = true;
+    				navbar_changes.model = /*model*/ ctx[0];
+    				add_flush_callback(() => updating_model = false);
+    			}
+
+    			if (!updating_tab && dirty & /*tab*/ 2) {
     				updating_tab = true;
-    				navbar_changes.tab = /*tab*/ ctx[0];
+    				navbar_changes.tab = /*tab*/ ctx[1];
     				add_flush_callback(() => updating_tab = false);
     			}
 
     			navbar.$set(navbar_changes);
+    			const conditions_changes = {};
+    			if (dirty & /*model*/ 1) conditions_changes.model = /*model*/ ctx[0];
+    			conditions.$set(conditions_changes);
     			let previous_block_index = current_block_type_index;
     			current_block_type_index = select_block_type(ctx);
 
@@ -9156,9 +9492,14 @@ var app = (function () {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<App> was created with unknown prop '${key}'`);
     	});
 
+    	function navbar_model_binding(value) {
+    		model = value;
+    		$$invalidate(0, model);
+    	}
+
     	function navbar_tab_binding(value) {
     		tab = value;
-    		$$invalidate(0, tab);
+    		$$invalidate(1, tab);
     	}
 
     	$$self.$capture_state = () => ({
@@ -9174,15 +9515,15 @@ var app = (function () {
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('model' in $$props) $$invalidate(1, model = $$props.model);
-    		if ('tab' in $$props) $$invalidate(0, tab = $$props.tab);
+    		if ('model' in $$props) $$invalidate(0, model = $$props.model);
+    		if ('tab' in $$props) $$invalidate(1, tab = $$props.tab);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [tab, model, navbar_tab_binding];
+    	return [model, tab, navbar_model_binding, navbar_tab_binding];
     }
 
     class App extends SvelteComponentDev {

@@ -1,19 +1,59 @@
 <script>
+    import { afterUpdate, onDestroy } from 'svelte'
+
 	import character from "../models/character.js"
     import NavLink from "./NavLink.svelte"
+    import actions from '../actions/characterActions.js'
 
     export let model = character();
-    export let changeCharacter = () => 0;
-    export let changeMod = () => 0;
     export let tab = 'bio';
 
-    let isOpen = false;
+    const autosaveInterval = 10000; // 10s
+
     let navDisplay = 'none';
     let menu = '';
+    let characters = [];
+    let alert;
+    let dismiss;
+
+    function changeCharacter(character) {
+        let result = actions.load(model, character)
+        model = result.model;
+        alert = result.alert;
+    }
+
+    function changeMod(mod) {
+        let result = actions.loadMod(model, mod);
+        model = result.model;
+        alert = result.alert;
+    }
 
     function clearMenu(e) {
         if (e.relatedTarget?.className.includes('dropdown-item')) return;
         menu = '';
+    }
+
+    function deleteClick() {
+        alert = actions.delete(model);
+        loadCharacterList();
+    }
+
+    function deleteAllClick() {
+        alert = actions.deleteAll()
+        loadCharacterList();
+    }
+
+    function exportClick() {
+        actions.export(model)
+    }
+
+    function loadCharacterList() {
+        characters = actions.loadList();
+    }
+
+    function saveClick() {
+        alert = actions.save(model)
+        characters = actions.loadList();
     }
 
     function setMenu(item) {
@@ -24,11 +64,28 @@
         navDisplay = navDisplay == 'none' ? 'block' : 'none';
     }
 
-    let characters = [...new Array(window.localStorage.length)].map((x,i) => window.localStorage.key(i));
-    characters.sort((a,b) => a.localeCompare(b));
+    function importClick() {
+        actions.import((msg) => {
+            alert = { success: msg };
+            characters = actions.loadList();
+        });
+    }
 
-    let saved = characters.find(x => x == model.bio.name) != null;
-    if (saved) localStorage.setItem(model.bio.name, JSON.stringify(model));
+    loadCharacterList();
+
+    let autoSave = window.setInterval(() => {
+        console.log(`Autosave (${model.bio.name})`);
+        let saved = characters.find(x => x == model.bio.name) != null;
+        if (saved) actions.save(model);
+    }, autosaveInterval);
+
+    afterUpdate(() => {
+        if (dismiss) dismiss.focus();
+    });
+
+    onDestroy(() => {
+        clearInterval(autoSave);
+    });
 </script>
 
 <nav class="navbar navbar-expand-md navbar-light bg-light">
@@ -51,7 +108,7 @@
                 <a href='#' class="nav-link dropdown-toggle" class:disabled={!characters.length} on:blur={clearMenu} on:click={() => setMenu('characters')}>Characters</a>
                 <div class="dropdown-menu" style="{`display: ${menu == 'characters' ? 'block' : 'none'}`}">
                     {#each characters as character}
-                        <button on:blur={clearMenu} on:click={() => changeCharacter(JSON.parse(localStorage[character]))} class="dropdown-item">{character}</button>
+                        <button on:blur={clearMenu} on:click={() => changeCharacter(character)} class="dropdown-item">{character}</button>
                     {/each}
                 </div>
             </li>
@@ -67,18 +124,22 @@
             <div class="nav-item dropdown">
                 <button href='#' class="dropdown-toggle btn btn-light border border-dark" on:blur={clearMenu} on:click={() => setMenu('options')}>Options</button>
                 <div class="dropdown-menu" style="{`display: ${menu == 'options' ? 'block' : 'none'}`}">
-                    <button class="dropdown-item" on:blur={clearMenu}>Save</button>
-                    <button class="dropdown-item" on:blur={clearMenu}>Export</button>
-                    <button class="dropdown-item" on:blur={clearMenu}>Import</button>
-                    <button class="dropdown-item" on:blur={clearMenu}>Delete</button>
-                    <button class="dropdown-item" on:blur={clearMenu}>Delete all</button>
+                    <button class="dropdown-item" on:click={saveClick} on:blur={clearMenu}>Save</button>
+                    <button class="dropdown-item" on:click={exportClick} on:blur={clearMenu}>Export</button>
+                    <button class="dropdown-item" on:click={importClick} on:blur={clearMenu}>Import</button>
+                    <button class="dropdown-item" on:click={deleteClick} on:blur={clearMenu}>Delete</button>
+                    <button class="dropdown-item" on:click={deleteAllClick} on:blur={clearMenu}>Delete all</button>
                 </div>
             </div>
         </div>
     </div>
 </nav>
-{#if model.alert}
-<div class="alert alert-static alert success btn text-center w-100">
-    <strong>{model.alert}</strong>
-</div>
+{#if alert?.success}
+<button bind:this={dismiss} on:blur={() => alert = null} on:click={() => alert = null} class="alert alert-static alert-success btn text-center w-100">
+    <strong>{alert.success}</strong>
+</button>
+{:else if alert?.error}
+<button bind:this={dismiss} on:blur={() => alert = null} on:click={() => alert = null} class="alert alert-static alert-danger btn text-center w-100">
+    <strong>{alert.error}</strong>
+</button>
 {/if}

@@ -104,8 +104,10 @@ class Navbar extends Component{
 
         _(`#${this.id}_export`)[0].onclick = e => {
             let href = URL.createObjectURL(new Blob([JSON.stringify(this.parent.state)]));
-            e.target.href = href;
-            e.target.download = `${this.parent.state.bio.name}.tb2e`;
+            let a = document.createElement('a');
+            a.href = href;
+            a.download = `${this.parent.state.bio.name}.tb2e`;
+            a.click();
         };
 
         _(`#${this.id}_import`)[0].onclick = e => {

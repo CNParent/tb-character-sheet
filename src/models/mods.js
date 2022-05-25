@@ -1,6 +1,7 @@
 import abilities from "./abilities.js"
 import advancement from "./advancement.js"
 import bio from "./bio.js"
+import character from './character.js'
 import circles from "./circles"
 import conditions from "./conditions.js"
 import container from "./container.js"
