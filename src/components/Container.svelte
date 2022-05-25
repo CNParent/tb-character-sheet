@@ -9,11 +9,45 @@
     const smallButton = 'badge btn btn-light border border-dark align-self-center p-2';
     const canAdd = ['custom', 'pockets'].includes(container.format);
 
+    const itemActions = {
+        delete: (item) => {
+            let i = container.items.indexOf(item);
+            container.items.splice(i, 1);
+            container.items = container.items;
+        },
+        move: (item, n) => {
+            let index = container.items.indexOf(item);
+            container.items.splice(index, 1);
+
+            index += n;
+            if (index < 0) index = container.items.length;
+            else if (index > container.items.length) index = 0;
+
+            container.items.splice(index, 0, item);
+            container.items = container.items;
+        },
+        resize: (item, n) => {
+            console.log('resize(' + item + ', ' + n + ')');
+            item.size += n;
+            if (space - n < 0) item.size -= n;
+            if (item.size == 0) item.size = 1;
+            container.items = container.items;
+        }
+    };
+    
     let editName = false;
     let input;
     $: occupied = container.items.reduce((a,b) => a + b.size, 0);
     $: space = canAdd ? 1 : container.size - occupied;
-    $: canTransfer = clipboard == null || canAdd || clipboard.size <= space;
+    $: canTransfer = clipboard != null && (canAdd || clipboard.size <= space);
+    $: disableAdd = (clipboard == null && space == 0) && !canTransfer;
+
+    function add() {
+        if (space == 0) return;
+
+        container.items.push({ text: '', size: 1, id: crypto.randomUUID() });
+        container.items = container.items;
+    }
 
     function togglePack() {
         if (container.size == 6 && occupied <= 3) {
@@ -24,6 +58,10 @@
             container.name = 'Backpack';
         }
     }
+
+    container.items.forEach(x => {
+        if(!x.id) x.id = crypto.randomUUID();
+    });
 
     afterUpdate(() => {
         if (input) input.focus();
@@ -48,7 +86,7 @@
                 <span class="card-title mb-0">{container.name}</span>
             </h5>
             {/if}
-            {#if container.format == 'custom'}
+            {#if canAdd}
             <h5 class="ml-auto mr-1">
                 <span class="badge btn btn-light">{occupied}</span>
             </h5>
@@ -58,16 +96,18 @@
             </h5>
             {/if}
             <div class="ml-1 btn-group">
-                <span on:click={() => actions.hide(container)} class="{smallButton}">hide</span>
-                <span class="{smallButton}">a &rarr; z</span>
+                <button on:click={() => actions.hide(container)} class="{smallButton}">hide</button>
+                <button class="{smallButton}">a &rarr; z</button>
             </div>
         </div>
         <div class="card-body">
             <div class="d-flex flex-column">
-                {#each container.items as item}
-                <Item item={item}/>
+                {#each container.items as item (item.id)}
+                <Item bind:item={item} actions={itemActions} />
                 {/each}
-                <button disabled={!canTransfer} class="btn border mb-1 {canTransfer ? 'btn-light' : 'disabled btn-secondary'}" style="height: {2.5 * space}em;"></button>
+                {#if space > 0}
+                <button on:click={add} disabled={disableAdd} class="btn border mb-1 {disableAdd ? 'disabled btn-secondary' : 'btn-light'}" style="height: {2.5 * space}em;"></button>
+                {/if}
             </div>
             {#if container.format == 'custom'}
             <div class="d-flex">
