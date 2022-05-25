@@ -6,6 +6,7 @@
 	import Bio from "./components/Bio.svelte"
 	import Circles from './components/Circles.svelte'
 	import Conditions from "./components/Conditions.svelte"
+	import Inventory from './components/Inventory.svelte'
 	import Navbar from "./components/Navbar.svelte"
 
 	let model = character();
@@ -29,6 +30,7 @@
 	{:else if tab == 'circles'}
 	<Circles circles={model.circles} />
 	{:else if tab == 'inventory'}
+	<Inventory inventory={model.inventory} />
 	{:else if tab == 'notes'}
 	{:else if tab == 'skills'}
 	{:else if tab == 'spells'}
