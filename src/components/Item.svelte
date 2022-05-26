@@ -3,12 +3,17 @@
 
     export let item;
     export let actions;
+    export let selected = false;
 
     const btnStyle = 'btn border border-dark align-self-start';
 
     let editing = false;
 
     $: size = item.stackSize ? item.size + 1 : item.size;
+
+    function select() {
+        actions.select(item);
+    }
 
     function stackSize(n) {
         item.stackSize += n;
@@ -53,7 +58,14 @@
         </div>
     </div>
     {:else}
-    <span on:dragstart={() => actions.dragStart(item)} draggable="true" class="d-flex btn-group mb-1 w-100" style="min-height: {size * 2.5}em;">
+    <span 
+        on:dragstart={() => actions.dragStart(item)} 
+        on:dragend={() => actions.dragEnd()}
+        on:click={select}
+        class:m-2={selected}
+        draggable="true" 
+        class="d-flex btn-group mb-1" 
+        style="min-height: {size * 2.5}em;">
         <span class="btn btn-light text-left border border-dark flex-grow-1">
             <span>{item.text}</span>
             {#if item.stackSize}

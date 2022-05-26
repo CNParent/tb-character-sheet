@@ -5,6 +5,7 @@
     export let container;
     export let dragItem;
     export let actions;
+    export let selected;
 
     const smallButton = 'badge btn btn-light border border-dark align-self-center p-2';
     const canAdd = ['custom', 'pockets'].includes(container.format);
@@ -16,7 +17,7 @@
             container.items = container.items;
         },
         dragEnd: () => {
-
+            actions.dragEnd();
         },
         dragStart: (item) => {
             actions.dragStart(container, item);
@@ -33,11 +34,13 @@
             container.items = container.items;
         },
         resize: (item, n) => {
-            console.log('resize(' + item + ', ' + n + ')');
             item.size += n;
             if (space - n < 0) item.size -= n;
             if (item.size == 0) item.size = 1;
             container.items = container.items;
+        },
+        select: (item) => {
+            actions.select(container, item);
         }
     };
     
@@ -45,14 +48,26 @@
     let input;
     $: occupied = container.items.reduce((a,b) => a + b.size, 0);
     $: space = canAdd ? 1 : container.size - occupied;
-    $: canTransfer = dragItem != null && (canAdd || dragItem.size <= space);
-    $: disableAdd = (dragItem == null && space == 0) && !canTransfer;
+
+    let requiredSpace;
+    $: {
+        if (canAdd) requiredSpace = 1;
+        else if (dragItem != null) requiredSpace = dragItem.size;
+        else if (selected != null) requiredSpace = selected.size;
+        else requiredSpace = 1;
+    }
+
+    $: canTransfer = (dragItem != null || selected != null) && space >= requiredSpace
+    $: disabled = space < requiredSpace;
 
     function add() {
         if (space == 0) return;
-
-        container.items.push({ text: '', size: 1, id: crypto.randomUUID() });
-        container.items = container.items;
+        if (canTransfer) {
+            actions.selectEnd(container);
+        } else if (selected == null) {
+            container.items.push({ text: '', size: 1, id: crypto.randomUUID() });
+            container.items = container.items;
+        }
     }
 
     function dragEnter(e) {
@@ -131,7 +146,7 @@
         <div class="card-body">
             <div class="d-flex flex-column">
                 {#each container.items as item (item.id)}
-                <Item item={item} actions={itemActions} />
+                <Item item={item} actions={itemActions} selected={selected == item} />
                 {/each}
                 {#if space > 0}
                 <button 
@@ -139,9 +154,8 @@
                     on:dragleave={dragLeave}
                     on:dragover={dragOver}
                     on:drop={drop}
-                    on:click={add} 
-                    disabled={disableAdd} 
-                    class="drop btn border mb-1 {disableAdd ? 'disabled btn-secondary' : 'btn-light'}"
+                    on:click={add} disabled={disabled} 
+                    class="drop btn border mb-1 {disabled ? 'disabled btn-secondary' : 'btn-light'}"
                     style="height: {2.5 * space}em;">
                 </button>
                 {/if}

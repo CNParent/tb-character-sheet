@@ -6,6 +6,7 @@
 
     let dragContainer;
     let dragItem;
+    let selected;
 
     const actions = {
         delete: (container) => {
@@ -16,9 +17,11 @@
             inventory = inventory;
         },
         dragEnd: (container) => {
-            let i = dragContainer.items.indexOf(dragItem);
-            dragContainer.items.splice(i, 1);
-            container.items.push(dragItem);
+            if (container) {
+                let i = dragContainer.items.indexOf(dragItem);
+                dragContainer.items.splice(i, 1);
+                container.items.push(dragItem);
+            }
             dragItem = null;
             dragContainer = null;
             inventory = inventory;
@@ -30,6 +33,19 @@
         },
         hide: (container) => {
             container.hide = true;
+            inventory = inventory;
+        },
+        select: (container, item) => {
+            dragContainer = container;
+            selected = selected == item ? null : item;
+            inventory = inventory;
+        },
+        selectEnd: (container) => {
+            let i = dragContainer.items.indexOf(selected);
+            dragContainer.items.splice(i, 1);
+            container.items.push(selected);
+            selected = null;
+            dragContainer = null;
             inventory = inventory;
         }
     }
@@ -68,7 +84,7 @@
         </div>
         {#each inventory as container (container.id)}
         {#if !container.hide}
-        <Container container={container} dragItem={dragItem} actions={actions} />
+        <Container container={container} dragItem={dragItem} actions={actions} selected={selected} />
         {/if}
         {/each}
     </div> 
