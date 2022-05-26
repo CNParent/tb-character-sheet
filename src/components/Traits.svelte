@@ -25,10 +25,12 @@
 
         traits = traits;
     }
-
-    traits.forEach(trait => {
-        if (!trait.id) trait.id = crypto.randomUUID();
-    });
+    
+    $: {
+        traits.forEach(trait => {
+            if (!trait.id) trait.id = crypto.randomUUID();
+        });
+    }
 </script>
 
 <div id="${this.id}" class="container-fluid">

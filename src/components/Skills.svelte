@@ -35,9 +35,11 @@
         menu = '';
     }
 
-    skills.skills.forEach(skill => {
-        if (!skill.id) skill.id = crypto.randomUUID();
-    })
+    $: {
+        skills.skills.forEach(skill => {
+            if (!skill.id) skill.id = crypto.randomUUID();
+        });
+    }
 </script>
 
 <div class="container-fluid">

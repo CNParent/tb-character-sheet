@@ -43,9 +43,11 @@
         notes = notes;
     }
 
-    notes.forEach(note => {
-        if (!note.id) note.id = crypto.randomUUID();
-    });
+    $: {
+        notes.forEach(note => {
+            if (!note.id) note.id = crypto.randomUUID();
+        });
+    }
 </script>
 
 <div class="container-fluid">

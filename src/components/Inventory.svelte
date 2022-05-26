@@ -39,6 +39,12 @@
         inventory.push(c);
         inventory = inventory;
     }
+
+    $: {
+        inventory.forEach(container => {
+            if (!container.id) container.id = crypto.randomUUID();
+        })
+    }
 </script>
 
 <div class="container-fluid">
@@ -60,7 +66,7 @@
                 </div>
             </div>
         </div>
-        {#each inventory as container}
+        {#each inventory as container (container.id)}
         {#if !container.hide}
         <Container container={container} dragItem={dragItem} actions={actions} />
         {/if}

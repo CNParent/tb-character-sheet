@@ -12,6 +12,7 @@
 	import Skills from './components/Skills.svelte'
 	import Spells from './components/Spells.svelte'
 	import Traits from './components/Traits.svelte'
+	import Wises from './components/Wises.svelte'
 
 	let model = character();
 	let tab = 'bio';
@@ -24,7 +25,6 @@
 <main id="app">
 	<Navbar bind:model={model} bind:tab={tab} />
 	<Conditions model={model} />
-	<!-- svelte-ignore empty-block -->
 	{#if tab == 'abilities'}
 	<Abilities model={model} />
 	{:else if tab == 'advancement'}
@@ -44,5 +44,6 @@
 	{:else if tab == 'traits'}
 	<Traits traits={model.traits} />
 	{:else if tab == 'wises'}
+	<Wises wises={model.wises} />
 	{/if}
 </main>
