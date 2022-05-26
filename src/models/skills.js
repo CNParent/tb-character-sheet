@@ -2,7 +2,8 @@ import skill from './skill.js'
 
 const skills = () => {
     return {
-        compact: false,
+        show: 'all',
+        lockSpecialty: false,
         skills: [
             skill({ name: 'Alchemist', bluck: 'Will' }),
             skill({ name: 'Arcanist', bluck: 'Will' }),

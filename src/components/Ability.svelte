@@ -20,10 +20,10 @@
             <h2><button on:click={handleClick} class="badge btn btn-dark">{ability.rating}</button></h2>
         </div>
         {#if ability.rating < ability.cap}
-            <Bubbles count={maxPass} bind:value={ability.pass}>pass</Bubbles>
+            <Bubbles count={maxPass} bind:value={ability.pass}>Pass</Bubbles>
         {/if}
         {#if maxFail > 0 && ability.rating < ability.cap}
-            <Bubbles count={maxFail} bind:value={ability.fail}>fail</Bubbles>
+            <Bubbles count={maxFail} bind:value={ability.fail}>Fail</Bubbles>
         {/if}
     </div>
 </div>

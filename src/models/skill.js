@@ -1,5 +1,6 @@
 const skill = ({ name = '', bluck = 'Health', readonly = true, special = false }) => {
     return {
+        id: crypto.randomUUID(),
         name,
         bluck,
         readonly,
