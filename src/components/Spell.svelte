@@ -25,6 +25,7 @@
         spell.circle += e.shiftKey ? -1 : 1;
         if (spell.circle > 5) spell.circle = 1;
         else if (spell.circle < 1) spell.circle = 5;
+        actions.refresh();
     }
 
     function setInventory() {
