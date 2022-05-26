@@ -5,7 +5,7 @@
     export let actions;
     export let skill;
     export let bluckTries;
-    export let lockSpecial;
+    export let lockspecial;
 
     let editName = false;
     let input;
@@ -15,7 +15,7 @@
     $: showLuck = skill.rating == 0;
 
     function setSpecial() {
-        if (!lockSpecial) {
+        if (!lockspecial) {
             actions.setSpecial(skill);
         }
     }

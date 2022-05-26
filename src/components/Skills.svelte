@@ -35,6 +35,11 @@
         menu = '';
     }
 
+    function toggleLock() {
+        skills.lockspecial = !skills.lockspecial;
+        skills.skills = skills.skills;
+    }
+
     $: {
         skills.skills.forEach(skill => {
             if (!skill.id) skill.id = crypto.randomUUID();
@@ -58,14 +63,14 @@
                             </div>
                         </div>
                         <button 
-                            on:click={() => skills.lockspecial = !skills.lockspecial} 
+                            on:click={() => toggleLock()} 
                             class="btn border mb-1 {skills.lockspecial ? 'btn-dark' : 'btn-light'}">
                                 Lock specialty
                         </button>
                     </div>
                     <div class="row mt-2">
                         {#each filtered as skill (skill.id)}
-                        <Skill actions={actions} skill={skill} bluckTries={bluckTries} lockSpecial={skills.lockSpecial} />
+                        <Skill actions={actions} skill={skill} bluckTries={bluckTries} lockspecial={skills.lockspecial} />
                         {/each}
                     </div>
                 </div>
