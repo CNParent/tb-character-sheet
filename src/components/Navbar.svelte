@@ -92,7 +92,7 @@
     <button class="navbar-toggler" type="button" on:click={() => toggleNav()}>
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div id="${this.id}_nav" class="collapse navbar-collapse" style:display={navDisplay}>
+    <div class="collapse navbar-collapse" style:display={navDisplay}>
         <ul class="navbar-nav mr-auto">
             <NavLink bind:tab={tab} tabValue="abilities">Abilities</NavLink>
             <NavLink bind:tab={tab} tabValue="advancement">Advancement</NavLink>
