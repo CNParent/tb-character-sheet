@@ -99,10 +99,10 @@
                 <button on:click={togglePack} class="badge btn btn-light text-left card-title w-100 mb-0">{container.name}</button>
             </h4>
             {:else if container.format == 'custom' && editName}
-            <input bind:this={input} class="form-control mr-2" bind:value={container.name}>
+            <input on:blur={() => editName = false} bind:this={input} class="form-control mr-2" bind:value={container.name}>
             {:else if container.format == 'custom'}
             <h4 class="flex-grow-1 m-0">
-                <button class="badge btn btn-light text-left card-title w-100 mb-0">{container.name}</button>
+                <button on:click={() => editName = true} class="badge btn btn-light text-left card-title w-100 mb-0">{container.name}</button>
             </h4>
             {:else}
             <h5 class="m-0">

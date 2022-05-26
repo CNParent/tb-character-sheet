@@ -7974,7 +7974,7 @@ var app = (function () {
 
     function get_each_context$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
@@ -7991,9 +7991,9 @@ var app = (function () {
     			span = element("span");
     			t = text(t_value);
     			attr_dev(span, "class", "card-title mb-0");
-    			add_location(span, file$4, 108, 16, 3511);
+    			add_location(span, file$4, 108, 16, 3577);
     			attr_dev(h5, "class", "m-0");
-    			add_location(h5, file$4, 107, 12, 3477);
+    			add_location(h5, file$4, 107, 12, 3543);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h5, anchor);
@@ -8025,6 +8025,8 @@ var app = (function () {
     	let button;
     	let t_value = /*container*/ ctx[0].name + "";
     	let t;
+    	let mounted;
+    	let dispose;
 
     	const block = {
     		c: function create() {
@@ -8032,20 +8034,27 @@ var app = (function () {
     			button = element("button");
     			t = text(t_value);
     			attr_dev(button, "class", "badge btn btn-light text-left card-title w-100 mb-0");
-    			add_location(button, file$4, 104, 16, 3330);
+    			add_location(button, file$4, 104, 16, 3363);
     			attr_dev(h4, "class", "flex-grow-1 m-0");
-    			add_location(h4, file$4, 103, 12, 3284);
+    			add_location(h4, file$4, 103, 12, 3317);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h4, anchor);
     			append_dev(h4, button);
     			append_dev(button, t);
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", /*click_handler*/ ctx[19], false, false, false);
+    				mounted = true;
+    			}
     		},
     		p: function update(ctx, dirty) {
     			if (dirty & /*container*/ 1 && t_value !== (t_value = /*container*/ ctx[0].name + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(h4);
+    			mounted = false;
+    			dispose();
     		}
     	};
 
@@ -8074,11 +8083,15 @@ var app = (function () {
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, input_1, anchor);
-    			/*input_1_binding*/ ctx[16](input_1);
+    			/*input_1_binding*/ ctx[17](input_1);
     			set_input_value(input_1, /*container*/ ctx[0].name);
 
     			if (!mounted) {
-    				dispose = listen_dev(input_1, "input", /*input_1_input_handler*/ ctx[17]);
+    				dispose = [
+    					listen_dev(input_1, "blur", /*blur_handler*/ ctx[16], false, false, false),
+    					listen_dev(input_1, "input", /*input_1_input_handler*/ ctx[18])
+    				];
+
     				mounted = true;
     			}
     		},
@@ -8089,9 +8102,9 @@ var app = (function () {
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(input_1);
-    			/*input_1_binding*/ ctx[16](null);
+    			/*input_1_binding*/ ctx[17](null);
     			mounted = false;
-    			dispose();
+    			run_all(dispose);
     		}
     	};
 
@@ -8173,9 +8186,9 @@ var app = (function () {
     			t1 = text(" / ");
     			t2 = text(t2_value);
     			attr_dev(span, "class", "badge btn btn-light");
-    			add_location(span, file$4, 117, 16, 3833);
+    			add_location(span, file$4, 117, 16, 3899);
     			attr_dev(h5, "class", "ml-auto mr-1");
-    			add_location(h5, file$4, 116, 12, 3790);
+    			add_location(h5, file$4, 116, 12, 3856);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h5, anchor);
@@ -8216,9 +8229,9 @@ var app = (function () {
     			span = element("span");
     			t = text(/*occupied*/ ctx[2]);
     			attr_dev(span, "class", "badge btn btn-light");
-    			add_location(span, file$4, 113, 16, 3685);
+    			add_location(span, file$4, 113, 16, 3751);
     			attr_dev(h5, "class", "ml-auto mr-1");
-    			add_location(h5, file$4, 112, 12, 3642);
+    			add_location(h5, file$4, 112, 12, 3708);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h5, anchor);
@@ -8252,8 +8265,8 @@ var app = (function () {
 
     	item = new Item({
     			props: {
-    				item: /*item*/ ctx[20],
-    				actions: /*itemActions*/ ctx[7]
+    				item: /*item*/ ctx[22],
+    				actions: /*itemActions*/ ctx[8]
     			},
     			$$inline: true
     		});
@@ -8274,7 +8287,7 @@ var app = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
     			const item_changes = {};
-    			if (dirty & /*container*/ 1) item_changes.item = /*item*/ ctx[20];
+    			if (dirty & /*container*/ 1) item_changes.item = /*item*/ ctx[22];
     			item.$set(item_changes);
     		},
     		i: function intro(local) {
@@ -8313,14 +8326,14 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			button = element("button");
-    			button.disabled = /*disableAdd*/ ctx[5];
+    			button.disabled = /*disableAdd*/ ctx[6];
 
-    			attr_dev(button, "class", button_class_value = "drop btn border mb-1 " + (/*disableAdd*/ ctx[5]
+    			attr_dev(button, "class", button_class_value = "drop btn border mb-1 " + (/*disableAdd*/ ctx[6]
     			? 'disabled btn-secondary'
     			: 'btn-light'));
 
     			set_style(button, "height", 2.5 * /*space*/ ctx[3] + "em");
-    			add_location(button, file$4, 131, 16, 4462);
+    			add_location(button, file$4, 131, 16, 4528);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -8338,11 +8351,11 @@ var app = (function () {
     			}
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*disableAdd*/ 32) {
-    				prop_dev(button, "disabled", /*disableAdd*/ ctx[5]);
+    			if (dirty & /*disableAdd*/ 64) {
+    				prop_dev(button, "disabled", /*disableAdd*/ ctx[6]);
     			}
 
-    			if (dirty & /*disableAdd*/ 32 && button_class_value !== (button_class_value = "drop btn border mb-1 " + (/*disableAdd*/ ctx[5]
+    			if (dirty & /*disableAdd*/ 64 && button_class_value !== (button_class_value = "drop btn border mb-1 " + (/*disableAdd*/ ctx[6]
     			? 'disabled btn-secondary'
     			: 'btn-light'))) {
     				attr_dev(button, "class", button_class_value);
@@ -8383,16 +8396,16 @@ var app = (function () {
     			button = element("button");
     			button.textContent = "Delete";
     			attr_dev(button, "class", "btn btn-light border ml-auto");
-    			add_location(button, file$4, 145, 16, 5052);
+    			add_location(button, file$4, 145, 16, 5118);
     			attr_dev(div, "class", "d-flex");
-    			add_location(div, file$4, 144, 12, 5014);
+    			add_location(div, file$4, 144, 12, 5080);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     			append_dev(div, button);
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", /*click_handler_1*/ ctx[19], false, false, false);
+    				dispose = listen_dev(button, "click", /*click_handler_2*/ ctx[21], false, false, false);
     				mounted = true;
     			}
     		},
@@ -8440,7 +8453,7 @@ var app = (function () {
 
     	function select_block_type(ctx, dirty) {
     		if (/*container*/ ctx[0].format == 'pack') return create_if_block_3$1;
-    		if (/*container*/ ctx[0].format == 'custom' && /*editName*/ ctx[8]) return create_if_block_4$1;
+    		if (/*container*/ ctx[0].format == 'custom' && /*editName*/ ctx[4]) return create_if_block_4$1;
     		if (/*container*/ ctx[0].format == 'custom') return create_if_block_5$1;
     		return create_else_block_1;
     	}
@@ -8449,7 +8462,7 @@ var app = (function () {
     	let if_block0 = current_block_type(ctx);
 
     	function select_block_type_1(ctx, dirty) {
-    		if (/*canAdd*/ ctx[6]) return create_if_block_2$1;
+    		if (/*canAdd*/ ctx[7]) return create_if_block_2$1;
     		return create_else_block;
     	}
 
@@ -8457,7 +8470,7 @@ var app = (function () {
     	let if_block1 = current_block_type_1(ctx);
     	let each_value = /*container*/ ctx[0].items;
     	validate_each_argument(each_value);
-    	const get_key = ctx => /*item*/ ctx[20].id;
+    	const get_key = ctx => /*item*/ ctx[22].id;
     	validate_each_keys(ctx, each_value, get_each_context$2, get_key);
 
     	for (let i = 0; i < each_value.length; i += 1) {
@@ -8497,17 +8510,17 @@ var app = (function () {
     			t7 = space();
     			if (if_block3) if_block3.c();
     			attr_dev(button0, "class", smallButton);
-    			add_location(button0, file$4, 121, 16, 4001);
+    			add_location(button0, file$4, 121, 16, 4067);
     			attr_dev(button1, "class", smallButton);
-    			add_location(button1, file$4, 122, 16, 4103);
+    			add_location(button1, file$4, 122, 16, 4169);
     			attr_dev(div0, "class", "ml-1 btn-group");
-    			add_location(div0, file$4, 120, 12, 3955);
+    			add_location(div0, file$4, 120, 12, 4021);
     			attr_dev(div1, "class", "card-header p-2 d-flex");
     			add_location(div1, file$4, 95, 8, 2783);
     			attr_dev(div2, "class", "d-flex flex-column");
-    			add_location(div2, file$4, 126, 12, 4235);
+    			add_location(div2, file$4, 126, 12, 4301);
     			attr_dev(div3, "class", "card-body");
-    			add_location(div3, file$4, 125, 8, 4198);
+    			add_location(div3, file$4, 125, 8, 4264);
     			attr_dev(div4, "class", "card");
     			add_location(div4, file$4, 94, 4, 2755);
     			attr_dev(div5, "class", "col-lg-3 col-md-4 col-sm-6 my-1");
@@ -8545,7 +8558,7 @@ var app = (function () {
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(button0, "click", /*click_handler*/ ctx[18], false, false, false);
+    				dispose = listen_dev(button0, "click", /*click_handler_1*/ ctx[20], false, false, false);
     				mounted = true;
     			}
     		},
@@ -8564,7 +8577,7 @@ var app = (function () {
 
     			if_block1.p(ctx, dirty);
 
-    			if (dirty & /*container, itemActions*/ 129) {
+    			if (dirty & /*container, itemActions*/ 257) {
     				each_value = /*container*/ ctx[0].items;
     				validate_each_argument(each_value);
     				group_outros();
@@ -8741,10 +8754,12 @@ var app = (function () {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$1.warn(`<Container> was created with unknown prop '${key}'`);
     	});
 
+    	const blur_handler = () => $$invalidate(4, editName = false);
+
     	function input_1_binding($$value) {
     		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
     			input = $$value;
-    			$$invalidate(4, input);
+    			$$invalidate(5, input);
     		});
     	}
 
@@ -8753,8 +8768,9 @@ var app = (function () {
     		$$invalidate(0, container);
     	}
 
-    	const click_handler = () => actions.hide(container);
-    	const click_handler_1 = () => actions.delete(container);
+    	const click_handler = () => $$invalidate(4, editName = true);
+    	const click_handler_1 = () => actions.hide(container);
+    	const click_handler_2 = () => actions.delete(container);
 
     	$$self.$$set = $$props => {
     		if ('container' in $$props) $$invalidate(0, container = $$props.container);
@@ -8789,12 +8805,12 @@ var app = (function () {
     		if ('container' in $$props) $$invalidate(0, container = $$props.container);
     		if ('dragItem' in $$props) $$invalidate(14, dragItem = $$props.dragItem);
     		if ('actions' in $$props) $$invalidate(1, actions = $$props.actions);
-    		if ('editName' in $$props) $$invalidate(8, editName = $$props.editName);
-    		if ('input' in $$props) $$invalidate(4, input = $$props.input);
+    		if ('editName' in $$props) $$invalidate(4, editName = $$props.editName);
+    		if ('input' in $$props) $$invalidate(5, input = $$props.input);
     		if ('occupied' in $$props) $$invalidate(2, occupied = $$props.occupied);
     		if ('canTransfer' in $$props) $$invalidate(15, canTransfer = $$props.canTransfer);
     		if ('space' in $$props) $$invalidate(3, space = $$props.space);
-    		if ('disableAdd' in $$props) $$invalidate(5, disableAdd = $$props.disableAdd);
+    		if ('disableAdd' in $$props) $$invalidate(6, disableAdd = $$props.disableAdd);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -8815,7 +8831,7 @@ var app = (function () {
     		}
 
     		if ($$self.$$.dirty & /*dragItem, space, canTransfer*/ 49160) {
-    			$$invalidate(5, disableAdd = dragItem == null && space == 0 && !canTransfer);
+    			$$invalidate(6, disableAdd = dragItem == null && space == 0 && !canTransfer);
     		}
     	};
 
@@ -8824,11 +8840,11 @@ var app = (function () {
     		actions,
     		occupied,
     		space,
+    		editName,
     		input,
     		disableAdd,
     		canAdd,
     		itemActions,
-    		editName,
     		add,
     		dragEnter,
     		dragOver,
@@ -8836,10 +8852,12 @@ var app = (function () {
     		togglePack,
     		dragItem,
     		canTransfer,
+    		blur_handler,
     		input_1_binding,
     		input_1_input_handler,
     		click_handler,
-    		click_handler_1
+    		click_handler_1,
+    		click_handler_2
     	];
     }
 
