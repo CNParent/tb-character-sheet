@@ -22,6 +22,7 @@
 {#if shown}
 <div class="container-fluid">
     <div class="card">
+        {#if !showHelp}
         <div class="card-body d-flex flex-wrap">
             <Condition bind:selected={model.conditions.fresh}>Fresh</Condition>
             <Condition bind:selected={model.conditions.hungry}>Hungry and Thirsty</Condition>
@@ -36,24 +37,20 @@
             <button class="btn badge btn-light border border-dark" on:click={() => showHelp = true}>?</button>
             <button class="btn badge btn-light border border-dark" on:click={() => shown = false}>&cross;</button>
         </div>
-    </div>
-    <div class="modal fade" tabindex="-1" class:show={showHelp} style:display={showHelp ? 'block' : 'none'}>
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Conditions</h5>
-                    <button type="button" class="close" on:click={() => showHelp = false}>
-                        <span aria-hidden="true">&cross;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {#each help as x}
-                        <h5>{x.title}</h5>
-                        <p>{x.text}</p>
-                    {/each}
-                </div>
-            </div>
+        {:else}
+        <div class="card-header">
+            <h5 class="card-title">Conditions</h5>
+            <button type="button" class="close position-topright" on:click={() => showHelp = false}>
+                <span aria-hidden="true">&cross;</span>
+            </button>
         </div>
+        <div class="card-body">
+            {#each help as x}
+                <h5>{x.title}</h5>
+                <p>{x.text}</p>
+            {/each}
+        </div>
+        {/if}
     </div>
 </div>
 {:else}

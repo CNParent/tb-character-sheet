@@ -38,7 +38,7 @@
     }
 </script>
 
-<div id="${this.id}" class="container-fluid text-nowrap">
+<div class="container-fluid text-nowrap">
     <div class="row">
         {#each ['Fate', 'Persona'] as artha}
         <div class="col-md-6">
@@ -61,24 +61,20 @@
         {/each}
         <div class="col-12">
             <div class="card">
+                {#if !showHelp}
                 <div class="card-body">
                     <h2 class="mr-auto">Level Benefits</h2>
                     <TagList items={model.advancement.levelBenefits} />
                     <button on:click={() => showHelp = true} class="position-topright btn badge btn-light border border-dark">?</button>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" class:show={showHelp} tabindex="-1" role="dialog" aria-labelledby="levelRequirements" aria-hidden="true" style:display={showHelp ? 'block' : 'none'}>
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="levelRequirementsTitle">Level Requirements</h5>
-                    <button on:click={() => showHelp = false} type="button" class="close" data-dismiss="modal" aria-label="Close">
+                {:else}
+                <div class="card-header">
+                    <h5 id="levelRequirementsTitle">Level Requirements</h5>
+                    <button on:click={() => showHelp = false} type="button" class="position-topright close" aria-label="Close">
                         <span aria-hidden="true">&cross;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="card-body">
                     <table class="table">
                         <thead>
                             <tr>
@@ -98,6 +94,7 @@
                         </tbody>
                     </table>
                 </div>
+                {/if}
             </div>
         </div>
     </div>

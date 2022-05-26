@@ -43,6 +43,7 @@
 
 <div class="container-fluid">
     <div class="card">
+        {#if !showHelp}
         <div class="card-body">
             <div class="btn-group position-topright">
                 <button on:click={() => showHelp = true} class="btn badge btn-light border border-dark">?</button>
@@ -60,6 +61,25 @@
                 {/each}
             </div>
         </div>
+        {:else}
+        <div class="card-header">
+            <h5 class="card-title">Wises</h5>
+            <button on:click={() => showHelp = false} class="close position-topright" type="button">&cross;</button>
+        </div>
+        <div class="card-body">
+            <p>Wises can be used to help others in place of a relevent skill. Doing so isolates the helping character from receiving conditions from the test.</p>
+            <p>Wises can be used to salvage a failed roll:</p>
+            <ul>
+                <li><strong>Deeper understanding</strong> Spend a point of fate to reroll a single failed die</li>
+                <li><strong>Of course!</strong> Spend a point of persona to reroll all failed dice</li>
+            </ul>
+            <p>
+                Once a wise has been used to help another in a failed and successful test, as well as <strong>deeper understanding</strong> 
+                and <strong>of course!</strong>, the wise may be replaced with another, or a test for advancement may be marked for a skill related
+                to the wise.
+            </p>
+        </div>
+        {/if}
     </div>
     {#if old.length > 0}
     <div class="card">
@@ -73,27 +93,4 @@
         </div>
     </div>
     {/if}
-    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="wises" aria-hidden="true" class:show={showHelp} style:display={showHelp ? 'block' : 'none'}>
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Wises</h5>
-                    <button on:click={() => showHelp = false} class="close" type="button" data-dismiss="modal">&cross;</button>
-                </div>
-                <div class="modal-body">
-                    <p>Wises can be used to help others in place of a relevent skill. Doing so isolates the helping character from receiving conditions from the test.</p>
-                    <p>Wises can be used to salvage a failed roll:</p>
-                    <ul>
-                        <li><strong>Deeper understanding</strong> Spend a point of fate to reroll a single failed die</li>
-                        <li><strong>Of course!</strong> Spend a point of persona to reroll all failed dice</li>
-                    </ul>
-                    <p>
-                        Once a wise has been used to help another in a failed and successful test, as well as <strong>deeper understanding</strong> 
-                        and <strong>of course!</strong>, the wise may be replaced with another, or a test for advancement may be marked for a skill related
-                        to the wise.
-                    </p>
-                </div>
-            </div>
-        </div> 
-    </div>
 </div>
