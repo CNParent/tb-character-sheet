@@ -10,6 +10,7 @@
 	import Navbar from "./components/Navbar.svelte"
 	import Notes from './components/Notes.svelte'
 	import Skills from './components/Skills.svelte'
+	import Spells from './components/Spells.svelte'
 
 	let model = character();
 	let tab = 'bio';
@@ -38,6 +39,7 @@
 	{:else if tab == 'skills'}
 	<Skills skills={model.skills} bluckTries={model.abilities.nature.current} />
 	{:else if tab == 'spells'}
+	<Spells spells={model.spells} />
 	{:else if tab == 'traits'}
 	{:else if tab == 'wises'}
 	{/if}
