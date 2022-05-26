@@ -11,6 +11,7 @@
 	import Notes from './components/Notes.svelte'
 	import Skills from './components/Skills.svelte'
 	import Spells from './components/Spells.svelte'
+	import Traits from './components/Traits.svelte'
 
 	let model = character();
 	let tab = 'bio';
@@ -41,6 +42,7 @@
 	{:else if tab == 'spells'}
 	<Spells spells={model.spells} />
 	{:else if tab == 'traits'}
+	<Traits traits={model.traits} />
 	{:else if tab == 'wises'}
 	{/if}
 </main>
