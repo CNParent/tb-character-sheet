@@ -72,6 +72,11 @@
         actions.dragEnd(container);
     }
 
+    function sort() {
+        container.items.sort((a,b) => a.text.localeCompare(b.text));
+        container.items = container.items;
+    }
+
     function togglePack() {
         if (container.size == 6 && occupied <= 3) {
             container.size = 3;
@@ -120,7 +125,7 @@
             {/if}
             <div class="ml-1 btn-group">
                 <button on:click={() => actions.hide(container)} class="{smallButton}">hide</button>
-                <button class="{smallButton}">a &rarr; z</button>
+                <button on:click={sort} class="{smallButton}">a &rarr; z</button>
             </div>
         </div>
         <div class="card-body">
