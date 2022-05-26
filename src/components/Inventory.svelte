@@ -29,7 +29,7 @@
             inventory = inventory;
         },
         hide: (container) => {
-            container.hidden = true;
+            container.hide = true;
             inventory = inventory;
         }
     }
@@ -52,8 +52,8 @@
                     <button on:click={add} class="btn btn-light border">Add container</button>
                     <div>
                         {#each inventory as container}
-                        {#if container.hidden}
-                        <button on:click={() => container.hidden = false} class="btn btn-light border mt-1 mr-1">{container.name}</button>
+                        {#if container.hide}
+                        <button on:click={() => container.hide = false} class="btn btn-light border mt-1 mr-1">{container.name}</button>
                         {/if}
                         {/each}
                     </div>
@@ -61,7 +61,7 @@
             </div>
         </div>
         {#each inventory as container}
-        {#if !container.hidden}
+        {#if !container.hide}
         <Container container={container} dragItem={dragItem} actions={actions} />
         {/if}
         {/each}

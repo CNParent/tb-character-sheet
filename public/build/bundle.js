@@ -8944,7 +8944,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (55:24) {#if container.hidden}
+    // (55:24) {#if container.hide}
     function create_if_block_1$4(ctx) {
     	let button;
     	let t_value = /*container*/ ctx[6].name + "";
@@ -8961,7 +8961,7 @@ var app = (function () {
     			button = element("button");
     			t = text(t_value);
     			attr_dev(button, "class", "btn btn-light border mt-1 mr-1");
-    			add_location(button, file$7, 55, 24, 1788);
+    			add_location(button, file$7, 55, 24, 1784);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -8987,7 +8987,7 @@ var app = (function () {
     		block,
     		id: create_if_block_1$4.name,
     		type: "if",
-    		source: "(55:24) {#if container.hidden}",
+    		source: "(55:24) {#if container.hide}",
     		ctx
     	});
 
@@ -8997,7 +8997,7 @@ var app = (function () {
     // (54:24) {#each inventory as container}
     function create_each_block_1(ctx) {
     	let if_block_anchor;
-    	let if_block = /*container*/ ctx[6].hidden && create_if_block_1$4(ctx);
+    	let if_block = /*container*/ ctx[6].hide && create_if_block_1$4(ctx);
 
     	const block = {
     		c: function create() {
@@ -9009,7 +9009,7 @@ var app = (function () {
     			insert_dev(target, if_block_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (/*container*/ ctx[6].hidden) {
+    			if (/*container*/ ctx[6].hide) {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
@@ -9039,7 +9039,7 @@ var app = (function () {
     	return block;
     }
 
-    // (64:8) {#if !container.hidden}
+    // (64:8) {#if !container.hide}
     function create_if_block$4(ctx) {
     	let container_1;
     	let current;
@@ -9085,7 +9085,7 @@ var app = (function () {
     		block,
     		id: create_if_block$4.name,
     		type: "if",
-    		source: "(64:8) {#if !container.hidden}",
+    		source: "(64:8) {#if !container.hide}",
     		ctx
     	});
 
@@ -9096,7 +9096,7 @@ var app = (function () {
     function create_each_block$3(ctx) {
     	let if_block_anchor;
     	let current;
-    	let if_block = !/*container*/ ctx[6].hidden && create_if_block$4(ctx);
+    	let if_block = !/*container*/ ctx[6].hide && create_if_block$4(ctx);
 
     	const block = {
     		c: function create() {
@@ -9109,7 +9109,7 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (!/*container*/ ctx[6].hidden) {
+    			if (!/*container*/ ctx[6].hide) {
     				if (if_block) {
     					if_block.p(ctx, dirty);
 
@@ -9221,22 +9221,22 @@ var app = (function () {
     			}
 
     			attr_dev(h5, "class", "m-0");
-    			add_location(h5, file$7, 48, 20, 1420);
+    			add_location(h5, file$7, 48, 20, 1418);
     			attr_dev(div0, "class", "card-header p-2");
-    			add_location(div0, file$7, 47, 16, 1369);
+    			add_location(div0, file$7, 47, 16, 1367);
     			attr_dev(button, "class", "btn btn-light border");
-    			add_location(button, file$7, 51, 20, 1557);
-    			add_location(div1, file$7, 52, 20, 1653);
+    			add_location(button, file$7, 51, 20, 1555);
+    			add_location(div1, file$7, 52, 20, 1651);
     			attr_dev(div2, "class", "card-body d-flex flex-column");
-    			add_location(div2, file$7, 50, 16, 1493);
+    			add_location(div2, file$7, 50, 16, 1491);
     			attr_dev(div3, "class", "card");
-    			add_location(div3, file$7, 46, 12, 1333);
+    			add_location(div3, file$7, 46, 12, 1331);
     			attr_dev(div4, "class", "col-md-12 my-1");
-    			add_location(div4, file$7, 45, 8, 1291);
+    			add_location(div4, file$7, 45, 8, 1289);
     			attr_dev(div5, "class", "row");
-    			add_location(div5, file$7, 44, 4, 1264);
+    			add_location(div5, file$7, 44, 4, 1262);
     			attr_dev(div6, "class", "container-fluid");
-    			add_location(div6, file$7, 43, 0, 1229);
+    			add_location(div6, file$7, 43, 0, 1227);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -9390,7 +9390,7 @@ var app = (function () {
     			$$invalidate(0, inventory);
     		},
     		hide: container => {
-    			container.hidden = true;
+    			container.hide = true;
     			$$invalidate(0, inventory);
     		}
     	};
@@ -9412,7 +9412,7 @@ var app = (function () {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Inventory> was created with unknown prop '${key}'`);
     	});
 
-    	const click_handler = (container, each_value_1, container_index_1) => $$invalidate(0, each_value_1[container_index_1].hidden = false, inventory);
+    	const click_handler = (container, each_value_1, container_index_1) => $$invalidate(0, each_value_1[container_index_1].hide = false, inventory);
 
     	$$self.$$set = $$props => {
     		if ('inventory' in $$props) $$invalidate(0, inventory = $$props.inventory);
