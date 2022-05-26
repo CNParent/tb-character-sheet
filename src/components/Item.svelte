@@ -2,10 +2,11 @@
     import Bubbles from './Bubbles.svelte'
 
     export let item;
-    export let editing;
     export let actions;
 
     const btnStyle = 'btn border border-dark align-self-start';
+
+    let editing = false;
 
     $: size = item.stackSize ? item.size + 1 : item.size;
 
@@ -14,7 +15,7 @@
         if (item.stackSize < 0) item.stackSize = 0;
     }
 
-    if(item.stackSize === undefined) {
+    if (item.stackSize === undefined) {
         item.stackSize = 0;
         item.stack = 0;
     }
@@ -52,7 +53,7 @@
         </div>
     </div>
     {:else}
-    <span class="d-flex btn-group mb-1 w-100" style="min-height: {size * 2.5}em;">
+    <span on:dragstart={() => actions.dragStart(item)} draggable="true" class="d-flex btn-group mb-1 w-100" style="min-height: {size * 2.5}em;">
         <span class="btn btn-light text-left border border-dark flex-grow-1">
             <span>{item.text}</span>
             {#if item.stackSize}

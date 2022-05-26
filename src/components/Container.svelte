@@ -3,7 +3,7 @@
     import Item from './Item.svelte'
 
     export let container;
-    export let clipboard;
+    export let dragItem;
     export let actions;
 
     const smallButton = 'badge btn btn-light border border-dark align-self-center p-2';
@@ -14,6 +14,12 @@
             let i = container.items.indexOf(item);
             container.items.splice(i, 1);
             container.items = container.items;
+        },
+        dragEnd: () => {
+
+        },
+        dragStart: (item) => {
+            actions.dragStart(container, item);
         },
         move: (item, n) => {
             let index = container.items.indexOf(item);
@@ -39,14 +45,19 @@
     let input;
     $: occupied = container.items.reduce((a,b) => a + b.size, 0);
     $: space = canAdd ? 1 : container.size - occupied;
-    $: canTransfer = clipboard != null && (canAdd || clipboard.size <= space);
-    $: disableAdd = (clipboard == null && space == 0) && !canTransfer;
+    $: canTransfer = dragItem != null && (canAdd || dragItem.size <= space);
+    $: disableAdd = (dragItem == null && space == 0) && !canTransfer;
 
     function add() {
         if (space == 0) return;
 
         container.items.push({ text: '', size: 1, id: crypto.randomUUID() });
         container.items = container.items;
+    }
+
+    function drop(e) {
+        e.target.classList.remove('dragover');
+        actions.dragEnd(container);
     }
 
     function togglePack() {
@@ -103,10 +114,19 @@
         <div class="card-body">
             <div class="d-flex flex-column">
                 {#each container.items as item (item.id)}
-                <Item bind:item={item} actions={itemActions} />
+                <Item item={item} actions={itemActions} />
                 {/each}
                 {#if space > 0}
-                <button on:click={add} disabled={disableAdd} class="btn border mb-1 {disableAdd ? 'disabled btn-secondary' : 'btn-light'}" style="height: {2.5 * space}em;"></button>
+                <button 
+                    on:dragenter={(e) => { e.target.classList.add('dragover'); console.log(e.target); }}
+                    on:dragleave={(e) => e.target.classList.remove('dragover')}
+                    on:dragover={(e) => e.preventDefault()}
+                    on:drop={drop}
+                    on:click={add} 
+                    disabled={disableAdd} 
+                    class="drop btn border mb-1 {disableAdd ? 'disabled btn-secondary' : 'btn-light'}"
+                     style="height: {2.5 * space}em;">
+                </button>
                 {/if}
             </div>
             {#if container.format == 'custom'}
@@ -117,3 +137,10 @@
         </div>
     </div>
 </div>
+
+<style>
+    .btn-light.dragover {
+        cursor: pointer !important;
+        background-color: black !important;
+    }
+</style>
