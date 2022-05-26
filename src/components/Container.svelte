@@ -55,6 +55,18 @@
         container.items = container.items;
     }
 
+    function dragEnter(e) {
+        if (canTransfer) e.target.classList.add('dragover')
+    }
+
+    function dragLeave(e) {
+        e.target.classList.remove('dragover')
+    }
+
+    function dragOver(e) {
+        if (canTransfer) e.preventDefault();
+    }
+
     function drop(e) {
         e.target.classList.remove('dragover');
         actions.dragEnd(container);
@@ -118,14 +130,14 @@
                 {/each}
                 {#if space > 0}
                 <button 
-                    on:dragenter={(e) => { e.target.classList.add('dragover'); console.log(e.target); }}
-                    on:dragleave={(e) => e.target.classList.remove('dragover')}
-                    on:dragover={(e) => e.preventDefault()}
+                    on:dragenter={dragEnter}
+                    on:dragleave={dragLeave}
+                    on:dragover={dragOver}
                     on:drop={drop}
                     on:click={add} 
                     disabled={disableAdd} 
                     class="drop btn border mb-1 {disableAdd ? 'disabled btn-secondary' : 'btn-light'}"
-                     style="height: {2.5 * space}em;">
+                    style="height: {2.5 * space}em;">
                 </button>
                 {/if}
             </div>
@@ -137,10 +149,3 @@
         </div>
     </div>
 </div>
-
-<style>
-    .btn-light.dragover {
-        cursor: pointer !important;
-        background-color: black !important;
-    }
-</style>

@@ -37,6 +37,7 @@
     function add() {
         let c = container({ name: 'new container',  size: 1, format: 'custom' });
         inventory.push(c);
+        inventory = inventory;
     }
 </script>
 

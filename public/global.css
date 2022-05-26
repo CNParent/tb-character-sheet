@@ -20,3 +20,7 @@
 #app .wrap {
     white-space: pre-wrap;
 }
+
+#app .btn-light.dragover {
+    background-color: lightblue;
+}

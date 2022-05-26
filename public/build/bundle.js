@@ -79,9 +79,6 @@ var app = (function () {
         }
         return -1;
     }
-    function null_to_empty(value) {
-        return value == null ? '' : value;
-    }
     function append(target, node) {
         target.appendChild(node);
     }
@@ -7977,11 +7974,11 @@ var app = (function () {
 
     function get_each_context$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[19] = list[i];
+    	child_ctx[20] = list[i];
     	return child_ctx;
     }
 
-    // (95:12) {:else}
+    // (107:12) {:else}
     function create_else_block_1(ctx) {
     	let h5;
     	let span;
@@ -7994,9 +7991,9 @@ var app = (function () {
     			span = element("span");
     			t = text(t_value);
     			attr_dev(span, "class", "card-title mb-0");
-    			add_location(span, file$4, 96, 16, 3244);
+    			add_location(span, file$4, 108, 16, 3511);
     			attr_dev(h5, "class", "m-0");
-    			add_location(h5, file$4, 95, 12, 3210);
+    			add_location(h5, file$4, 107, 12, 3477);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h5, anchor);
@@ -8015,14 +8012,14 @@ var app = (function () {
     		block,
     		id: create_else_block_1.name,
     		type: "else",
-    		source: "(95:12) {:else}",
+    		source: "(107:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (91:51) 
+    // (103:51) 
     function create_if_block_5$1(ctx) {
     	let h4;
     	let button;
@@ -8035,9 +8032,9 @@ var app = (function () {
     			button = element("button");
     			t = text(t_value);
     			attr_dev(button, "class", "badge btn btn-light text-left card-title w-100 mb-0");
-    			add_location(button, file$4, 92, 16, 3063);
+    			add_location(button, file$4, 104, 16, 3330);
     			attr_dev(h4, "class", "flex-grow-1 m-0");
-    			add_location(h4, file$4, 91, 12, 3017);
+    			add_location(h4, file$4, 103, 12, 3284);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h4, anchor);
@@ -8056,14 +8053,14 @@ var app = (function () {
     		block,
     		id: create_if_block_5$1.name,
     		type: "if",
-    		source: "(91:51) ",
+    		source: "(103:51) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (89:63) 
+    // (101:63) 
     function create_if_block_4$1(ctx) {
     	let input_1;
     	let mounted;
@@ -8073,15 +8070,15 @@ var app = (function () {
     		c: function create() {
     			input_1 = element("input");
     			attr_dev(input_1, "class", "form-control mr-2");
-    			add_location(input_1, file$4, 89, 12, 2871);
+    			add_location(input_1, file$4, 101, 12, 3138);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, input_1, anchor);
-    			/*input_1_binding*/ ctx[14](input_1);
+    			/*input_1_binding*/ ctx[16](input_1);
     			set_input_value(input_1, /*container*/ ctx[0].name);
 
     			if (!mounted) {
-    				dispose = listen_dev(input_1, "input", /*input_1_input_handler*/ ctx[15]);
+    				dispose = listen_dev(input_1, "input", /*input_1_input_handler*/ ctx[17]);
     				mounted = true;
     			}
     		},
@@ -8092,7 +8089,7 @@ var app = (function () {
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(input_1);
-    			/*input_1_binding*/ ctx[14](null);
+    			/*input_1_binding*/ ctx[16](null);
     			mounted = false;
     			dispose();
     		}
@@ -8102,14 +8099,14 @@ var app = (function () {
     		block,
     		id: create_if_block_4$1.name,
     		type: "if",
-    		source: "(89:63) ",
+    		source: "(101:63) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (85:12) {#if container.format == 'pack'}
+    // (97:12) {#if container.format == 'pack'}
     function create_if_block_3$1(ctx) {
     	let h4;
     	let button;
@@ -8124,9 +8121,9 @@ var app = (function () {
     			button = element("button");
     			t = text(t_value);
     			attr_dev(button, "class", "badge btn btn-light text-left card-title w-100 mb-0");
-    			add_location(button, file$4, 86, 16, 2658);
+    			add_location(button, file$4, 98, 16, 2925);
     			attr_dev(h4, "class", "flex-grow-1 m-0");
-    			add_location(h4, file$4, 85, 12, 2612);
+    			add_location(h4, file$4, 97, 12, 2879);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h4, anchor);
@@ -8134,7 +8131,7 @@ var app = (function () {
     			append_dev(button, t);
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", /*togglePack*/ ctx[11], false, false, false);
+    				dispose = listen_dev(button, "click", /*togglePack*/ ctx[13], false, false, false);
     				mounted = true;
     			}
     		},
@@ -8152,14 +8149,14 @@ var app = (function () {
     		block,
     		id: create_if_block_3$1.name,
     		type: "if",
-    		source: "(85:12) {#if container.format == 'pack'}",
+    		source: "(97:12) {#if container.format == 'pack'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (104:12) {:else}
+    // (116:12) {:else}
     function create_else_block(ctx) {
     	let h5;
     	let span;
@@ -8176,9 +8173,9 @@ var app = (function () {
     			t1 = text(" / ");
     			t2 = text(t2_value);
     			attr_dev(span, "class", "badge btn btn-light");
-    			add_location(span, file$4, 105, 16, 3566);
+    			add_location(span, file$4, 117, 16, 3833);
     			attr_dev(h5, "class", "ml-auto mr-1");
-    			add_location(h5, file$4, 104, 12, 3523);
+    			add_location(h5, file$4, 116, 12, 3790);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h5, anchor);
@@ -8200,14 +8197,14 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(104:12) {:else}",
+    		source: "(116:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (100:12) {#if canAdd}
+    // (112:12) {#if canAdd}
     function create_if_block_2$1(ctx) {
     	let h5;
     	let span;
@@ -8219,9 +8216,9 @@ var app = (function () {
     			span = element("span");
     			t = text(/*occupied*/ ctx[2]);
     			attr_dev(span, "class", "badge btn btn-light");
-    			add_location(span, file$4, 101, 16, 3418);
+    			add_location(span, file$4, 113, 16, 3685);
     			attr_dev(h5, "class", "ml-auto mr-1");
-    			add_location(h5, file$4, 100, 12, 3375);
+    			add_location(h5, file$4, 112, 12, 3642);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h5, anchor);
@@ -8240,14 +8237,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2$1.name,
     		type: "if",
-    		source: "(100:12) {#if canAdd}",
+    		source: "(112:12) {#if canAdd}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (116:16) {#each container.items as item (item.id)}
+    // (128:16) {#each container.items as item (item.id)}
     function create_each_block$2(key_1, ctx) {
     	let first;
     	let item;
@@ -8255,7 +8252,7 @@ var app = (function () {
 
     	item = new Item({
     			props: {
-    				item: /*item*/ ctx[19],
+    				item: /*item*/ ctx[20],
     				actions: /*itemActions*/ ctx[7]
     			},
     			$$inline: true
@@ -8277,7 +8274,7 @@ var app = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
     			const item_changes = {};
-    			if (dirty & /*container*/ 1) item_changes.item = /*item*/ ctx[19];
+    			if (dirty & /*container*/ 1) item_changes.item = /*item*/ ctx[20];
     			item.$set(item_changes);
     		},
     		i: function intro(local) {
@@ -8299,14 +8296,14 @@ var app = (function () {
     		block,
     		id: create_each_block$2.name,
     		type: "each",
-    		source: "(116:16) {#each container.items as item (item.id)}",
+    		source: "(128:16) {#each container.items as item (item.id)}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (119:16) {#if space > 0}
+    // (131:16) {#if space > 0}
     function create_if_block_1$3(ctx) {
     	let button;
     	let button_class_value;
@@ -8323,17 +8320,17 @@ var app = (function () {
     			: 'btn-light'));
 
     			set_style(button, "height", 2.5 * /*space*/ ctx[3] + "em");
-    			add_location(button, file$4, 119, 16, 4195);
+    			add_location(button, file$4, 131, 16, 4462);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(button, "dragenter", /*dragenter_handler*/ ctx[17], false, false, false),
-    					listen_dev(button, "dragleave", dragleave_handler, false, false, false),
-    					listen_dev(button, "dragover", dragover_handler, false, false, false),
-    					listen_dev(button, "drop", /*drop*/ ctx[10], false, false, false),
+    					listen_dev(button, "dragenter", /*dragEnter*/ ctx[10], false, false, false),
+    					listen_dev(button, "dragleave", dragLeave, false, false, false),
+    					listen_dev(button, "dragover", /*dragOver*/ ctx[11], false, false, false),
+    					listen_dev(button, "drop", /*drop*/ ctx[12], false, false, false),
     					listen_dev(button, "click", /*add*/ ctx[9], false, false, false)
     				];
 
@@ -8366,14 +8363,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$3.name,
     		type: "if",
-    		source: "(119:16) {#if space > 0}",
+    		source: "(131:16) {#if space > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (132:12) {#if container.format == 'custom'}
+    // (144:12) {#if container.format == 'custom'}
     function create_if_block$3(ctx) {
     	let div;
     	let button;
@@ -8386,16 +8383,16 @@ var app = (function () {
     			button = element("button");
     			button.textContent = "Delete";
     			attr_dev(button, "class", "btn btn-light border ml-auto");
-    			add_location(button, file$4, 133, 16, 4898);
+    			add_location(button, file$4, 145, 16, 5052);
     			attr_dev(div, "class", "d-flex");
-    			add_location(div, file$4, 132, 12, 4860);
+    			add_location(div, file$4, 144, 12, 5014);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     			append_dev(div, button);
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", /*click_handler_1*/ ctx[18], false, false, false);
+    				dispose = listen_dev(button, "click", /*click_handler_1*/ ctx[19], false, false, false);
     				mounted = true;
     			}
     		},
@@ -8411,7 +8408,7 @@ var app = (function () {
     		block,
     		id: create_if_block$3.name,
     		type: "if",
-    		source: "(132:12) {#if container.format == 'custom'}",
+    		source: "(144:12) {#if container.format == 'custom'}",
     		ctx
     	});
 
@@ -8460,7 +8457,7 @@ var app = (function () {
     	let if_block1 = current_block_type_1(ctx);
     	let each_value = /*container*/ ctx[0].items;
     	validate_each_argument(each_value);
-    	const get_key = ctx => /*item*/ ctx[19].id;
+    	const get_key = ctx => /*item*/ ctx[20].id;
     	validate_each_keys(ctx, each_value, get_each_context$2, get_key);
 
     	for (let i = 0; i < each_value.length; i += 1) {
@@ -8499,22 +8496,22 @@ var app = (function () {
     			if (if_block2) if_block2.c();
     			t7 = space();
     			if (if_block3) if_block3.c();
-    			attr_dev(button0, "class", "" + (null_to_empty(smallButton) + " svelte-n08g6e"));
-    			add_location(button0, file$4, 109, 16, 3734);
-    			attr_dev(button1, "class", "" + (null_to_empty(smallButton) + " svelte-n08g6e"));
-    			add_location(button1, file$4, 110, 16, 3836);
+    			attr_dev(button0, "class", smallButton);
+    			add_location(button0, file$4, 121, 16, 4001);
+    			attr_dev(button1, "class", smallButton);
+    			add_location(button1, file$4, 122, 16, 4103);
     			attr_dev(div0, "class", "ml-1 btn-group");
-    			add_location(div0, file$4, 108, 12, 3688);
+    			add_location(div0, file$4, 120, 12, 3955);
     			attr_dev(div1, "class", "card-header p-2 d-flex");
-    			add_location(div1, file$4, 83, 8, 2516);
+    			add_location(div1, file$4, 95, 8, 2783);
     			attr_dev(div2, "class", "d-flex flex-column");
-    			add_location(div2, file$4, 114, 12, 3968);
+    			add_location(div2, file$4, 126, 12, 4235);
     			attr_dev(div3, "class", "card-body");
-    			add_location(div3, file$4, 113, 8, 3931);
+    			add_location(div3, file$4, 125, 8, 4198);
     			attr_dev(div4, "class", "card");
-    			add_location(div4, file$4, 82, 4, 2488);
+    			add_location(div4, file$4, 94, 4, 2755);
     			attr_dev(div5, "class", "col-lg-3 col-md-4 col-sm-6 my-1");
-    			add_location(div5, file$4, 81, 0, 2437);
+    			add_location(div5, file$4, 93, 0, 2704);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -8548,7 +8545,7 @@ var app = (function () {
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(button0, "click", /*click_handler*/ ctx[16], false, false, false);
+    				dispose = listen_dev(button0, "click", /*click_handler*/ ctx[18], false, false, false);
     				mounted = true;
     			}
     		},
@@ -8646,8 +8643,10 @@ var app = (function () {
     }
 
     const smallButton = 'badge btn btn-light border border-dark align-self-center p-2';
-    const dragleave_handler = e => e.target.classList.remove('dragover');
-    const dragover_handler = e => e.preventDefault();
+
+    function dragLeave(e) {
+    	e.target.classList.remove('dragover');
+    }
 
     function instance$4($$self, $$props, $$invalidate) {
     	let occupied;
@@ -8705,6 +8704,14 @@ var app = (function () {
     		$$invalidate(0, container);
     	}
 
+    	function dragEnter(e) {
+    		if (canTransfer) e.target.classList.add('dragover');
+    	}
+
+    	function dragOver(e) {
+    		if (canTransfer) e.preventDefault();
+    	}
+
     	function drop(e) {
     		e.target.classList.remove('dragover');
     		actions.dragEnd(container);
@@ -8747,17 +8754,11 @@ var app = (function () {
     	}
 
     	const click_handler = () => actions.hide(container);
-
-    	const dragenter_handler = e => {
-    		e.target.classList.add('dragover');
-    		console.log(e.target);
-    	};
-
     	const click_handler_1 = () => actions.delete(container);
 
     	$$self.$$set = $$props => {
     		if ('container' in $$props) $$invalidate(0, container = $$props.container);
-    		if ('dragItem' in $$props) $$invalidate(12, dragItem = $$props.dragItem);
+    		if ('dragItem' in $$props) $$invalidate(14, dragItem = $$props.dragItem);
     		if ('actions' in $$props) $$invalidate(1, actions = $$props.actions);
     	};
 
@@ -8773,23 +8774,26 @@ var app = (function () {
     		editName,
     		input,
     		add,
+    		dragEnter,
+    		dragLeave,
+    		dragOver,
     		drop,
     		togglePack,
     		occupied,
-    		space,
     		canTransfer,
+    		space,
     		disableAdd
     	});
 
     	$$self.$inject_state = $$props => {
     		if ('container' in $$props) $$invalidate(0, container = $$props.container);
-    		if ('dragItem' in $$props) $$invalidate(12, dragItem = $$props.dragItem);
+    		if ('dragItem' in $$props) $$invalidate(14, dragItem = $$props.dragItem);
     		if ('actions' in $$props) $$invalidate(1, actions = $$props.actions);
     		if ('editName' in $$props) $$invalidate(8, editName = $$props.editName);
     		if ('input' in $$props) $$invalidate(4, input = $$props.input);
     		if ('occupied' in $$props) $$invalidate(2, occupied = $$props.occupied);
+    		if ('canTransfer' in $$props) $$invalidate(15, canTransfer = $$props.canTransfer);
     		if ('space' in $$props) $$invalidate(3, space = $$props.space);
-    		if ('canTransfer' in $$props) $$invalidate(13, canTransfer = $$props.canTransfer);
     		if ('disableAdd' in $$props) $$invalidate(5, disableAdd = $$props.disableAdd);
     	};
 
@@ -8806,11 +8810,11 @@ var app = (function () {
     			$$invalidate(3, space = canAdd ? 1 : container.size - occupied);
     		}
 
-    		if ($$self.$$.dirty & /*dragItem, space*/ 4104) {
-    			$$invalidate(13, canTransfer = dragItem != null && (canAdd || dragItem.size <= space));
+    		if ($$self.$$.dirty & /*dragItem, space*/ 16392) {
+    			$$invalidate(15, canTransfer = dragItem != null && (canAdd || dragItem.size <= space));
     		}
 
-    		if ($$self.$$.dirty & /*dragItem, space, canTransfer*/ 12296) {
+    		if ($$self.$$.dirty & /*dragItem, space, canTransfer*/ 49160) {
     			$$invalidate(5, disableAdd = dragItem == null && space == 0 && !canTransfer);
     		}
     	};
@@ -8826,6 +8830,8 @@ var app = (function () {
     		itemActions,
     		editName,
     		add,
+    		dragEnter,
+    		dragOver,
     		drop,
     		togglePack,
     		dragItem,
@@ -8833,7 +8839,6 @@ var app = (function () {
     		input_1_binding,
     		input_1_input_handler,
     		click_handler,
-    		dragenter_handler,
     		click_handler_1
     	];
     }
@@ -8841,7 +8846,7 @@ var app = (function () {
     class Container extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$4, create_fragment$4, safe_not_equal, { container: 0, dragItem: 12, actions: 1 });
+    		init(this, options, instance$4, create_fragment$4, safe_not_equal, { container: 0, dragItem: 14, actions: 1 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -8857,7 +8862,7 @@ var app = (function () {
     			console_1$1.warn("<Container> was created without expected prop 'container'");
     		}
 
-    		if (/*dragItem*/ ctx[12] === undefined && !('dragItem' in props)) {
+    		if (/*dragItem*/ ctx[14] === undefined && !('dragItem' in props)) {
     			console_1$1.warn("<Container> was created without expected prop 'dragItem'");
     		}
 
@@ -8908,7 +8913,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (54:24) {#if container.hidden}
+    // (55:24) {#if container.hidden}
     function create_if_block_1$2(ctx) {
     	let button;
     	let t_value = /*container*/ ctx[6].name + "";
@@ -8925,7 +8930,7 @@ var app = (function () {
     			button = element("button");
     			t = text(t_value);
     			attr_dev(button, "class", "btn btn-light border mt-1 mr-1");
-    			add_location(button, file$3, 54, 24, 1756);
+    			add_location(button, file$3, 55, 24, 1788);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -8951,14 +8956,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$2.name,
     		type: "if",
-    		source: "(54:24) {#if container.hidden}",
+    		source: "(55:24) {#if container.hidden}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (53:24) {#each inventory as container}
+    // (54:24) {#each inventory as container}
     function create_each_block_1(ctx) {
     	let if_block_anchor;
     	let if_block = /*container*/ ctx[6].hidden && create_if_block_1$2(ctx);
@@ -8996,14 +9001,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(53:24) {#each inventory as container}",
+    		source: "(54:24) {#each inventory as container}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (63:8) {#if !container.hidden}
+    // (64:8) {#if !container.hidden}
     function create_if_block$2(ctx) {
     	let container_1;
     	let current;
@@ -9049,14 +9054,14 @@ var app = (function () {
     		block,
     		id: create_if_block$2.name,
     		type: "if",
-    		source: "(63:8) {#if !container.hidden}",
+    		source: "(64:8) {#if !container.hidden}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (62:8) {#each inventory as container}
+    // (63:8) {#each inventory as container}
     function create_each_block$1(ctx) {
     	let if_block_anchor;
     	let current;
@@ -9115,7 +9120,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(62:8) {#each inventory as container}",
+    		source: "(63:8) {#each inventory as container}",
     		ctx
     	});
 
@@ -9185,22 +9190,22 @@ var app = (function () {
     			}
 
     			attr_dev(h5, "class", "m-0");
-    			add_location(h5, file$3, 47, 20, 1388);
+    			add_location(h5, file$3, 48, 20, 1420);
     			attr_dev(div0, "class", "card-header p-2");
-    			add_location(div0, file$3, 46, 16, 1337);
+    			add_location(div0, file$3, 47, 16, 1369);
     			attr_dev(button, "class", "btn btn-light border");
-    			add_location(button, file$3, 50, 20, 1525);
-    			add_location(div1, file$3, 51, 20, 1621);
+    			add_location(button, file$3, 51, 20, 1557);
+    			add_location(div1, file$3, 52, 20, 1653);
     			attr_dev(div2, "class", "card-body d-flex flex-column");
-    			add_location(div2, file$3, 49, 16, 1461);
+    			add_location(div2, file$3, 50, 16, 1493);
     			attr_dev(div3, "class", "card");
-    			add_location(div3, file$3, 45, 12, 1301);
+    			add_location(div3, file$3, 46, 12, 1333);
     			attr_dev(div4, "class", "col-md-12 my-1");
-    			add_location(div4, file$3, 44, 8, 1259);
+    			add_location(div4, file$3, 45, 8, 1291);
     			attr_dev(div5, "class", "row");
-    			add_location(div5, file$3, 43, 4, 1232);
+    			add_location(div5, file$3, 44, 4, 1264);
     			attr_dev(div6, "class", "container-fluid");
-    			add_location(div6, file$3, 42, 0, 1197);
+    			add_location(div6, file$3, 43, 0, 1229);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -9367,6 +9372,7 @@ var app = (function () {
     		});
 
     		inventory.push(c);
+    		$$invalidate(0, inventory);
     	}
 
     	const writable_props = ['inventory'];
