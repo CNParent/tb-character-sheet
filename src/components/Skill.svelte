@@ -7,6 +7,8 @@
     export let bluckTries;
     export let lockspecial;
 
+    const nameBtnStyle = 'btn btn-light w-100 text-left font-weight-bold pl-2';
+
     let editName = false;
     let input;
 
@@ -54,9 +56,9 @@
                 {#if editName}
                 <input on:blur={() => editName = false} bind:this={input} bind:value={skill.name} class="form-control mb-1 mr-1">
                 {:else}
-                <h4 class="flex-grow-1">
+                <div class="flex-grow-1">
                     {#if skill.special}
-                    <button on:click={setSpecial} class="badge btn btn-light w-100 text-left">
+                    <button on:click={setSpecial} class="{nameBtnStyle}" style="min-height: 2.2em;">
                         {#if skill.specialty}
                         <u>{skill.name}</u>
                         {:else}
@@ -64,11 +66,11 @@
                         {/if}
                     </button>
                     {:else if !skill.readonly}
-                    <button on:click={() => editName = true} class="badge btn btn-light w-100 text-left">{skill.name}</button>
+                    <button on:click={() => editName = true} class="{nameBtnStyle}" style="min-height: 2.2em;">{skill.name}</button>
                     {:else}
-                    <span class="badge w-100 text-left">{skill.name}</span>
+                    <span class="w-100 text-left font-weight-bold pl-2">{skill.name}</span>
                     {/if}
-                </h4>
+                </div>
                 {/if}
                 <h4><button on:click={ratingClick} class="badge btn btn-dark">{skill.rating}</button></h4>
             </div>
