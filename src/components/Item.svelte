@@ -58,14 +58,17 @@
         </div>
     </div>
     {:else}
-    <span 
-        on:dragstart={() => actions.dragStart(item)} 
-        on:dragend={() => actions.dragEnd()}
-        on:click={select}
-        class:m-2={selected}
-        draggable="true" 
-        class="d-flex btn-group mb-1" 
-        style="min-height: {size * 2.5}em;">
+    <span class:m-2={selected} class="d-flex btn-group mb-1" style="min-height: {size * 2.5}em;">
+        <span 
+            on:dragstart={() => actions.dragStart(item)} 
+            on:dragend={() => actions.dragEnd()} 
+            on:click={select}
+            tabindex="0"
+            class="btn btn-light border border-dark flex-grow-0 align-items-center d-flex" 
+            draggable="true" 
+            title="Move">
+            <span style="align-self: center;">⦀</span>
+        </span>
         <span class="btn btn-light text-left border border-dark flex-grow-1">
             <span>{item.text}</span>
             {#if item.stackSize}
