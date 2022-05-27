@@ -24,6 +24,7 @@
             }
             dragItem = null;
             dragContainer = null;
+            selected = null;
             inventory = inventory;
         },
         dragStart: (container, item) => {
