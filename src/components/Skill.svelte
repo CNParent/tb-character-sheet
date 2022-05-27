@@ -14,6 +14,10 @@
     $: showFail = skill.rating >= 2 && skill.rating < skill.cap;
     $: showLuck = skill.rating == 0;
 
+    function deleteClick() {
+        actions.delete(skill);
+    }
+
     function setSpecial() {
         if (!lockspecial) {
             actions.setSpecial(skill);
@@ -38,11 +42,12 @@
 <div class="col-lg-4 col-md-6">
     <div class="card">
         <div class="card-body pt-1">
-            <div class="d-flex flex-row-reverse">
+            <div class="d-flex">
                 {#if skill.readonly}
-                <span class="badge badge-light border border-dark">{skill.bluck}</span>
+                <span class="badge badge-light border border-dark ml-auto">{skill.bluck}</span>
                 {:else}
-                <button on:click={toggleBluck} class="badge btn badge-dark">{skill.bluck}</button>
+                <button on:click={deleteClick} class="badge btn btn-light ml-auto">Delete</button>
+                <button on:click={toggleBluck} class="badge btn badge-dark ml-1">{skill.bluck}</button>
                 {/if}
             </div>
             <div class="d-flex">
