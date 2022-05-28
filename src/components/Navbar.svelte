@@ -20,12 +20,14 @@
         let result = actions.load(model, character)
         model = result.model;
         alert = result.alert;
+        toggleNav();
     }
 
     function changeMod(mod) {
         let result = actions.loadMod(model, mod);
         model = result.model;
         alert = result.alert;
+        toggleNav();
     }
 
     function clearMenu(e) {
@@ -36,15 +38,18 @@
     function deleteClick() {
         alert = actions.delete(model);
         loadCharacterList();
+        toggleNav();
     }
 
     function deleteAllClick() {
         alert = actions.deleteAll()
         loadCharacterList();
+        toggleNav();
     }
 
     function exportClick() {
-        actions.export(model)
+        actions.export(model);
+        toggleNav();
     }
 
     function loadCharacterList() {
@@ -54,6 +59,7 @@
     function saveClick() {
         alert = actions.save(model)
         characters = actions.loadList();
+        toggleNav();
     }
 
     function setMenu(item) {
@@ -69,6 +75,8 @@
             alert = { success: msg };
             characters = actions.loadList();
         });
+
+        toggleNav();
     }
 
     loadCharacterList();
@@ -89,21 +97,21 @@
 </script>
 
 <nav class="navbar navbar-expand-md navbar-light bg-light">
-    <button class="navbar-toggler" type="button" on:click={() => toggleNav()}>
+    <button class="navbar-toggler" type="button" on:click={toggleNav}>
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" style:display={navDisplay}>
         <ul class="navbar-nav mr-auto">
-            <NavLink bind:tab={tab} tabValue="abilities">Abilities</NavLink>
-            <NavLink bind:tab={tab} tabValue="advancement">Advancement</NavLink>
-            <NavLink bind:tab={tab} tabValue="bio">Bio</NavLink>
-            <NavLink bind:tab={tab} tabValue="circles">Circles</NavLink>
-            <NavLink bind:tab={tab} tabValue="inventory">Inventory</NavLink>
-            <NavLink bind:tab={tab} tabValue="notes">Notes</NavLink>
-            <NavLink bind:tab={tab} tabValue="skills">Skills</NavLink>
-            <NavLink bind:tab={tab} tabValue="spells">Spells</NavLink>
-            <NavLink bind:tab={tab} tabValue="traits">Traits</NavLink>
-            <NavLink bind:tab={tab} tabValue="wises">Wises</NavLink>
+            <NavLink on:setTab={toggleNav} bind:tab={tab} tabValue="abilities">Abilities</NavLink>
+            <NavLink on:setTab={toggleNav} bind:tab={tab} tabValue="advancement">Advancement</NavLink>
+            <NavLink on:setTab={toggleNav} bind:tab={tab} tabValue="bio">Bio</NavLink>
+            <NavLink on:setTab={toggleNav} bind:tab={tab} tabValue="circles">Circles</NavLink>
+            <NavLink on:setTab={toggleNav} bind:tab={tab} tabValue="inventory">Inventory</NavLink>
+            <NavLink on:setTab={toggleNav} bind:tab={tab} tabValue="notes">Notes</NavLink>
+            <NavLink on:setTab={toggleNav} bind:tab={tab} tabValue="skills">Skills</NavLink>
+            <NavLink on:setTab={toggleNav} bind:tab={tab} tabValue="spells">Spells</NavLink>
+            <NavLink on:setTab={toggleNav} bind:tab={tab} tabValue="traits">Traits</NavLink>
+            <NavLink on:setTab={toggleNav} bind:tab={tab} tabValue="wises">Wises</NavLink>
             <li class="nav-item dropdown">
                 <a href='#' class="nav-link dropdown-toggle" class:disabled={!characters.length} on:blur={clearMenu} on:click={() => setMenu('characters')}>Characters</a>
                 <div class="dropdown-menu" style="{`display: ${menu == 'characters' ? 'block' : 'none'}`}">
