@@ -25,11 +25,11 @@
 <div class="col-md-6">
     <div class="card">
         <div class="card-body">
-            <div class="d-flex">
+            <div class="d-flex mb-1">
                 {#if editName}
                 <input on:blur={() => editName = false} class="form-control mb-1" bind:value={wise.name} bind:this={input}>
                 {:else}
-                <h2 class="flex-grow-1"><button on:click={() => editName = true} class="badge btn btn-light w-100 text-left" style="min-height: 2.2em;">{wise.name}</button></h2>
+                <button on:click={() => editName = true} class="btn btn-light w-100 text-left font-weight-bold" style="min-height: 2.2em;">{wise.name}</button>
                 {/if}
             </div>
             <div class="d-flex">

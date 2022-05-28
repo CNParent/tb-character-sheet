@@ -33,15 +33,13 @@
 <div class="col-md-6">
     <div class="card">
         <div class="card-body">
-            <div class="d-flex">
+            <div class="d-flex mb-1">
                 {#if editName}
                 <input on:blur={() => editName = false} class="form-control mb-1 mr-1" bind:value={trait.name} bind:this={input}>
                 {:else}
-                <h2 class="flex-grow-1">
-                    <button on:click={() => editName = true} class="badge btn btn-light w-100 text-left">{trait.name}</button>
-                </h2>
+                <button on:click={() => editName = true} class="btn btn-light w-100 text-left font-weight-bold flex-grow-1">{trait.name}</button>
                 {/if}
-                <h2 class="ml-auto"><button on:click={levelClick} class="badge btn btn-dark mr-1">{trait.level}</button></h2>
+                <button tabindex="0" on:click={levelClick} class="btn btn-dark">{trait.level}</button>
             </div>
             <div class="d-flex">
                 <div class="btn-group">
