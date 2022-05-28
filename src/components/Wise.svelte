@@ -29,7 +29,7 @@
                 {#if editName}
                 <input on:blur={() => editName = false} class="form-control mb-1" bind:value={wise.name} bind:this={input}>
                 {:else}
-                <h2 class="flex-grow-1"><button on:click={() => editName = true} class="badge btn btn-light w-100 text-left">{wise.name}</button></h2>
+                <h2 class="flex-grow-1"><button on:click={() => editName = true} class="badge btn btn-light w-100 text-left" style="min-height: 2.2em;">{wise.name}</button></h2>
                 {/if}
             </div>
             <div class="d-flex">
