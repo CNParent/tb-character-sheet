@@ -5,6 +5,8 @@
 
     const traitActions = {
         delete: (trait) => {
+            if (!confirm(`Delete ${trait.name}?`)) return;
+            
             let i = traits.indexOf(trait);
             traits.splice(i, 1);
             traits = traits;

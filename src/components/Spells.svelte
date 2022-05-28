@@ -8,6 +8,8 @@
     const maxUrdr = 9;
     const spellActions = {
         delete: (spell) => {
+            if (!confirm(`Delete ${spell.name}?`)) return;
+
             let i = spells.spells.indexOf(spell);
             spells.spells.splice(i, 1);
             refresh();

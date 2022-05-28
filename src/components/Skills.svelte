@@ -8,6 +8,8 @@
     const selectedStyle = 'bg-dark text-light';
     const actions = {
         delete: (skill) => {
+            if (!confirm(`Delete ${skill.name}?`)) return;
+
             let i = skills.skills.indexOf(skill);
             skills.skills.splice(i, 1);
             skills.skills = skills.skills;

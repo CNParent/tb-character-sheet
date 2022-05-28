@@ -5,6 +5,8 @@
 
     const wiseActions = {
         delete: (wise) => {
+            if (!confirm(`Delete ${wise.name}?`)) return;
+
             let i = wises.indexOf(wise);
             wises.splice(i, 1);
             refresh();

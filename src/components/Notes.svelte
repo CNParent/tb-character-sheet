@@ -5,6 +5,8 @@
 
     const actions = {
         delete: (note) => {
+            if (!confirm(`Delete ${note.title}?`)) return;
+
             let i = notes.indexOf(note);
             notes.splice(i, 1);
             notes = notes;
