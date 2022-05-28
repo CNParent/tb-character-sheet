@@ -7,6 +7,7 @@
     export let tab = '';
 
     function setTab() {
+        tab = tabValue;
         dispatch('setTab', { tab: tabValue });
     }
 </script>
