@@ -1,5 +1,6 @@
 <script>
     import { afterUpdate } from 'svelte'
+    import TextArea from './TextArea.svelte'
 
     export let actions;
     export let spell;
@@ -15,7 +16,6 @@
     
     let input;
     let editName = false;
-    let editDescription = false;
 
     $: inventoryClass = spell.inventory ? 'btn-dark' : 'btn-light border';
     $: scrollClass = spell.scroll ? 'btn-dark' : 'btn-light border';
@@ -71,11 +71,7 @@
             <div class="d-flex mt-1">
             </div>
             <div class="d-flex mt-1">
-                {#if editDescription}
-                <textarea on:blur={() => editDescription = false} bind:this={input} bind:value={spell.description} class="flex-grow-1 form-control"></textarea>
-                {:else}
-                <button on:click={() => editDescription = true} class="btn btn-light text-left align-top wrap w-100 border" style="min-height: 2.5em;">{spell.description}</button>
-                {/if}
+                <TextArea bind:conent={spell.description} />
             </div>
         </div>
     </div>

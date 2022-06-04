@@ -26,10 +26,18 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <TextArea bind:content={model.bio.belief}>Belief</TextArea>
-                <TextArea bind:content={model.bio.creed}>Creed</TextArea>
-                <TextArea bind:content={model.bio.goal}>Goal</TextArea>
-                <TextArea bind:content={model.bio.instinct}>Instinct</TextArea>
+                <div class="d-flex flex-column mb-1 col-lg-3 col-md-4">
+                    <TextArea bind:content={model.bio.belief}>Belief</TextArea>
+                </div>
+                <div class="d-flex flex-column mb-1 col-lg-3 col-md-4">
+                    <TextArea bind:content={model.bio.creed}>Creed</TextArea>
+                </div>
+                <div class="d-flex flex-column mb-1 col-lg-3 col-md-4">
+                    <TextArea bind:content={model.bio.goal}>Goal</TextArea>
+                </div>
+                <div class="d-flex flex-column mb-1 col-lg-3 col-md-4">
+                    <TextArea bind:content={model.bio.instinct}>Instinct</TextArea>
+                </div>
             </div>
         </div>
     </div>

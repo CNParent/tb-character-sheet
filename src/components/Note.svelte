@@ -1,15 +1,20 @@
 <script>
     import { afterUpdate } from 'svelte'
     import dateUtil from '../lib/dateUtil.js'
+    import TextArea from './TextArea.svelte'
 
     export let actions;
     export let note;
 
     let collapse = true;
     let editTitle = false;
-    let editContent = false;
     let input;
     $: dateValue = new Date(note.date);
+
+    function resizeInput() {
+        if (input) 
+            input.style.height = `${input.scrollHeight + 2}px`;
+    }
 
     afterUpdate(() => {
         if (input) input.focus();
@@ -35,11 +40,7 @@
                 <button on:click={() => actions.delete(note)} class="badge btn btn-light border ml-1 p-2">delete</button>
             </div>
             <div class="d-flex">
-                {#if editContent}
-                <textarea bind:this={input} on:blur={() => editContent = false} class="flex-grow-1 form-control" bind:value={note.content}></textarea>
-                {:else}
-                <button on:click={() => editContent = true} class="btn btn-light text-left align-top wrap w-100 border" style="min-height: 2.5em;">{note.content}</button>
-                {/if}
+                <TextArea bind:content={note.content} />
             </div>
         </div>
     </div>
