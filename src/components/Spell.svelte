@@ -71,7 +71,7 @@
             <div class="d-flex mt-1">
             </div>
             <div class="d-flex mt-1">
-                <TextArea bind:conent={spell.description} />
+                <TextArea bind:content={spell.description} />
             </div>
         </div>
     </div>
