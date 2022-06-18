@@ -12,6 +12,7 @@
     let editName = false;
     let input;
 
+    $: margin = lockspecial ? "ml-auto" : "ml-1";
     $: showPass = skill.rating >= 1 && skill.rating < skill.cap;
     $: showFail = skill.rating >= 2 && skill.rating < skill.cap;
     $: showLuck = skill.rating == 0;
@@ -41,10 +42,13 @@
     <div class="card">
         <div class="card-body pt-1">
             <div class="d-flex">
+                {#if !lockspecial}
+                <button on:click={setSpecial} class="badge btn btn-light ml-auto">Specialty</button>
+                {/if}
                 {#if skill.readonly}
-                <span class="badge badge-light border border-dark ml-auto">{skill.bluck}</span>
+                <span class="badge badge-light border border-dark {margin}">{skill.bluck}</span>
                 {:else}
-                <button on:click={() => actions.delete(skill)} class="badge btn btn-light ml-auto">Delete</button>
+                <button on:click={() => actions.delete(skill)} class="badge btn btn-light {margin}">Delete</button>
                 <button on:click={toggleBluck} class="badge btn badge-dark ml-1">{skill.bluck}</button>
                 {/if}
             </div>
@@ -53,19 +57,13 @@
                 <input on:blur={() => editName = false} bind:this={input} bind:value={skill.name} class="form-control mb-1 mr-1">
                 {:else}
                 <div class="flex-grow-1">
-                    {#if skill.special}
-                    <button on:click={setSpecial} class="{nameBtnStyle}" style="min-height: 2.2em;">
+                    <button on:click={() => editName = !skill.readonly} class="{nameBtnStyle}" style="min-height: 2.2em;">
                         {#if skill.specialty}
                         <u>{skill.name}</u>
                         {:else}
                         {skill.name}
                         {/if}
                     </button>
-                    {:else if !skill.readonly}
-                    <button on:click={() => editName = true} class="{nameBtnStyle}" style="min-height: 2.2em;">{skill.name}</button>
-                    {:else}
-                    <span class="w-100 text-left font-weight-bold pl-2">{skill.name}</span>
-                    {/if}
                 </div>
                 {/if}
                 <h4><button on:click={ratingClick} class="badge btn btn-dark">{skill.rating}</button></h4>
