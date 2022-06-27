@@ -1,10 +1,9 @@
-const theme = localStorage['theme'] ?? 
+const params = new URLSearchParams(window.location.search);
+const theme = params.get('theme') ?? 
     (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 
 function setTheme(name) {
-    localStorage['theme'] = name;
-    window.location.reload(true);
+    window.location.search = `theme=${name}`;
 }
 
-console.log('Preferred theme is ' + theme)
 export {theme, setTheme};
