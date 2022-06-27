@@ -5,6 +5,8 @@
     import NavLink from "./NavLink.svelte"
     import actions from '../actions/characterActions.js'
 
+	import { theme, setTheme } from '../lib/styles.js'
+
     export let model = character();
     export let tab = 'bio';
 
@@ -137,6 +139,7 @@
                     <button class="dropdown-item" on:click={importClick} on:blur={clearMenu}>Import</button>
                     <button class="dropdown-item" on:click={deleteClick} on:blur={clearMenu}>Delete</button>
                     <button class="dropdown-item" on:click={deleteAllClick} on:blur={clearMenu}>Delete all</button>
+                    <button class="dropdown-item" on:click={() => setTheme(theme == 'dark' ? 'light' : 'dark')}>{theme == 'dark' ? 'Light' : 'Dark'} mode</button>
                 </div>
             </div>
         </div>
