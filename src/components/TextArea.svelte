@@ -6,7 +6,10 @@
 
     let active = false;
     let control;
-    $:fragments = highlight ? content.split(highlight) : [content];
+    $:regexp = new RegExp(highlight, 'gi');
+    $:matches = [...content.matchAll(regexp)];
+    $:firstFragment = content.substring(0, matches[0].index);
+    $:lastFragment = content.substring(matches[matches.length - 1].index + matches[matches.length - 1][0].length);
 
     function resizeInput() {
         if (control) 
@@ -30,8 +33,12 @@
 {:else}
 <span class="py-2 border-bottom font-weight-bold"><slot></slot></span>
 <button class="btn btn-light text-left align-top wrap w-100" style="min-height: 2.5em;" on:click={() => active = true}>
-    {#each fragments as fragment, i}
-        {#if i > 0}<span class="bg-info">{highlight}</span>{/if}{fragment}
-    {/each}
+    {#if matches.length == 0}
+        {content}
+    {:else}
+        {#each matches as match, i}
+            {#if i == 0}{firstFragment}{/if}<span class="bg-info">{match[0]}</span>{#if i < matches.length - 1}{content.substring(match.index + match[0].length, matches[i + 1].index)}{:else}{lastFragment}{/if}
+        {/each}
+    {/if}
 </button>
 {/if}
