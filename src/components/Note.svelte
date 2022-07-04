@@ -7,15 +7,10 @@
     export let note;
     export let highlight;
 
-    let collapse = true;
     let editTitle = false;
     let input;
+    $: collapse = highlight == '';
     $: dateValue = new Date(note.date);
-
-    function resizeInput() {
-        if (input) 
-            input.style.height = `${input.scrollHeight + 2}px`;
-    }
 
     afterUpdate(() => {
         if (input) input.focus();

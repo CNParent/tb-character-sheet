@@ -8,8 +8,8 @@
     let control;
     $:regexp = new RegExp(highlight, 'gi');
     $:matches = [...content.matchAll(regexp)];
-    $:firstFragment = content.substring(0, matches[0].index);
-    $:lastFragment = content.substring(matches[matches.length - 1].index + matches[matches.length - 1][0].length);
+    $:firstFragment = matches.length == 0 ? '' : content.substring(0, matches[0].index);
+    $:lastFragment = matches.length == 0 ? '' : content.substring(matches[matches.length - 1].index + matches[matches.length - 1][0].length);
 
     function resizeInput() {
         if (control) 
