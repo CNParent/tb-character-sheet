@@ -5,6 +5,7 @@
 
     export let actions;
     export let note;
+    export let highlight;
 
     let collapse = true;
     let editTitle = false;
@@ -40,7 +41,7 @@
                 <button on:click={() => actions.delete(note)} class="badge btn btn-light border ml-1 p-2">delete</button>
             </div>
             <div class="d-flex">
-                <TextArea bind:content={note.content} />
+                <TextArea highlight={highlight} bind:content={note.content} />
             </div>
         </div>
     </div>

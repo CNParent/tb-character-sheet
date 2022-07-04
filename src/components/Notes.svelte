@@ -74,7 +74,7 @@
                     </div>
                     <div class="row mt-2">
                         {#each filtered as note (note.id)}
-                        <Note note={note} actions={actions} />
+                        <Note note={note} actions={actions} highlight={filter} />
                         {/each}
                     </div>
                 </div>
