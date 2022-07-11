@@ -38,7 +38,7 @@
             {/if}
         {/each}
         {#if !editing}
-        <button on:click={add} class="btn badge badge-light border border-dark p-2 m-1">add</button>
+        <button on:click={add} class="btn badge badge-light border border-dark p-2 ml-0 mt-1 mb-1">add</button>
         {/if}
     </div>
     {#if editing}
