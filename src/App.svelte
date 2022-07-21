@@ -44,7 +44,7 @@
 	{:else if tab == 'notes'}
 	<Notes notes={model.notes} />
 	{:else if tab == 'skills'}
-	<Skills skills={model.skills} bluckTries={model.abilities.nature.current} />
+	<Skills skills={model.skills} bluckTries={model.abilities.nature.maximum} />
 	{:else if tab == 'spells'}
 	<Spells spells={model.spells} />
 	{:else if tab == 'traits'}
