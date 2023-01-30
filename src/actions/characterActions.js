@@ -44,7 +44,7 @@ export default {
     },
     load: (model, key) => {
         let name = key;
-        if(name == model.bio.name) return { model };
+        if(name == `${model.bio.name}.tb2e`) return { model };
 
         let alert = '';
         if(model.bio.name && confirm(`Save ${model.bio.name} before changing characters?`)) {
@@ -60,6 +60,7 @@ export default {
     },
     loadList: () => {
         let characters = [...new Array(window.localStorage.length)].map((x,i) => window.localStorage.key(i));
+        characters = characters.filter(c => c.endsWith('.tb2e'));
         characters.sort((a,b) => a.localeCompare(b));
         return characters;
     },
@@ -77,7 +78,7 @@ export default {
         if(!model.bio.name)
             return { error: 'Cannot save an unnamed character' };
 
-        localStorage.setItem(model.bio.name, JSON.stringify(model));
+        localStorage.setItem(`${model.bio.name}.tb2e`, JSON.stringify(model));
         return { success: `${model.bio.name} saved` };
     }
 };
